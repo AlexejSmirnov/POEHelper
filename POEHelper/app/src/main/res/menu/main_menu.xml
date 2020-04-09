@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+    <item
+    android:id="@+id/currency_picker"
+    android:title="Chose currency"></item>
+<item
+    android:id="@+id/league_picker"
+    android:title="Chose league"></item>
+    <item
+        android:id="@+id/color_picker"
+        android:title="Change color"></item>
+</menu>

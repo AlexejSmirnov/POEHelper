@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+    <string name="standard">Standard</string>
+    <string name="hardcore">Hardcore</string>
+    <string name="challenge">Delirium</string>
+    <string name="challengehc">Hardcore Delirium</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="menu_currency">Currency</string>
+    <string name="menu_fragment">Fragment</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">Watchstone</string>
+    <string name="menu_oil">Oil</string>
+    <string name="menu_incubator">Incubator</string>
+    <string name="menu_scarab">Scarab</string>
+    <string name="menu_fossil">Fossil</string>
+    <string name="menu_essence">Essence</string>
+    <string name="menu_resonator">Resonator</string>
+    <string name="menu_divination_card">Divination Card</string>
+    <string name="menu_skill_gem">Skill Gem</string>
+    <string name="menu_base_type">Base Type</string>
+    <string name="menu_helmet_enchant">Helmet Enchant</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_unique_armour">Unique Armour</string>
+    <string name="menu_unique_flask">Unique Flask</string>
+    <string name="menu_unique_weapon">Unique Weapon</string>
+    <string name="menu_unique_accessory">Unique Accessory</string>
+    <string name="menu_unique_jewel">Unique Jewel</string>
+    <string name="menu_prophecy">Prophecy</string>
+    <string name="menu_unique_map">Unique Map</string>
+    <string name="menu_beast">Beast</string>
+    <string name="menu_vial">Vial</string>
+
+    <string name="buy">← buy</string>
+    <string name="sell">sell →</string>
+</resources>

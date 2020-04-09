@@ -1,0 +1,2 @@
+rootProject.name='POEhelper'
+include ':app'
