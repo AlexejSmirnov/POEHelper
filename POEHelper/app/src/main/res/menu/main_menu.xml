@@ -11,11 +11,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
     <item
-    android:id="@+id/currency_picker"
-    android:title="Chose currency"></item>
-<item
-    android:id="@+id/league_picker"
-    android:title="Chose league"></item>
+        android:id="@+id/currency_picker"
+        android:title="Choose currency"></item>
+    <item
+        android:id="@+id/league_picker"
+        android:title="Choose a league"></item>
     <item
         android:id="@+id/color_picker"
         android:title="Change color"></item>

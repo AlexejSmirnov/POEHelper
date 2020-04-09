@@ -3,11 +3,11 @@
     android:thickness="0dp"
     >
     <stroke android:width="3dp"
-        android:color="#000000"/>
+        android:color="@color/normal_item"/>
     <corners android:radius="2dp" />
     <gradient
 
-        android:centerColor="#ED000000"
+        android:centerColor="@color/normal_background"
         android:startColor="#ED000000"
         android:endColor="#ED000000"
         android:type="linear"

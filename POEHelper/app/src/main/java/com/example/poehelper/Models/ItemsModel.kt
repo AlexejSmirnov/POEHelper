@@ -10,7 +10,6 @@ data class ItemsModel(
 data class ItemLine(
     @SerializedName("name")
     val name: String,
-
     @SerializedName("baseType")
     val baseType: String?,
     @SerializedName("chaosValue")
@@ -28,7 +27,9 @@ data class ItemLine(
     @SerializedName("prophecyText")
     val prophecyText: Any?,
     @SerializedName("links")
-    val links:Int
+    val links:Int,
+    @SerializedName("sparkline")
+    val sparkline: Sparkline
 
 )
 
@@ -44,4 +45,10 @@ data class ImplicitModifier(
     val optional: Boolean,
     @SerializedName("text")
     val text: String
+)
+data class Sparkline(
+    @SerializedName("data")
+    val `data`: List<Double>,
+    @SerializedName("totalChange")
+    val totalChange: Double
 )

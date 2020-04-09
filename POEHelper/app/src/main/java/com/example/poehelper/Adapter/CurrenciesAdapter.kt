@@ -1,12 +1,14 @@
 package com.example.poehelper.Adapter
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.Context
+import android.view.*
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.example.poehelper.CurrentValue
 import com.example.poehelper.Models.CurrenciesModel
 import com.example.poehelper.Models.CurrencyDetail
 import com.example.poehelper.Models.CurrencyLine
+import com.example.poehelper.Models.ItemLine
 import com.example.poehelper.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.currency_view_holder.view.*
@@ -16,7 +18,9 @@ import kotlinx.android.synthetic.main.item_view_holder.view.currency_view
 class CurrenciesAdapter(private var currencies: CurrenciesModel) :
     RecyclerView.Adapter<CurrenciesAdapter.ItemViewHolder>(), MyAdapterInterface {
     var dataCopy = currencies.copy()
+    lateinit var parent : ViewGroup
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        this.parent = parent
         val value = LayoutInflater.from(parent.context)
             .inflate(R.layout.currency_view_holder, parent, false)
         return ItemViewHolder(value)
@@ -40,9 +44,10 @@ class CurrenciesAdapter(private var currencies: CurrenciesModel) :
         }
         else{
             holder.itemView.this_currency_name.text = currencyLine.currencyTypeName
-            holder.itemView.pay_text.text =  " ${formatWithValueRatio(currencyLine.pay?.value)} "+holder.itemView.resources.getString(R.string.sell)
-            holder.itemView.recieve_text.text = holder.itemView.resources.getString(R.string.buy)+" ${formatWithValueRatio(currencyLine.receive?.value)}"
+            holder.itemView.pay_text.text =  " ${formatBuyValueRatio(currencyLine.pay?.value)} "+holder.itemView.resources.getString(R.string.sell)
+            holder.itemView.recieve_text.text = holder.itemView.resources.getString(R.string.buy)+" ${formatSellValueRatio(currencyLine.receive?.value)}"
             Picasso.get().load(currencyDetail?.icon).into(holder.itemView.this_currency_view)
+            holder.itemView.setOnClickListener{onClickShowPopupWindow(currencyLine, currencyDetail!!, this.parent) }
         }
 
     }
@@ -75,8 +80,30 @@ class CurrenciesAdapter(private var currencies: CurrenciesModel) :
         }
 
     }
+    fun onClickShowPopupWindow(currencyLine: CurrencyLine, currencyDetails: CurrencyDetail, view: View?) {
+        val popupView: View = LayoutInflater.from(parent.context).inflate(R.layout.currency_info_window, null)
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
 
-    fun formatWithValueRatio(value:Double?):String{
+        PopupCurrencyWindowSetuper.setupWindow(currencyLine, currencyDetails, popupView)
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+        popupWindow.dimBehind()
+        popupView.setOnLongClickListener{
+            popupWindow.dismiss()
+            true
+        }
+    }
+
+    fun formatBuyValueRatio(value:Double?):String{
+        if (value == null){
+            return "no data"
+        }
+        return "%.2f".format(value*CurrentValue.line.chaosEquivalent!!)
+    }
+    fun formatSellValueRatio(value:Double?):String{
         if (value == null){
             return "no data"
         }
@@ -88,6 +115,16 @@ class CurrenciesAdapter(private var currencies: CurrenciesModel) :
             return "no data"
         }
         return "%.2f".format(value)
+    }
+
+    fun PopupWindow.dimBehind() {
+        val container = contentView.rootView
+        val context = contentView.context
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val p = container.layoutParams as WindowManager.LayoutParams
+        p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
+        p.dimAmount = 0.5f
+        wm.updateViewLayout(container, p)
     }
 
 

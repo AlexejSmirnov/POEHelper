@@ -128,7 +128,7 @@ object PopupItemWindowSetuper {
     }
     fun setupProphecy(item: ItemLine, view: View){
         view.item_title.setBackgroundResource(R.drawable.prophecy_title_background)
-        view.item_title.setTextColor(view?.resources?.getColor(R.color.property_color)?:0)
+        view.item_title.setTextColor(view?.resources?.getColor(R.color.prophecy_item)?:0)
         view.item_title.setText(item.name+"\n"+item.baseType)
         if (item.flavourText!=null){
             view.item_description.text = item.flavourText

@@ -5,12 +5,15 @@ package com.example.poehelper.Adapter
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.example.poehelper.CurrentValue
 import com.example.poehelper.Models.ItemLine
 import com.example.poehelper.Models.ItemsModel
 import com.example.poehelper.R
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.GridLabelRenderer
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_holder.view.*
 
@@ -34,9 +37,24 @@ class ItemsAdapter(private val itemsType:String, private val items: ItemsModel) 
         val item = dataCopy.lines[position]
 
         holder.itemView.item_name.text = item.name
-        holder.itemView.equivalent_text.text = holder.itemView.resources.getString( R.string.sell) +" ${formatValue(item.chaosValue)}"
+        holder.itemView.equivalent_text.text = holder.itemView.resources.getString( R.string.string_for) +" ${formatValue(item.chaosValue)}"
         Picasso.get().load(item.icon).into(holder.itemView.this_item_view)
         holder.itemView.setOnClickListener{onClickShowPopupWindow(item, this.parent) }
+
+        val buyingGraph = holder.itemView.findViewById<GraphView>(R.id.item_graph)
+        buyingGraph.removeAllSeries()
+        buyingGraph.addSeries(getLineGraphSeries(item.sparkline!!.data))
+        buyingGraph.gridLabelRenderer.isVerticalLabelsVisible = false
+        buyingGraph.gridLabelRenderer.isHorizontalLabelsVisible = false
+        buyingGraph.gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.NONE
+        holder.itemView.findViewById<TextView>(R.id.item_percents).text =
+            (item.sparkline?.totalChange?.toString() ?: "0")+"%"
+        if ((item.sparkline?.totalChange ?: 0.0)>=0.0){
+            holder.itemView.findViewById<TextView>(R.id.item_percents).setTextColor(holder.itemView.resources.getColor(R.color.green))
+        }
+        else{
+            holder.itemView.findViewById<TextView>(R.id.item_percents).setTextColor(holder.itemView.resources.getColor(R.color.red))
+        }
 
     }
     override fun filter(text: String) {

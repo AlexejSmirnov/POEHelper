@@ -36,11 +36,27 @@ data class CurrencyLine(
     @SerializedName("pay")
     val pay: Pay?,
     @SerializedName("receive")
-    val receive: Receive?
+    val receive: Receive?,
+    @SerializedName("paySparkLine")
+    val paySparkLine: PaySparkLine?,
+    @SerializedName("receiveSparkLine")
+    val receiveSparkLine: ReceiveSparkLine?
 )
 
 
+data class PaySparkLine(
+    @SerializedName("data")
+    val `data`: List<Double>,
+    @SerializedName("totalChange")
+    val totalChange: Double
+)
 
+data class ReceiveSparkLine(
+    @SerializedName("data")
+    val `data`: List<Double>,
+    @SerializedName("totalChange")
+    val totalChange: Double
+)
 
 data class Pay(
     @SerializedName("value")

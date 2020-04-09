@@ -35,4 +35,9 @@
 
     <string name="buy">← buy</string>
     <string name="sell">sell →</string>
+    <string name="string_for">1.0 for</string>
+
+    <string name="info">Api provided by </string>
+    <string name="poe_ninja">poe.ninja</string>
+
 </resources>

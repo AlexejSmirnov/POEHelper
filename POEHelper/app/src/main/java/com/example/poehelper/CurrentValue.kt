@@ -1,5 +1,6 @@
 package com.example.poehelper
 
+import android.util.Log
 import com.example.poehelper.Models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,12 +20,13 @@ object CurrentValue {
         }
         for (i in data.lines){
             if (currencyName == "Chaos Orb"){
-                line = CurrencyLine("Chaos Orb", 1.0, Pay(1.0), Receive(1.0))
+                line = CurrencyLine("Chaos Orb", 1.0, Pay(1.0), Receive(1.0), null, null)
             }
             if (i.currencyTypeName == currencyName){
                 line = i
             }
         }
+        Log.d("Value", "${this.line.currencyTypeName} ${this.line.chaosEquivalent}")
     }
     fun isInitialized():Boolean{
         return ::data.isInitialized
