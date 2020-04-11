@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">Objets monétaires</string>
+    <string name="menu_fragment">Fragments</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">Pierres de veille</string>
+    <string name="menu_oil">Huiles</string>
+    <string name="menu_incubator">Incubateurs</string>
+    <string name="menu_scarab">Scarabées</string>
+    <string name="menu_fossil">Fossiles</string>
+    <string name="menu_essence">Les Essences</string>
+    <string name="menu_resonator">Résonateurs</string>
+    <string name="menu_divination_card">Les Cartes divinatoiresы</string>
+    <string name="menu_skill_gem">Gemmes d\'aptitude</string>
+    <string name="menu_base_type">Types de base</string>
+    <string name="menu_helmet_enchant">Enchantements de casque</string>
+    <string name="menu_map">Cartes</string>
+    <string name="menu_unique_armour">Armures uniques</string>
+    <string name="menu_unique_flask">Flacons uniques</string>
+    <string name="menu_unique_weapon">Armes uniques</string>
+    <string name="menu_unique_accessory">Accessoires uniques</string>
+    <string name="menu_unique_jewel">Joyaux uniques</string>
+    <string name="menu_prophecy">Les Prophéties</string>
+    <string name="menu_unique_map">Cartes uniques</string>
+    <string name="menu_beast">Bêtes</string>
+    <string name="menu_vial">Fioles</string>
+    <string name="check_on">Check on</string>
+    <string name="items"> Articles</string>
+    <string name="choose_league"> Choisissez la ligue</string>
+    <string name="choose_currency"> Choisir la devise</string>
+    <string name="change_color"> Changer de couleur</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">pas de données</string>
+    <string name="buy">acheter</string>
+    <string name="sell">vendre</string>
+    <string name="last_7_days">Les 7 derniers jours:</string>
+    <string name="string_for">pour</string>
+
+
+</resources>

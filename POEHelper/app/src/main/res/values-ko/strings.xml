@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">화폐</string>
+    <string name="menu_fragment">조각</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">감시자의 돌</string>
+    <string name="menu_oil">성유</string>
+    <string name="menu_incubator">인큐베이터</string>
+    <string name="menu_scarab">갑충석</string>
+    <string name="menu_fossil">화석</string>
+    <string name="menu_essence">에센스</string>
+    <string name="menu_resonator">공명기</string>
+    <string name="menu_divination_card">점술 카드</string>
+    <string name="menu_skill_gem">스킬 젬</string>
+    <string name="menu_base_type">기본 유형</string>
+    <string name="menu_helmet_enchant">투구 인챈트</string>
+    <string name="menu_map">지도</string>
+    <string name="menu_unique_armour">고유 방어구</string>
+    <string name="menu_unique_flask">고유 플라스크</string>
+    <string name="menu_unique_weapon">고유 무기</string>
+    <string name="menu_unique_accessory">고유 장신구</string>
+    <string name="menu_unique_jewel">고유 주얼</string>
+    <string name="menu_prophecy">예언</string>
+    <string name="menu_unique_map">고유 지도</string>
+    <string name="menu_beast">야수</string>
+    <string name="menu_vial">시약</string>
+    <string name="items"> 아이템</string>
+    <string name="choose_league"> 리그를 선택하십시오</string>
+    <string name="choose_currency"> 통화를 선택하십시오</string>
+    <string name="change_color"> 색깔을 바꾸다</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">데이터가 없습니다</string>
+    <string name="buy">구입</string>
+    <string name="sell">팔다</string>
+    <string name="last_7_days">지난 7 일:</string>
+    <string name="string_for">을 위해</string>
+    <string name="check_on">Check on</string>
+
+
+</resources>

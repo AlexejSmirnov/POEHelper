@@ -1,12 +1,5 @@
 <resources>
     <string name="app_name">POE Helper</string>
-    <string name="standard">Standard</string>
-    <string name="hardcore">Hardcore</string>
-    <string name="challenge">Delirium</string>
-    <string name="challengehc">Hardcore Delirium</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_currency">Currency</string>
     <string name="menu_fragment">Fragment</string>
@@ -32,12 +25,17 @@
     <string name="menu_unique_map">Unique Map</string>
     <string name="menu_beast">Beast</string>
     <string name="menu_vial">Vial</string>
+    <string name="check_on">Check on</string>
+    <string name="items"> Items</string>
+    <string name="choose_league"> Choose a league</string>
+    <string name="choose_currency"> Choose currency</string>
+    <string name="change_color"> Change color</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">no data</string>
+    <string name="buy">buy</string>
+    <string name="sell">sell</string>
+    <string name="last_7_days">Last 7 days:</string>
+    <string name="string_for">for</string>
 
-    <string name="buy">← buy</string>
-    <string name="sell">sell →</string>
-    <string name="string_for">1.0 for</string>
-
-    <string name="info">Api provided by </string>
-    <string name="poe_ninja">poe.ninja</string>
 
 </resources>

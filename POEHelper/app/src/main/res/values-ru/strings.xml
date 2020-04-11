@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">Валюта</string>
+    <string name="menu_fragment">Фрагменты</string>
+    <string name="menu_delirium_orb">Сфера Делириума</string>
+    <string name="menu_watchstone">Камни Хранителя</string>
+    <string name="menu_oil">Масла</string>
+    <string name="menu_incubator">Инкубаторы</string>
+    <string name="menu_scarab">Скарабеи</string>
+    <string name="menu_fossil">Ископаемые</string>
+    <string name="menu_essence">Сущности</string>
+    <string name="menu_resonator">Резонаторы</string>
+    <string name="menu_divination_card">Гадальные карты</string>
+    <string name="menu_skill_gem">Камни умений</string>
+    <string name="menu_base_type">Типы баз</string>
+    <string name="menu_helmet_enchant">Зачарования шлемов</string>
+    <string name="menu_map">Карты</string>
+    <string name="menu_unique_armour">Уникальные доспехи</string>
+    <string name="menu_unique_flask">Уникальные флаконы</string>
+    <string name="menu_unique_weapon">Уникальное оружие</string>
+    <string name="menu_unique_accessory">Уникальная бижутерия</string>
+    <string name="menu_unique_jewel">Уникальные самоцветы</string>
+    <string name="menu_prophecy">Пророчества</string>
+    <string name="menu_unique_map">Уникальные карты</string>
+    <string name="menu_beast">Животные</string>
+    <string name="menu_vial">Фиалы</string>
+    <string name="items"> Предметы</string>
+    <string name="choose_league"> Выберите лигу</string>
+    <string name="choose_currency"> Выберите валюту</string>
+    <string name="change_color"> Выберите цвет</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">нет данных</string>
+    <string name="buy">купить</string>
+    <string name="sell">продать</string>
+    <string name="last_7_days">Посление 7 дней:</string>
+    <string name="string_for">за</string>
+    <string name="check_on">Check on</string>
+
+</resources>

@@ -1,84 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">"
 <group android:checkableBehavior="none">
 
-<item
+    <item
 
-    android:id="@+id/nav_currency"
-    android:title="@string/menu_currency" />
-<item
-    android:id="@+id/nav_fragment"
-    android:title="@string/menu_fragment" />
+        android:id="@+id/nav_currency"
+        android:icon="@drawable/currency_icon"
+        android:title="@string/menu_currency" />
+    <item
+        android:id="@+id/nav_fragment"
+        android:icon="@drawable/fragment_icon"
+        android:title="@string/menu_fragment" />
 
 <item android:title="Items">
     <menu>
         <item
             android:id="@+id/nav_delirium_orb"
+            android:icon="@drawable/delirium_orb_icon"
             android:title="@string/menu_delirium_orb" />
         <item
             android:id="@+id/nav_watchstone"
+            android:icon="@drawable/watchstone_icon"
             android:title="@string/menu_watchstone" />
         <item
             android:id="@+id/nav_oil"
+            android:icon="@drawable/oil_icon"
             android:title="@string/menu_oil" />
         <item
             android:id="@+id/nav_incubator"
+            android:icon="@drawable/incubator_icon"
             android:title="@string/menu_incubator" />
         <item
             android:id="@+id/nav_scarab"
+            android:icon="@drawable/scarab_icon"
             android:title="@string/menu_scarab" />
         <item
             android:id="@+id/nav_fossil"
+            android:icon="@drawable/fossil_icon"
             android:title="@string/menu_fossil" />
         <item
             android:id="@+id/nav_essence"
+            android:icon="@drawable/essence_icon"
             android:title="@string/menu_essence" />
         <item
             android:id="@+id/nav_resonator"
+            android:icon="@drawable/resonator_icon"
             android:title="@string/menu_resonator" />
         <item
             android:id="@+id/nav_divination_card"
+            android:icon="@drawable/card_icon"
             android:title="@string/menu_divination_card" />
         <item
             android:id="@+id/nav_skill_gem"
+            android:icon="@drawable/gem_icon"
             android:title="@string/menu_skill_gem" />
         <item
             android:id="@+id/nav_base_type"
+            android:icon="@drawable/ring_icon"
             android:title="@string/menu_base_type" />
         <item
             android:id="@+id/nav_helmet_enchant"
+            android:icon="@drawable/enchant_icon"
             android:title="@string/menu_helmet_enchant" />
         <item
             android:id="@+id/nav_map"
+            android:icon="@drawable/map_icon"
             android:title="@string/menu_map" />
         <item
             android:id="@+id/nav_unique_armour"
+            android:icon="@drawable/unique_armour_icon"
             android:title="@string/menu_unique_armour" />
         <item
             android:id="@+id/nav_unique_flask"
+            android:icon="@drawable/unique_flask_icon_4"
             android:title="@string/menu_unique_flask" />
         <item
             android:id="@+id/nav_unique_weapon"
+            android:icon="@drawable/unique_weapon_icon_2"
             android:title="@string/menu_unique_weapon" />
         <item
             android:id="@+id/nav_unique_accessory"
+            android:icon="@drawable/unique_acessory_cion"
             android:title="@string/menu_unique_accessory" />
         <item
             android:id="@+id/nav_unique_jewel"
+            android:icon="@drawable/unique_jewel_icon"
             android:title="@string/menu_unique_jewel" />
         <item
             android:id="@+id/nav_prophecy"
+            android:icon="@drawable/prophecy_icon"
             android:title="@string/menu_prophecy" />
         <item
             android:id="@+id/nav_unique_map"
+            android:icon="@drawable/unique_map_icon"
             android:title="@string/menu_unique_map" />
         <item
             android:id="@+id/nav_beast"
+            android:icon="@drawable/beast_icon"
             android:title="@string/menu_beast" />
         <item
             android:id="@+id/nav_vial"
+            android:icon="@drawable/vial_icon"
             android:title="@string/menu_vial" />
 
     </menu>

@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">Währung</string>
+    <string name="menu_fragment">Fragmente</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">Wächtersteine</string>
+    <string name="menu_oil">Öle</string>
+    <string name="menu_incubator">Inkubatoren</string>
+    <string name="menu_scarab">Skarabäen</string>
+    <string name="menu_fossil">Fossilien</string>
+    <string name="menu_essence">Essenzen</string>
+    <string name="menu_resonator">Resonatoren</string>
+    <string name="menu_divination_card">Weissagungskarten</string>
+    <string name="menu_skill_gem">Fertigkeitengemmen</string>
+    <string name="menu_base_type">Basistypen</string>
+    <string name="menu_helmet_enchant">Helmverzauberungen</string>
+    <string name="menu_map">Karten</string>
+    <string name="menu_unique_armour">Einzigartige Rüstung</string>
+    <string name="menu_unique_flask">Einzigartige Fläschchen</string>
+    <string name="menu_unique_weapon">Einzigartige Waffen</string>
+    <string name="menu_unique_accessory">Einzigartige Accessoires</string>
+    <string name="menu_unique_jewel">Einzigartige Juwelen</string>
+    <string name="menu_prophecy">Prophezeiungen</string>
+    <string name="menu_unique_map">Einzigartige Karten</string>
+    <string name="menu_beast">Bestien</string>
+    <string name="menu_vial">Phiolen</string>
+    <string name="items"> Artikel</string>
+    <string name="choose_league"> Liga wählen</string>
+    <string name="choose_currency"> Währung wählen</string>
+    <string name="change_color"> Farbe ändern</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">keine Daten</string>
+    <string name="buy">kaufen</string>
+    <string name="sell">verkaufen</string>
+    <string name="last_7_days">Letzten 7 Tage:</string>
+    <string name="string_for">zum</string>
+    <string name="check_on">Check on</string>
+
+
+</resources>

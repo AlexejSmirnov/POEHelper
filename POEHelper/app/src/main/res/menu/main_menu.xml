@@ -12,11 +12,14 @@
         app:showAsAction="always|collapseActionView" />
     <item
         android:id="@+id/currency_picker"
-        android:title="Choose currency"></item>
+        android:title="@string/choose_currency"></item>
     <item
         android:id="@+id/league_picker"
-        android:title="Choose a league"></item>
+        android:title="@string/choose_league"></item>
     <item
         android:id="@+id/color_picker"
-        android:title="Change color"></item>
+        android:title="@string/change_color"></item>
+    <item
+        android:id="@+id/language_picker"
+        android:title="@string/change_language"></item>
 </menu>

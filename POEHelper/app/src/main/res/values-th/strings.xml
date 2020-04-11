@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">เคอเรนซี่</string>
+    <string name="menu_fragment">ชิ้นส่วน</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">อัญมณีผู้พิทักษ์</string>
+    <string name="menu_oil">น้ำมัน</string>
+    <string name="menu_incubator">ตัวบ่มฟัก</string>
+    <string name="menu_scarab">Scarabs</string>
+    <string name="menu_fossil">ฟอสซิล</string>
+    <string name="menu_essence">Essence</string>
+    <string name="menu_resonator">เรโซเนเตอร์</string>
+    <string name="menu_divination_card">ไพ่พยากรณ์</string>
+    <string name="menu_skill_gem">หินสกิล</string>
+    <string name="menu_base_type">ไอเทมก่อนคราฟ</string>
+    <string name="menu_helmet_enchant">เอนแชนหมวก</string>
+    <string name="menu_map">แผนที่</string>
+    <string name="menu_unique_armour">ชุดเกราะยูนิค</string>
+    <string name="menu_unique_flask">ขวดยายูนิค</string>
+    <string name="menu_unique_weapon">อาวุธยูนิค</string>
+    <string name="menu_unique_accessory">เครื่องประดับยูนิค</string>
+    <string name="menu_unique_jewel">จีเวลยูนิค</string>
+    <string name="menu_prophecy">คำทำนาย</string>
+    <string name="menu_unique_map">แผนที่ยูนิค</string>
+    <string name="menu_beast">สัตว์จับ</string>
+    <string name="menu_vial">Vials</string>
+    <string name="items"> รายการ</string>
+    <string name="choose_league"> เลือกลีก</string>
+    <string name="choose_currency"> เลือกสกุลเงิน</string>
+    <string name="change_color"> เปลี่ยนสี</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">ไม่มีข้อมูล</string>
+    <string name="buy">ซื้อ</string>
+    <string name="sell">ขาย</string>
+    <string name="last_7_days">7 วันล่าสุด</string>
+    <string name="string_for">ต่อ</string>
+    <string name="check_on">Check on</string>
+
+</resources>

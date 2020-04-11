@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">POE Helper</string>
+
+    <string name="menu_currency">Objetos Monetarios</string>
+    <string name="menu_fragment">Fragmentos</string>
+    <string name="menu_delirium_orb">Delirium Orb</string>
+    <string name="menu_watchstone">Rocas del vigilante</string>
+    <string name="menu_oil">Aceites</string>
+    <string name="menu_incubator">Incubadoras</string>
+    <string name="menu_scarab">Escarabajos</string>
+    <string name="menu_fossil">Fósiles</string>
+    <string name="menu_essence">Esencias</string>
+    <string name="menu_resonator">Resonadores</string>
+    <string name="menu_divination_card">Cartas de Adivinación</string>
+    <string name="menu_skill_gem">Gemas de habilidad</string>
+    <string name="menu_base_type">Tipos base</string>
+    <string name="menu_helmet_enchant">Encantamientos de casco</string>
+    <string name="menu_map">Mapas</string>
+    <string name="menu_unique_armour">Armaduras únicas</string>
+    <string name="menu_unique_flask">Frascos únicos</string>
+    <string name="menu_unique_weapon">Armas únicas</string>
+    <string name="menu_unique_accessory">Accesorios únicos</string>
+    <string name="menu_unique_jewel">Joyas únicas</string>
+    <string name="menu_prophecy">Profecías</string>
+    <string name="menu_unique_map">Mapas Únicos</string>
+    <string name="menu_beast">Bestias</string>
+    <string name="menu_vial">Viales</string>
+    <string name="check_on">Check on</string>
+    <string name="items"> Artículos</string>
+    <string name="choose_league"> Elige liga</string>
+    <string name="choose_currency"> Elige moneda</string>
+    <string name="change_color"> Cambiar el color</string>
+    <string name="change_language"> Change language</string>
+    <string name="no_data">sin datos</string>
+    <string name="buy">comprar</string>
+    <string name="sell">vender</string>
+    <string name="last_7_days">Los últimos 7 días:</string>
+    <string name="string_for">para</string>
+
+
+</resources>
