@@ -1,8 +1,8 @@
 package com.resdev.poehelper
 
 import android.view.View
-import com.resdev.poehelper.Models.CurrencyDetail
-import com.resdev.poehelper.Models.ItemLine
+import com.resdev.poehelper.model.pojo.CurrencyDetail
+import com.resdev.poehelper.model.pojo.ItemLine
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import java.net.InetAddress
@@ -14,9 +14,11 @@ object Util {
     }
     fun getFromMapForEssence(field : String, map : HashMap<String, String>) : String{
         var parts = field.split(": ")
-        var one = map[parts[0]] ?: parts[0]
-        var two = map[parts[1]] ?: parts[1]
-        return "$one: $two"
+        var ret = ""
+        for (i in parts){
+            ret+=(map[i] ?: i)+": "
+        }
+        return ret.substring(0, ret.length-2)
     }
     fun isInternetAvailable(): Boolean {
         return try {
@@ -26,6 +28,8 @@ object Util {
             false
         }
     }
+
+
 
     fun getLineGraphSeries(list:List<Double>) : LineGraphSeries<DataPoint> {
 
@@ -44,7 +48,7 @@ object Util {
         base+="league=${Config.league}"
         base+="&name=${line.name}"
         base+="&link_min=${line.links}"
-        base+="&level_min=${line.mapTier}"
+        base+="&level_min=${if (line.baseType?.contains("Essence") == true) 0 else line.mapTier}"
         base+="&corrupted =${if (line.corrupted) 1 else 0}"
         base+="&rlevel_min=${line.levelRequired}"
         base+="&q_min=${line.gemQuality}"

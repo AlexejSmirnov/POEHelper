@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.resdev.poehelper.MainActivity"
+
+    tools:context="com.resdev.poehelper.view.activity.MainActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -29,9 +30,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp">
-
-        </androidx.appcompat.widget.Toolbar>
+            android:elevation="4dp" />
 
         <FrameLayout
 
@@ -44,8 +43,6 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-
-
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

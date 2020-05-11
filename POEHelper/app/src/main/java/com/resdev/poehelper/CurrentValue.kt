@@ -1,31 +1,47 @@
 package com.resdev.poehelper
-
-import android.util.Log
-import com.resdev.poehelper.Models.*
+import com.resdev.poehelper.model.pojo.*
+import com.resdev.poehelper.repository.Repository
 
 object CurrentValue {
     lateinit var currencyDetail: CurrencyDetail
     lateinit var line: CurrencyLine
     lateinit var data: CurrenciesModel
-    fun getActualData(currencyName:String, data:CurrenciesModel = this.data){
-        this.data = data
+    private val repository = Repository
+    init {
+        repository.getExchangeRate().observeForever {
+            data = it
+            getActualData()
+        }
+    }
+
+    fun getActualData(){
         for (i in data.currencyDetails){
-            if (currencyName == i.name){
+            if (Config.currency == i.name){
                 currencyDetail = i
             }
         }
         for (i in data.lines){
-            if (currencyName == "Chaos Orb"){
-                line = CurrencyLine("Chaos Orb", 1.0, Pay(1.0), Receive(1.0), null, null)
+            if (Config.currency == "Chaos Orb"){
+                line = CurrencyLine(
+                    "Chaos Orb",
+                    1.0,
+                    Pay(1.0),
+                    Receive(1.0),
+                    null,
+                    null
+                )
             }
-            if (i.currencyTypeName == currencyName){
+            if (i.currencyTypeName == Config.currency){
                 line = i
             }
         }
-        Log.d("Value", "${this.line.currencyTypeName} ${this.line.chaosEquivalent}")
     }
     fun isInitialized():Boolean{
-        return ::data.isInitialized
+        return this::line.isInitialized
+    }
+
+    fun getChaosValue(){
+
     }
 
     fun getArray():Array<Array<String>>{
@@ -40,9 +56,5 @@ object CurrentValue {
         return arrayOf(defaultArr, translated)
     }
 
-    fun loadData(){
-        val data = PoeNinjaLoading.loadCurrencies(Config.league, "Currency")
-        getActualData(Config.currency, data)
-    }
 
 }

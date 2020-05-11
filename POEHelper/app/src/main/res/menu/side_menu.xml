@@ -73,11 +73,11 @@
             android:title="@string/menu_unique_armour" />
         <item
             android:id="@+id/nav_unique_flask"
-            android:icon="@drawable/unique_flask_icon_4"
+            android:icon="@drawable/unique_flask_icon"
             android:title="@string/menu_unique_flask" />
         <item
             android:id="@+id/nav_unique_weapon"
-            android:icon="@drawable/unique_weapon_icon_2"
+            android:icon="@drawable/unique_weapon_icon"
             android:title="@string/menu_unique_weapon" />
         <item
             android:id="@+id/nav_unique_accessory"
