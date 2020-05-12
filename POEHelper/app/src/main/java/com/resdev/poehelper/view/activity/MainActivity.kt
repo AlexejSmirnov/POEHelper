@@ -6,10 +6,13 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.annotation.ColorInt
@@ -33,6 +36,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.lang.reflect.Field
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -50,9 +54,8 @@ private var leagues = ArrayList<String>()
         setupSettings()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        title = Config.league
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        title = Config.league
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             0, 0
@@ -152,7 +155,6 @@ private var leagues = ArrayList<String>()
                         override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                             Config.color = color
                             this@MainActivity.paintInterface(color)
-
                         }
 
                         override fun onCancel(dialog: AmbilWarnaDialog?) {
@@ -221,23 +223,42 @@ private var leagues = ArrayList<String>()
 
     fun setTextColor(color: Int){
         var color = Integer.toHexString(color)
+        var editText = searchItem.actionView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val mCollapseIcon: Field = toolbar.javaClass.getDeclaredField("mCollapseIcon")
+        mCollapseIcon.isAccessible = true
+        val drw: Drawable = mCollapseIcon.get(toolbar) as Drawable
+        val closeButtonImage = searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView
         if (Integer.parseInt(color.substring(2, 4), 16)+
             Integer.parseInt(color.substring(4, 6), 16)+
-            Integer.parseInt(color.substring(6, 8), 16) > 600)
+            Integer.parseInt(color.substring(6, 8), 16) > 530)
         {
+
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
-            toolbar.setTitleTextColor(resources.getColor(R.color.black))
-            searchItem.icon = resources.getDrawable(R.drawable.ic_search_black_24dp)
             toolbar.overflowIcon = resources.getDrawable(R.drawable.ic_more_vert_black_24dp)
+            closeButtonImage.setImageResource(R.drawable.ic_close_black_24dp)
+            searchItem.icon = resources.getDrawable(R.drawable.ic_search_black_24dp)
+            toolbar.setTitleTextColor(resources.getColor(R.color.black))
+            drw.setTint(resources.getColor(R.color.black))
+            editText.setTextColor(resources.getColor(R.color.black))
+            editText.setHintTextColor(resources.getColor(R.color.black))
+
         }
         else{
             window.decorView.systemUiVisibility = 0
             toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
-            toolbar.setTitleTextColor(resources.getColor(R.color.white))
-            searchItem.icon = resources.getDrawable(R.drawable.ic_search_white_24dp)
             toolbar.overflowIcon = resources.getDrawable(R.drawable.ic_more_vert_white_24dp)
+            closeButtonImage.setImageResource(R.drawable.ic_close_white_24dp)
+            searchItem.icon = resources.getDrawable(R.drawable.ic_search_white_24dp)
+            drw.setTint(resources.getColor(R.color.white))
+            toolbar.setTitleTextColor(resources.getColor(R.color.white))
+            editText.setTextColor(resources.getColor(R.color.white))
+            editText.setHintTextColor(resources.getColor(R.color.white))
+
+
         }
+
+
     }
 
     fun saveData(){
@@ -330,6 +351,7 @@ private var leagues = ArrayList<String>()
         drawer_layout.closeDrawer(GravityCompat.START)
 
     }
+
 
 
 
