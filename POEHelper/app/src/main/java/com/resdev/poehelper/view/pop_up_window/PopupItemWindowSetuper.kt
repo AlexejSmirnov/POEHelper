@@ -26,7 +26,7 @@ object PopupItemWindowSetuper {
                 )
                 return true
             }
-            "Watchstone", "Unique Map", "UniqueArmour","UniqueWeapon","UniqueJewel","UniqueFlask","UniqueAccessory" -> {
+            "Watchstone", "UniqueMap", "UniqueArmour","UniqueWeapon","UniqueJewel","UniqueFlask","UniqueAccessory" -> {
                 setupUniqueItem(
                     item,
                     popupView,
@@ -48,6 +48,7 @@ object PopupItemWindowSetuper {
             }
         }
     }
+
     fun setupNormalItem(item: ItemLine, view: View, translations: HashMap<String, String>){
         view.item_title.setBackgroundResource(R.drawable.normal_title_background)
         view.item_title.setTextColor(view?.resources?.getColor(R.color.normal_item)?:0)
@@ -79,8 +80,6 @@ object PopupItemWindowSetuper {
         }
         Picasso.get().load(item.icon).into(view.item_image)
     }
-
-
     fun setupEssenceItem(item: ItemLine, view: View, translations: HashMap<String, String>){
         view.item_title.setBackgroundResource(R.drawable.normal_title_background)
         view.item_title.setTextColor(view?.resources?.getColor(R.color.normal_item)?:0)

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">POE Helper</string>
-
     <string name="menu_currency">Objetos Monetarios</string>
     <string name="menu_fragment">Fragmentos</string>
     <string name="menu_delirium_orb">Delirium Orb</string>

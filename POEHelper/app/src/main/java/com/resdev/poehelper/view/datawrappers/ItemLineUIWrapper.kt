@@ -46,7 +46,7 @@ class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context){
             return context.resources.getString(R.string.no_data)
         }
         return "1.0 "+context.resources.getString( R.string.string_for) +
-                " %.2f".format(itemLine.chaosValue/ CurrentValue.line.chaosEquivalent!!)
+                " %.2f".format(itemLine.chaosValue/(CurrentValue.line.chaosEquivalent?:1.0))
     }
 
     fun getPercentage(): String{

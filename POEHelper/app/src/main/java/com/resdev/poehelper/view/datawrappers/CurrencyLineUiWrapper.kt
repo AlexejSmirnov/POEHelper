@@ -56,13 +56,13 @@ class CurrencyLineUiWrapper(val currencyLine: CurrencyLine, val context: Context
         if (value == null){
             return context.resources.getString(R.string.no_data)
         }
-        return "%.2f".format(value* CurrentValue.line.chaosEquivalent!!)
+        return "%.2f".format(value* (CurrentValue.line.chaosEquivalent?:1.0))
     }
     private fun formatSellValueRatio(value:Double?):String{
         if (value == null){
             return context.resources.getString(R.string.no_data)
         }
-        return "%.2f".format(value/ CurrentValue.line.chaosEquivalent!!)
+        return "%.2f".format(value/ (CurrentValue.line.chaosEquivalent?:1.0))
     }
 
     private fun formatValue(value:Double?):String{

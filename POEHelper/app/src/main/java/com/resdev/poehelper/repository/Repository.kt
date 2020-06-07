@@ -20,7 +20,7 @@ object Repository {
     private var lastCurrency: String? = null
     private var lastItem:String? = null
     init {
-        uninterruptibleLoading()
+        uninterruptableLoading()
     }
     fun loadCurrencies() {
         GlobalScope.launch {
@@ -104,7 +104,7 @@ object Repository {
     }
 
 
-    private fun uninterruptibleLoading(){
+    private fun uninterruptableLoading(){
         GlobalScope.launch(newSingleThreadContext("LoadValuesThread")) {
             while(!CurrentValue.isInitialized()){
                 loadExchange()

@@ -40,9 +40,6 @@ object CurrentValue {
         return this::line.isInitialized
     }
 
-    fun getChaosValue(){
-
-    }
 
     fun getArray():Array<Array<String>>{
         var array = ArrayList<CharSequence>()
