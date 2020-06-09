@@ -46,8 +46,8 @@ object PopupCurrencyWindowSetuper {
         var buySeries = getLineGraphSeries(currencyLine.receiveSparkLine!!.data)
         Util.seriesConfig(buySeries, view)
         buyingGraph.addSeries(buySeries)
-        buyingGraph.gridLabelRenderer.isVerticalLabelsVisible = false
-        buyingGraph.gridLabelRenderer.isHorizontalLabelsVisible = false
+        buyingGraph.gridLabelRenderer.isVerticalLabelsVisible = true
+        buyingGraph.gridLabelRenderer.isHorizontalLabelsVisible = true
         buyingGraph.gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.NONE
 
 

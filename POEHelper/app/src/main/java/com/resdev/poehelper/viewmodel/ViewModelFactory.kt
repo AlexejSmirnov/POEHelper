@@ -19,3 +19,10 @@ class ItemViewModelFactory(private val mApplication: Application, private val mT
         return ItemViewModel(mType, mApplication) as T
     }
 }
+
+class BookmarkViewModelFactory(private val mApplication: Application) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return BookmarksViewModel(mApplication) as T
+    }
+}

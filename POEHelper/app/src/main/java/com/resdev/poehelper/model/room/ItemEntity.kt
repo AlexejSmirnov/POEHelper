@@ -1,70 +1,65 @@
 package com.resdev.poehelper.model.room
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.Relation
+import android.util.Log
+import androidx.room.*
+import java.lang.NumberFormatException
 
 @Entity
 data class ItemEntity(
-    @PrimaryKey val id:Int,
-    val name: String,
-    val translatedName: String?,
-    val baseType: String?,
-    val translatedType: String?,
-    val chaosValue: Double?,
-    val icon: String?,
-    val flavourText: String,
-    val translatedFlavourText: String?,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "itemId"
-    )
-    val explicitModifiers: List<ExplicitModifier>,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "itemId"
-    )
-    val implicitModifiers: List<ImplicitModifier>,
-    val prophecyText: String?,
-    val translatedProphecyText: String?,
-    val links:Int,
-    val corrupted:Boolean,
-    val itemClass:Int,
-    val gemLevel:Int,
-    val gemQuality:Int,
-    val mapTier:Int,
-    val levelRequired:Int,
-    val variant:String?,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "itemId"
-    )
-    val sparkline: Sparkline,
-    val itemType: String
-)
+    @PrimaryKey var id:Int,
+    var name: String,
+    var translatedName: String?,
+    var baseType: String?,
+    var translatedType: String?,
+    var chaosValue: Double?,
+    var icon: String?,
+    var flavourText: String?,
+    var translatedFlavourText: String?,
+    var prophecyText: String?,
+    var translatedProphecyText: String?,
+    var links:Int,
+    var corrupted:Boolean,
+    var itemClass:Int,
+    var gemLevel:Int,
+    var gemQuality:Int,
+    var mapTier:Int,
+    var levelRequired:Int,
+    var variant:String?,
+    var itemType: String
+){
+    @Ignore lateinit var explicitModifiers: List<ExplicitModifier>
+    @Ignore lateinit var implicitModifiers: List<ImplicitModifier>
+    @Ignore lateinit var sparkline: Sparkline
+}
 
 @Entity
 data class ExplicitModifier(
     val itemId:Int,
-    val text: String,
-    val translated: String
+    @PrimaryKey val text: String,
+    val translated: String?
 )
 
 @Entity
 data class ImplicitModifier(
     val itemId:Int,
-    val text: String,
-    val translated: String
+    @PrimaryKey val text: String,
+    val translated: String?
 )
 
 @Entity
 data class Sparkline(
-    val itemId:Int,
+    @PrimaryKey val itemId:Int,
     val numbers: String,
     val totalChange: Double
 ){
-    fun getData():List<Double>{
-        return numbers.split(" ").map { it.toDouble() }
+    fun getData():List<Double?>{
+        return numbers.split(" , ").map {
+            try{
+                it.toDouble()
+            }
+            catch (e: NumberFormatException){
+                null
+            }
+        }
     }
 }

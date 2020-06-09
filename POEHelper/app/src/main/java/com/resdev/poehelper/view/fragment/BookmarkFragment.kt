@@ -14,61 +14,51 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.Config
-import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.view.adapter.CurrenciesAdapter
+import com.resdev.poehelper.view.adapter.BookmarkAdapter
 import com.resdev.poehelper.view.adapter.MyItemDecoration
-import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyCallback
-import com.resdev.poehelper.viewmodel.CurrencyViewModel
-import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
+import com.resdev.poehelper.view.adapter.callbacks.SwipeBookmarkCallback
+import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
+import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
+import com.resdev.poehelper.viewmodel.BookmarksViewModel
 import kotlinx.android.synthetic.main.default_fragment.*
 
-class CurrencyFragment : Fragment(), MainFragment {
-
-    private lateinit var viewModel: CurrencyViewModel
-    private lateinit var bundle: Bundle
-    private lateinit var currenciesAdapter : CurrenciesAdapter
+class BookmarkFragment : Fragment(), MainFragment {
+    private lateinit var viewModel: BookmarksViewModel
+    private lateinit var itemsAdapter: BookmarkAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bundle = this.arguments!!
-        viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
-            bundle.getString("Value", bundle.getString("Value", "Currency")))).get(CurrencyViewModel::class.java)
-        viewModel.setCurrency()
-        viewModel.loadCurrencies()
-
+        viewModel = ViewModelProvider(this, BookmarkViewModelFactory(Application())).get(
+            BookmarksViewModel::class.java)
+        viewModel.loadItems()
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpRecyclerView()
-        currenciesAdapter = CurrenciesAdapter()
-        recyclerView.adapter = currenciesAdapter
+        itemsAdapter =  BookmarkAdapter()
+        recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
-            currenciesAdapter.submitList(it.lines)
-
+            itemsAdapter.submitList(it)
         })
-        CurrentValue
     }
+
     override fun setFilter(filter: String) {
         viewModel.setFiler(filter)
     }
 
     override fun notifyCurrencyChanged() {
-        currenciesAdapter = CurrenciesAdapter()
-        recyclerView.adapter = currenciesAdapter
-        viewModel.loadCurrencies()
+        itemsAdapter = BookmarkAdapter()
+        recyclerView.adapter = itemsAdapter
+        viewModel.loadItems()
     }
 
     override fun notifyLeagueChanged() {
-
-        viewModel.loadCurrencies()
-
+        viewModel.loadItems()
     }
 
     override fun paintRecycler() {
@@ -79,18 +69,18 @@ class CurrencyFragment : Fragment(), MainFragment {
         }
     }
 
+
     fun setUpRecyclerView(){
         recyclerView.addItemDecoration(
             MyItemDecoration(15)
         )
-        recyclerView.setHasFixedSize(false)
-        ItemTouchHelper(SwipeCurrencyCallback()).attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        ItemTouchHelper(SwipeBookmarkCallback()).attachToRecyclerView(recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         paintRecycler()
     }
 
     override fun onDestroy() {
-        currenciesAdapter.closeWindow()
+        itemsAdapter.closeWindow()
         super.onDestroy()
     }
 }

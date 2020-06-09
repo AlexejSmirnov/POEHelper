@@ -28,7 +28,8 @@ object CurrentValue {
                     Pay(1.0),
                     Receive(1.0),
                     null,
-                    null
+                    null,
+                    "chaos"
                 )
             }
             if (i.currencyTypeName == Config.currency){

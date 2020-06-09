@@ -8,7 +8,7 @@ import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 
-object PoeLeaguesLoading {
+object PoeLeagueLoading {
     var okHttpClient = OkHttpClient().newBuilder()
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
@@ -19,7 +19,7 @@ object PoeLeaguesLoading {
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val poeNinjaClient = retrofit.create(PoeLeaguesApi::class.java)
+    private val poeNinjaClient = retrofit.create(PoeLeagueApi::class.java)
 
     fun loadLeagues(): LeaguesModel {
         return try{

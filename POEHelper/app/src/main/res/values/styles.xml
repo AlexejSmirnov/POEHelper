@@ -6,10 +6,13 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">@color/lightGray</item>
+
     </style>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@color/text_color</item>
+        <item name="android:navigationBarColor">@color/lightGray</item>
     </style>
 
     <style name="AppTheme.NoActionBar.Dark">

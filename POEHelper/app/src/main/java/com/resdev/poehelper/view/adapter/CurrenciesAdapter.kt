@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.Config
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.Util
@@ -64,7 +65,6 @@ class CurrenciesAdapter :
         lateinit var line : CurrencyDetail
         var binding: CurrencyViewHolderBinding = binding
         init {
-
             itemView.currency_name.text = Util.getFromMap(CurrentValue.currencyDetail.name, CurrentValue.data.language.translations)
             Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
         }

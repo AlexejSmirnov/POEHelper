@@ -1,4 +1,6 @@
 package com.resdev.poehelper.model.pojo
+import android.util.Log
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
@@ -9,10 +11,14 @@ data class ItemsModel(
     var language: Language
 ){
     init {
+        bindModel()
+    }
+    fun bindModel(){
         for (i in lines){
             i.itemsModel = this
         }
     }
+
     companion object {
         val emptyModel =  ItemsModel(listOf(), Language("en", HashMap()))
     }
@@ -54,9 +60,10 @@ data class ItemLine(
     @SerializedName("variant")
     val variant:String?,
     @SerializedName("lowConfidenceSparkline")
-    val sparkline: Sparkline
+    val sparkline: Sparkline,
+    @Expose
+    var itemsModel:ItemsModel = ItemsModel(listOf(), Language("en", HashMap()))
 ){
-    lateinit var itemsModel: ItemsModel
 
     fun getTranslatedName():String{
         return itemsModel.language.translations[name] ?: name
@@ -81,7 +88,7 @@ data class ImplicitModifier(
 )
 data class Sparkline(
     @SerializedName("data")
-    val `data`: List<Double>,
+    val `data`: List<Double?>,
     @SerializedName("totalChange")
     val totalChange: Double
 )

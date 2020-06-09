@@ -4,23 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.resdev.poehelper.Config
 import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.Converter
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
-import com.resdev.poehelper.model.retrofit.PoeLeaguesLoading
+import com.resdev.poehelper.model.retrofit.PoeLeagueLoading
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
+import com.resdev.poehelper.model.room.ApplicationDatabase
+import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.view.MyApplication
+import kotlinx.coroutines.*
 
 
 object Repository {
+    var database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
     private var currenciesModel: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var itemsModel: MutableLiveData<ItemsModel> = MutableLiveData()
+    private var bookmarkItems: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var currentExchangeRate: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var lastCurrency: String? = null
     private var lastItem:String? = null
     init {
         uninterruptableLoading()
+        bookmarksLoader()
     }
     fun loadCurrencies() {
         GlobalScope.launch {
@@ -82,6 +87,10 @@ object Repository {
         return itemsModel
     }
 
+    fun getBookmarks():LiveData<List<ItemEntity>>{
+        return bookmarkItems
+    }
+
     fun getExchangeRate(): LiveData<CurrenciesModel>{
         return currentExchangeRate
     }
@@ -140,13 +149,61 @@ object Repository {
     fun loadLeagues(leagues: ArrayList<String>){
         GlobalScope.launch(newSingleThreadContext("LoadLeaguesThread")) {
             while (leagues.isEmpty()){
-                var a = PoeLeaguesLoading.loadLeagues().getEditedLeagues()
+                var a = PoeLeagueLoading.loadLeagues().getEditedLeagues()
                 leagues.addAll(a)
                 Thread.sleep(1000)
             }
 
         }
     }
+
+    fun updateBookmarksAsync(){
+        GlobalScope.launch{
+            updateBookmarksItems()
+        }
+
+    }
+    fun updateBookmarksItems(){
+        var itemsTypes = database.entityDao.getTypes()
+        while (bookmarkItems.value==null){}
+        var idMap = bookmarkItems.value!!.map { it.id }
+        for (i in itemsTypes){
+            val items = PoeNinjaLoading.loadItems(Config.league, i)
+            items.bindModel()
+            for (j in items.lines){
+                val id = idMap.indexOf(j.id)
+                if (id!=-1){
+                    database.entityDao.updateItem(Converter.fromRetrofitItemToRoomEntity(j, i))
+                }
+            }
+        }
+        bookmarkItems.postValue(database.entityDao.getItems())
+
+    }
+
+    fun bookmarksLoader(){
+        GlobalScope.launch {
+            bookmarkItems.postValue(database.entityDao.getItems())
+            while (true){
+                updateBookmarksItems()
+                delay(60000)
+            }
+        }
+    }
+
+    fun addItem(item: ItemEntity){
+        GlobalScope.async {
+            database.entityDao.insertItem(item)
+        }
+    }
+
+    fun removeEntity(item: ItemEntity){
+        GlobalScope.async {
+            database.entityDao.removeItem(item)
+            updateBookmarksItems()
+        }
+    }
+
 
 
 }
