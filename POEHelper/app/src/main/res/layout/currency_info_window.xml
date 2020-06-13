@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:background="@drawable/shape">
 
     <TextView
         android:id="@+id/textView5"
@@ -17,26 +17,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.jjoe64.graphview.GraphView
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/selling_graph"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="319dp"
+        android:layout_height="209dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@color/graphs_background"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
-    <com.jjoe64.graphview.GraphView
+    <com.github.mikephil.charting.charts.LineChart
 
         android:id="@+id/buying_graph"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="319dp"
+        android:layout_height="209dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/graphs_background"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="MissingConstraints" />
@@ -57,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         android:text="@string/sell"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginBottom="15dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/buying_graph"
         app:layout_constraintStart_toEndOf="@+id/textView3" />
@@ -77,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginBottom="15dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/selling_graph"
         app:layout_constraintStart_toEndOf="@+id/textView4" />
@@ -86,29 +96,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginBottom="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/showing_currency_image_1"
-        app:layout_constraintTop_toBottomOf="@+id/currency_buy_percents" />
+        app:layout_constraintBottom_toTopOf="@+id/buying_graph"
+        app:layout_constraintStart_toEndOf="@+id/showing_currency_image_1" />
 
     <ImageView
         android:id="@+id/showing_currency_image_1"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/buying_graph"
-        app:layout_constraintTop_toBottomOf="@+id/currency_buy_percents"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buying_graph"
+        app:layout_constraintStart_toEndOf="@+id/currency_buy_percents"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
         android:id="@+id/showing_currency_image_2"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/selling_graph"
-        app:layout_constraintTop_toBottomOf="@+id/currency_sell_percentes"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/selling_graph"
+        app:layout_constraintStart_toEndOf="@+id/currency_sell_percentes"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
@@ -116,34 +126,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginBottom="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/showing_currency_image_2"
-        app:layout_constraintTop_toBottomOf="@+id/currency_sell_percentes" />
+        app:layout_constraintBottom_toTopOf="@+id/selling_graph"
+        app:layout_constraintStart_toEndOf="@+id/showing_currency_image_2" />
 
     <ImageView
         android:id="@+id/exchanging_currency_image_1"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buying_graph"
         app:layout_constraintStart_toEndOf="@+id/currency_buy_title"
-        app:layout_constraintTop_toBottomOf="@+id/currency_buy_percents"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
         android:id="@+id/exchanging_currency_image_2"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/selling_graph"
         app:layout_constraintStart_toEndOf="@+id/currency_sell_title"
-        app:layout_constraintTop_toBottomOf="@+id/currency_sell_percentes"
         app:srcCompat="@drawable/ic_launcher_background" />
 </androidx.constraintlayout.widget.ConstraintLayout>

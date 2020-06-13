@@ -9,18 +9,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.GridLabelRenderer
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.Util
 import com.resdev.poehelper.databinding.ItemViewHolderBinding
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.view.datawrappers.ItemEntityUiWrapper
+import com.resdev.poehelper.view.pop_up_window.PopupItemInfoWindowSetuper
 import com.resdev.poehelper.view.pop_up_window.PopupItemWindowSetuper
+import com.resdev.poehelper.view.pop_up_window.showCurrencyWindow
 import com.resdev.poehelper.view.pop_up_window.showItemWindow
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_holder.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BookmarkAdapter() :
     ListAdapter<ItemEntity, BookmarkAdapter.BookmarkItemViewHolder>(DIFF_CALLBACK) {
@@ -49,24 +53,15 @@ class BookmarkAdapter() :
     override fun onBindViewHolder(holder: BookmarkItemViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        val buyingGraph = holder.itemView.findViewById<GraphView>(R.id.item_graph)
-        buyingGraph.removeAllSeries()
-        var series = Util.getLineGraphSeries(item.sparkline!!.getData())
-        Util.seriesConfig(series, holder.itemView)
-        buyingGraph.addSeries(series)
-
-        holder.itemView.setOnClickListener{onClickShowPopupWindow(item, holder.itemView) }
+        holder.itemView.setOnClickListener{onClickShowPopupWindow(item,holder.itemView)}
+        holder.itemView.setOnLongClickListener{onLongClickShowPopupWindow(item, holder.itemView) }
     }
 
     class BookmarkItemViewHolder(binding: ItemViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
         lateinit var item : ItemEntity
         var binding: ItemViewHolderBinding = binding
         init {
-            setCurrencyImage()
-            val buyingGraph = itemView.findViewById<GraphView>(R.id.item_graph)
-            buyingGraph.gridLabelRenderer.isVerticalLabelsVisible = false
-            buyingGraph.gridLabelRenderer.isHorizontalLabelsVisible = false
-            buyingGraph.gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.NONE
+            setViewDefaults()
         }
 
         fun bind(itemLine: ItemEntity) {
@@ -75,31 +70,49 @@ class BookmarkAdapter() :
             binding.executePendingBindings()
         }
 
-        fun setCurrencyImage(){
-            itemView.currency_name.text = Util.getFromMap(
-                CurrentValue.currencyDetail.name,
-                CurrentValue.data.language.translations
-            )
-            Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
+        fun setViewDefaults(){
+            GlobalScope.launch {
+                while (!CurrentValue.isInitialized()){
+                }
+                withContext(Dispatchers.Main){
+                    itemView.currency_name.text = Util.getFromMap(
+                        CurrentValue.currencyDetail.name,
+                        CurrentValue.data.language.translations
+                    )
+                    Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
+                }
+            }
         }
 
 
     }
 
-    fun onClickShowPopupWindow(item: ItemEntity, view: View?) {
+    fun onLongClickShowPopupWindow(item: ItemEntity, view: View?): Boolean {
+        val popupView: View = LayoutInflater.from(view!!.context).inflate(R.layout.item_stats_info_window, null)
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+        val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+        if (!PopupItemInfoWindowSetuper.chooseWindow(item, popupView)){
+            return true
+        }
+        this.popupWindow = popupWindow
+        popupWindow.showItemWindow(view)
+        return true
+    }
+    fun onClickShowPopupWindow(item: ItemEntity, view: View?):Boolean{
         val popupView: View = LayoutInflater.from(view!!.context).inflate(R.layout.item_info_window, null)
         val width = LinearLayout.LayoutParams.WRAP_CONTENT
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
         val focusable = true
         val popupWindow = PopupWindow(popupView, width, height, focusable)
 
-        if (!PopupItemWindowSetuper.chooseWindow(item, popupView)){
-            return
-        }
+        PopupItemWindowSetuper.setupWindow(item, popupView)
         this.popupWindow = popupWindow
-        popupWindow.showItemWindow(view)
+        popupWindow.showCurrencyWindow(view)
+        return true
     }
-
 
     fun closeWindow(){
         popupWindow?.dismiss()

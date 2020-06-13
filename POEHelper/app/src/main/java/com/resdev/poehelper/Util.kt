@@ -1,75 +1,25 @@
 package com.resdev.poehelper
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.snackbar.Snackbar
-import com.resdev.poehelper.model.pojo.CurrencyDetail
-import com.resdev.poehelper.model.pojo.ItemLine
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
-import com.resdev.poehelper.model.room.ItemEntity
-import kotlinx.android.synthetic.main.activity_main.*
-import java.net.InetAddress
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 object Util {
 
     fun getFromMap(field : String, map : HashMap<String, String>) : String{
         return map[field] ?: field
     }
-    fun getFromMapForEssence(field : String, map : HashMap<String, String>) : String{
-        var parts = field.split(": ")
-        var ret = ""
-        for (i in parts){
-            ret+=(map[i] ?: i)+": "
-        }
-        return ret.substring(0, ret.length-2)
-    }
-    fun isInternetAvailable(): Boolean {
-        return try {
-            val ipAddr: InetAddress = InetAddress.getByName("google.com")
-            !ipAddr.equals("")
-        } catch (e: Exception) {
-            false
-        }
-    }
 
-
-
-    fun getLineGraphSeries(list:List<Double?>) : LineGraphSeries<DataPoint> {
-
-        var newList :ArrayList<DataPoint> = ArrayList()
-        for (i in list.indices){
-            if (list[i] != null){
-                newList.add(DataPoint(i.toDouble(), list[i]!!))
-            }
-        }
-        return LineGraphSeries(newList.toTypedArray())
-
-    }
-
-    fun generatePoeTradeItemTradeUrl(line : ItemLine):String{
-        var base = "https://poe.trade/search?"
-        base+="league=${Config.league}"
-        base+="&name=${line.name}"
-        base+="&link_min=${line.links}"
-        base+="&level_min=${if (line.baseType?.contains("Essence") == true) 0 else line.mapTier}"
-        base+="&corrupted =${if (line.corrupted) 1 else 0}"
-        base+="&rlevel_min=${line.levelRequired}"
-        base+="&q_min=${line.gemQuality}"
-        return base
-    }
-
-    fun generatePoeTradeItemTradeUrl(line: ItemEntity): String{
-        var base = "https://poe.trade/search?"
-        base+="league=${Config.league}"
-        base+="&name=${line.name}"
-        base+="&link_min=${line.links}"
-        base+="&level_min=${if (line.baseType?.contains("Essence") == true) 0 else line.mapTier}"
-        base+="&corrupted =${if (line.corrupted) 1 else 0}"
-        base+="&rlevel_min=${line.levelRequired}"
-        base+="&q_min=${line.gemQuality}"
-        return base
-    }
 
     fun generatePoeMarketTradeUrl(): String{
         return when(Config.language){
@@ -89,16 +39,6 @@ object Util {
         }
     }
 
-    fun generateCurrencyTradeUrl(detail : CurrencyDetail):String{
-        if (detail.poeTradeId==-1){
-            return "https://poe.trade/search?league=${Config.league}&name=${detail.name}"
-        }
-        var base = "https://currency.poe.trade/search?league=${Config.league}&online=x&stock=&"
-        base += if (detail.poeTradeId!=CurrentValue.currencyDetail.poeTradeId) "have=${detail.poeTradeId}" else "have=4"
-        base+="&want=${CurrentValue.currencyDetail.poeTradeId}"
-        println(base)
-        return base
-    }
 
     fun isColorLight(color: String): Boolean{
        return Integer.parseInt(color.substring(2, 4), 16)+
@@ -107,12 +47,6 @@ object Util {
     }
 
 
-    fun seriesConfig(series: LineGraphSeries<DataPoint>, view: View){
-        series.thickness = 10
-        series.color=view.resources.getColor(R.color.graphs_line)
-        series.backgroundColor = view.resources.getColor(R.color.graphs_under_line)
-        series.isDrawBackground = true
-    }
 
     fun showInternetConnectionError(view: View){
         var snackbar = Snackbar.make(view, "Connection error!", Snackbar.LENGTH_LONG)
@@ -120,4 +54,75 @@ object Util {
         snackbar.setActionTextColor(Color.BLACK)
         snackbar.show()
     }
+
+    fun getDaysSet():ArrayList<String>{
+        var cal = Calendar.getInstance()
+        var list = arrayListOf<String>(SimpleDateFormat("dd.MM").format(cal.time))
+        for (i in 0..5){
+            cal.add(Calendar.DATE, -1)
+            list.add(SimpleDateFormat("dd.MM").format(cal.time))
+        }
+        list.reverse()
+        return list
+    }
+
+    fun getGraphDataset(list:List<Double?>, currentPrice: Double, buy: Boolean, context: Context) : LineDataSet? {
+        if (list.isEmpty()){
+            return LineDataSet(ArrayList<Entry>(), "")
+        }
+        var startValue = currentPrice /(1 + ((list.last() ?: 0.0)/100))
+        val newList :ArrayList<Entry> = ArrayList()
+        for (i in list.indices){
+            if (list[i] != null){
+                newList.add(Entry(i.toFloat(), (startValue * (1+list[i]!!/100)).toFloat()))
+            }
+        }
+        var dataset = LineDataSet(newList, "")
+        dataset.valueTextColor = Color.WHITE
+        dataset.setDrawFilled(true)
+        if (buy){
+            dataset.color = context.getColor(R.color.graphs_line)
+            dataset.highLightColor = context.getColor(R.color.graphs_line)
+            dataset.fillColor = context.getColor(R.color.graphs_under_line_blue)
+            dataset.setCircleColor(context.getColor(R.color.graphs_line))
+        }
+        else{
+            dataset.color = context.getColor(R.color.graphs_yellow)
+            dataset.highLightColor = context.getColor(R.color.graphs_yellow)
+            dataset.fillColor = context.getColor(R.color.graphs_under_line_yellow)
+            dataset.setCircleColor(context.getColor(R.color.graphs_yellow))
+        }
+        dataset.mode = LineDataSet.Mode.CUBIC_BEZIER;
+        return dataset
+    }
+
+    fun setupGraph(graph: LineChart){
+        graph.setNoDataText(graph.context.resources.getString(R.string.no_data))
+        graph.setNoDataTextColor(Color.WHITE)
+        graph.axisLeft.xOffset = 10F
+        graph.axisRight.setDrawGridLines(false)
+        graph.axisLeft.setDrawGridLines(false)
+        graph.xAxis.setDrawGridLines(false)
+        graph.axisLeft.textColor = Color.WHITE
+        graph.xAxis.textColor = Color.WHITE
+        graph.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        graph.legend.textColor = Color.WHITE
+        graph.legend.isEnabled = false
+        graph.extraBottomOffset = 10F
+        graph.setScaleEnabled(false)
+        graph.description.isEnabled = false
+        graph.xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return getDaysSet()[value.toInt()]
+            }
+        }
+    }
+
+    fun roundPercentages(value: Double): String {
+        if (value>=10000){
+            return ((value/1000).toInt().toString())+"k%"
+        }
+        return "$value%"
+    }
+
 }

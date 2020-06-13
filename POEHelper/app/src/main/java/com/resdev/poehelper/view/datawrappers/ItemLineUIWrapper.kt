@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
+import com.resdev.poehelper.Util.roundPercentages
 import com.resdev.poehelper.model.pojo.ItemLine
 import com.squareup.picasso.Picasso
 
@@ -14,32 +15,6 @@ class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context) : ItemUiIn
     override fun getName(): String{
         return translations[itemLine.name] ?: itemLine.name
     }
-//    fun getFormattedExplicitModifiers(): String{
-//        var result = ""
-//        for (i in itemLine.explicitModifiers){
-//            result += translations[i.text] ?: i.text
-//        }
-//        return result
-//    }
-//    fun getFormattedImplicitModifier(): String{
-//        var result = ""
-//        for (i in itemLine.implicitModifiers){
-//            result += translations[i.text] ?: i.text
-//        }
-//        return result
-//    }
-//
-//    fun getProphecyText(): String{
-//        return translations[itemLine.prophecyText!!] ?: itemLine.prophecyText
-//    }
-//
-//    fun getFlavourText(): String{
-//        return translations[itemLine.flavourText] ?: itemLine.flavourText
-//    }
-//
-//    fun getBaseType(): String{
-//        return translations[itemLine.baseType!!] ?: itemLine.baseType
-//    }
 
     override fun getChaosValue():String{
         if (itemLine.chaosValue == null){
@@ -50,14 +25,35 @@ class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context) : ItemUiIn
     }
 
     override fun getPercentage(): String{
-        return roundDouble(itemLine.sparkline.totalChange)
+        return roundPercentages(itemLine.sparkline.totalChange)
     }
 
-    override fun roundDouble(value:Double):String{
-        if (value>=10000){
-            return ((value/1000).toInt().toString())+"k%"
-        }
-        return "$value%"
+    override fun getTier(): String {
+        return "tier "+itemLine.mapTier
+    }
+
+    override fun getGemLvl(): String {
+        return "lvl "+itemLine.gemLevel
+    }
+
+    override fun hasGemLvl(): Boolean {
+        return itemLine.gemLevel!=0
+    }
+
+    override fun hasTier(): Boolean {
+        return itemLine.mapTier!=0
+    }
+
+    override fun getQuality(): String {
+        return "+"+itemLine.gemQuality+"%"
+    }
+
+    override fun hasQuality(): Boolean {
+        return itemLine.gemQuality!=0
+    }
+
+    override fun anyApply(): Boolean {
+        return hasGemLvl() || hasQuality() || hasTier()
     }
 
     override fun getCorrupted():Boolean{

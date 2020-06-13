@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
+import com.resdev.poehelper.Util.roundPercentages
 import com.resdev.poehelper.model.room.ItemEntity
 import com.squareup.picasso.Picasso
 
@@ -23,16 +24,35 @@ class ItemEntityUiWrapper(val item: ItemEntity, val context: Context) : ItemUiIn
     }
 
     override fun getPercentage(): String {
-        return roundDouble(item.sparkline.totalChange)
+        return roundPercentages(item.sparkline.totalChange)
     }
 
-    override fun roundDouble(value: Double): String {
-        if (value>=10000){
-            return ((value/1000).toInt().toString())+"k%"
-        }
-        return "$value%"
+    override fun getQuality(): String {
+        return "+"+item.gemQuality.toString()+"%"
     }
 
+    override fun getTier(): String {
+        return "tier "+item.mapTier
+    }
+
+    override fun getGemLvl(): String {
+        return "lvl "+item.gemLevel
+    }
+
+    override fun hasGemLvl(): Boolean {
+        return item.gemLevel!=0
+    }
+
+    override fun hasTier(): Boolean {
+        return item.mapTier!=0
+    }
+
+    override fun hasQuality(): Boolean {
+        return item.gemQuality!=0
+    }
+    override fun anyApply(): Boolean {
+        return hasGemLvl() || hasQuality() || hasTier()
+    }
     override fun getCorrupted(): Boolean {
         return item.corrupted
     }
@@ -42,14 +62,16 @@ class ItemEntityUiWrapper(val item: ItemEntity, val context: Context) : ItemUiIn
     }
 
     override fun getUrl(): String {
-        if (item.icon==null) return ""
-        else if (item.icon!!.endsWith(".png")){
-            return item.icon!!
+        return when {
+            item.icon==null -> ""
+            item.icon!!.endsWith(".png") -> {
+                item.icon!!
+            }
+            item.variant!=null -> {
+                (item.icon+("&${item.variant?.toLowerCase()}=1"))
+            }
+            else -> item.icon!!
         }
-        else if (item.variant!=null){
-            return (item.icon+("&${item.variant?.toLowerCase()}=1"))
-        }
-        return item.icon!!
     }
 
     companion object{

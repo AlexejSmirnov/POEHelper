@@ -1,6 +1,10 @@
 package com.resdev.poehelper
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.Repository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object CurrentValue {
     lateinit var currencyDetail: CurrencyDetail

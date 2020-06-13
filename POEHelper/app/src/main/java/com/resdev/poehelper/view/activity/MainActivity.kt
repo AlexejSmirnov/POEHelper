@@ -53,6 +53,8 @@ private var isBookmarkOpened = false
 private var mSettings: SharedPreferences? = null
 private lateinit var bookmarkItem: MenuItem
 private lateinit var searchItem: MenuItem
+private var bookmarkIconClosed: Drawable? = null
+private var bookmarkIconOpened : Drawable? = null
 private var leagues = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         loadData()
@@ -66,6 +68,8 @@ private var leagues = ArrayList<String>()
             this, drawer_layout, toolbar,
             0, 0
         )
+        bookmarkIconClosed = getDrawable(R.drawable.ic_star_border_white_24dp)
+        bookmarkIconOpened = getDrawable(R.drawable.ic_star_white_24dp)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         openFragment(lastFragmentMenuId)
@@ -73,7 +77,7 @@ private var leagues = ArrayList<String>()
         navigation_view.setNavigationItemSelectedListener {
             toolbar.collapseActionView()
             isBookmarkOpened = false
-            bookmarkItem.icon =  getDrawable(R.drawable.ic_star_border_white_24dp)
+            bookmarkItem.icon = bookmarkIconClosed
             openFragment(it.itemId)
             return@setNavigationItemSelectedListener true
         }
@@ -149,7 +153,9 @@ private var leagues = ArrayList<String>()
                     Config.league = lv.getItemAtPosition(which).toString()
                     Repository.updateExchange()
                     title = Config.league
+                    if (::fragment.isInitialized){
                     fragment.notifyLeagueChanged()
+                    }
 
                 }
                 builder.show()
@@ -207,9 +213,9 @@ private var leagues = ArrayList<String>()
                 fragment = BookmarkFragment()
                 isBookmarkOpened = !isBookmarkOpened
                 if (isBookmarkOpened)
-                    bookmarkItem.icon = getDrawable(R.drawable.ic_star_white_24dp)
+                    bookmarkItem.icon = bookmarkIconOpened
                 else{
-                    bookmarkItem.icon = getDrawable(R.drawable.ic_star_border_white_24dp)
+                    bookmarkItem.icon = bookmarkIconClosed
                 }
                 openFragment(lastFragmentMenuId)
                 return true
@@ -244,55 +250,41 @@ private var leagues = ArrayList<String>()
 
     fun setTextColor(color: Int){
         var color = Integer.toHexString(color)
+        if (isColorLight(color))
+        {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
+            paintElements(resources.getColor(R.color.black))
+        }
+        else{
+            window.decorView.systemUiVisibility = 0
+            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
+            paintElements(resources.getColor(R.color.white))
+        }
+        if (isBookmarkOpened)
+            bookmarkItem.icon = bookmarkIconOpened
+        else{
+            bookmarkItem.icon = bookmarkIconClosed
+        }
+    }
+
+
+    private fun paintElements(color: Int){
         var editText = searchItem.actionView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         val mCollapseIcon: Field = toolbar.javaClass.getDeclaredField("mCollapseIcon")
         mCollapseIcon.isAccessible = true
         val drw: Drawable = mCollapseIcon.get(toolbar) as Drawable
         val searchIcon = getDrawable(R.drawable.ic_search_white_24dp)
-        val bookmarkIcon1 = getDrawable(R.drawable.ic_star_border_white_24dp)
-        val bookmarkIcon2 = getDrawable(R.drawable.ic_star_white_24dp)
-        if (isColorLight(color))
-        {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
-            toolbar.overflowIcon?.setTint(resources.getColor(R.color.black))
-            (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(resources.getColor(R.color.black))
-            toolbar.setTitleTextColor(resources.getColor(R.color.black))
-            drw.setTint(resources.getColor(R.color.black))
-            editText.setTextColor(resources.getColor(R.color.black))
-            editText.setHintTextColor(resources.getColor(R.color.black))
-            searchIcon?.setTint(resources.getColor(R.color.black))
-            bookmarkIcon1?.setTint(resources.getColor(R.color.black))
-            bookmarkIcon2?.setTint(resources.getColor(R.color.black))
-            searchItem.icon = searchIcon
-            if (isBookmarkOpened)
-                bookmarkItem.icon = bookmarkIcon2
-            else{
-                bookmarkItem.icon = bookmarkIcon1
-            }
-
-        }
-        else{
-            window.decorView.systemUiVisibility = 0
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
-            toolbar.overflowIcon?.setTint(resources.getColor(R.color.white))
-            (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(resources.getColor(R.color.white))
-            drw.setTint(resources.getColor(R.color.white))
-            toolbar.setTitleTextColor(resources.getColor(R.color.white))
-            editText.setTextColor(resources.getColor(R.color.white))
-            editText.setHintTextColor(resources.getColor(R.color.white))
-            searchIcon?.setTint(resources.getColor(R.color.white))
-            bookmarkIcon1?.setTint(resources.getColor(R.color.white))
-            bookmarkIcon2?.setTint(resources.getColor(R.color.white))
-            searchItem.icon = searchIcon
-            if (isBookmarkOpened)
-                bookmarkItem.icon = bookmarkIcon2
-            else{
-                bookmarkItem.icon = bookmarkIcon1
-            }
-        }
-
-
+        toolbar.overflowIcon?.setTint(color)
+        (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(color)
+        drw.setTint(color)
+        toolbar.setTitleTextColor(color)
+        editText.setTextColor(color)
+        editText.setHintTextColor(color)
+        searchIcon?.setTint(color)
+        bookmarkIconClosed?.setTint(color)
+        bookmarkIconOpened?.setTint(color)
+        searchItem.icon = searchIcon
     }
 
     fun saveData(){

@@ -11,7 +11,14 @@ interface ItemUiInterface {
 
     fun getPercentage(): String
 
-    fun roundDouble(value:Double):String
+    fun getQuality():String
+
+    fun getTier():String
+    fun getGemLvl():String
+    fun hasGemLvl():Boolean
+    fun hasTier():Boolean
+    fun hasQuality(): Boolean
+    fun anyApply():Boolean
 
     fun getCorrupted():Boolean
 

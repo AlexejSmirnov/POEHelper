@@ -10,8 +10,12 @@ class ConfigTest{
 
     @Test
     fun isWhiteDark(){
-        print((-0x16e19d).toString())
         assert(Util.isColorLight("FFFFFFFF"))
+    }
+
+    @Test
+    fun getCal(){
+        print(Util.getDaysSet())
     }
 
 
