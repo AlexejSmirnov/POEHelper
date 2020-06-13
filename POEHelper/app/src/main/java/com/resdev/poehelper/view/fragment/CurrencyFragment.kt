@@ -17,7 +17,8 @@ import com.resdev.poehelper.Config
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.view.adapter.CurrenciesAdapter
-import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyLeftCallback
+import com.resdev.poehelper.view.adapter.MyItemDecoration
+import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyCallback
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
 import kotlinx.android.synthetic.main.default_fragment.*
@@ -80,13 +81,10 @@ class CurrencyFragment : Fragment(), MainFragment {
 
     fun setUpRecyclerView(){
         recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                DividerItemDecoration.VERTICAL
-            )
+            MyItemDecoration(15)
         )
         recyclerView.setHasFixedSize(false)
-        ItemTouchHelper(SwipeCurrencyLeftCallback()).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(SwipeCurrencyCallback()).attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         paintRecycler()
     }

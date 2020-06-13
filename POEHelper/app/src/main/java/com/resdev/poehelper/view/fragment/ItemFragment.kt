@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.Config
 import com.resdev.poehelper.R
 import com.resdev.poehelper.view.adapter.ItemsAdapter
-import com.resdev.poehelper.view.adapter.callbacks.SwipeItemLeftCallback
+import com.resdev.poehelper.view.adapter.MyItemDecoration
+import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
 import com.resdev.poehelper.viewmodel.ItemViewModel
 import com.resdev.poehelper.viewmodel.ItemViewModelFactory
 import kotlinx.android.synthetic.main.default_fragment.*
@@ -72,12 +73,9 @@ class ItemFragment : Fragment(), MainFragment {
 
     fun setUpRecyclerView(){
         recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                DividerItemDecoration.VERTICAL
-            )
+            MyItemDecoration(15)
         )
-        ItemTouchHelper(SwipeItemLeftCallback()).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(SwipeItemCallback()).attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         paintRecycler()
     }

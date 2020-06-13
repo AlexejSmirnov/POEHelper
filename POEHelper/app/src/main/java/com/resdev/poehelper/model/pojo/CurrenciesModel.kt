@@ -60,7 +60,9 @@ data class CurrencyLine(
     @SerializedName("paySparkLine")
     val paySparkLine: PaySparkLine?,
     @SerializedName("receiveSparkLine")
-    val receiveSparkLine: ReceiveSparkLine?
+    val receiveSparkLine: ReceiveSparkLine?,
+    @SerializedName("detailsId")
+    val detailsId: String
 ){
     lateinit var model: CurrenciesModel
 

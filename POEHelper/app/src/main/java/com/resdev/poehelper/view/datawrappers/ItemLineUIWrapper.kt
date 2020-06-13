@@ -5,69 +5,65 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
+import com.resdev.poehelper.Util.roundPercentages
 import com.resdev.poehelper.model.pojo.ItemLine
 import com.squareup.picasso.Picasso
 
-class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context){
+class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context) : ItemUiInterface{
     private val translations = itemLine.itemsModel.language.translations
 
-    fun getName(): String{
+    override fun getName(): String{
         return translations[itemLine.name] ?: itemLine.name
     }
-    fun getFormattedExplicitModifiers(): String{
-        var result = ""
-        for (i in itemLine.explicitModifiers){
-            result += translations[i.text] ?: i.text
-        }
-        return result
-    }
-    fun getFormattedImplicitModifier(): String{
-        var result = ""
-        for (i in itemLine.implicitModifiers){
-            result += translations[i.text] ?: i.text
-        }
-        return result
-    }
 
-    fun getProphecyText(): String{
-        return translations[itemLine.prophecyText!!] ?: itemLine.prophecyText
-    }
-
-    fun getFlavourText(): String{
-        return translations[itemLine.flavourText] ?: itemLine.flavourText
-    }
-
-    fun getBaseType(): String{
-        return translations[itemLine.baseType!!] ?: itemLine.baseType
-    }
-
-    fun getChaosValue():String{
+    override fun getChaosValue():String{
         if (itemLine.chaosValue == null){
             return context.resources.getString(R.string.no_data)
         }
         return "1.0 "+context.resources.getString( R.string.string_for) +
-                " %.2f".format(itemLine.chaosValue/ CurrentValue.line.chaosEquivalent!!)
+                " %.2f".format(itemLine.chaosValue/(CurrentValue.line.chaosEquivalent?:1.0))
     }
 
-    fun getPercentage(): String{
-        return roundDouble(itemLine.sparkline.totalChange)
+    override fun getPercentage(): String{
+        return roundPercentages(itemLine.sparkline.totalChange)
     }
 
-    fun roundDouble(value:Double):String{
-        if (value>=10000){
-            return ((value/1000).toInt().toString())+"k%"
-        }
-        return "$value%"
+    override fun getTier(): String {
+        return "tier "+itemLine.mapTier
     }
 
-    fun getCorrupted():Boolean{
+    override fun getGemLvl(): String {
+        return "lvl "+itemLine.gemLevel
+    }
+
+    override fun hasGemLvl(): Boolean {
+        return itemLine.gemLevel!=0
+    }
+
+    override fun hasTier(): Boolean {
+        return itemLine.mapTier!=0
+    }
+
+    override fun getQuality(): String {
+        return "+"+itemLine.gemQuality+"%"
+    }
+
+    override fun hasQuality(): Boolean {
+        return itemLine.gemQuality!=0
+    }
+
+    override fun anyApply(): Boolean {
+        return hasGemLvl() || hasQuality() || hasTier()
+    }
+
+    override fun getCorrupted():Boolean{
         return itemLine.corrupted
     }
 
-    fun getPercentageColor(): Int{
+    override fun getPercentageColor(): Int{
         return if ((itemLine.sparkline.totalChange ?: 0.0)>=0.0) context.getColor(R.color.green) else context.getColor(R.color.red)
     }
-    fun getUrl():String{
+    override fun getUrl():String{
         if (itemLine.icon==null) return ""
         else if (itemLine.icon.endsWith(".png")){
             return itemLine.icon
@@ -79,11 +75,6 @@ class ItemLineUIWrapper(val itemLine: ItemLine, val context: Context){
 
 
     }
-
-//    fun getItemModeLvL():String{
-//        if (itemLine.itemClass==4)
-//    }
-
 
     companion object{
         @JvmStatic

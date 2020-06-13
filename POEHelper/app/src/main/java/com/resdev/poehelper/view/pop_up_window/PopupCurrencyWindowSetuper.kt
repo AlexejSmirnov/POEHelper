@@ -4,14 +4,13 @@ import android.content.res.Resources
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.LineData
 import com.resdev.poehelper.CurrentValue
-import com.resdev.poehelper.model.pojo.CurrencyDetail
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.R
 import com.resdev.poehelper.Util
-import com.resdev.poehelper.Util.getLineGraphSeries
-import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.GridLabelRenderer
+import com.resdev.poehelper.Util.setupGraph
 import com.squareup.picasso.Picasso
 
 object PopupCurrencyWindowSetuper {
@@ -42,23 +41,32 @@ object PopupCurrencyWindowSetuper {
         Picasso.get().load(CurrentValue.currencyDetail?.icon).into(view.findViewById<ImageView>(R.id.exchanging_currency_image_1))
         Picasso.get().load(CurrentValue.currencyDetail?.icon).into(view.findViewById<ImageView>(R.id.exchanging_currency_image_2))
 
-        val buyingGraph = view.findViewById<GraphView>(R.id.buying_graph)
-        var buySeries = getLineGraphSeries(currencyLine.receiveSparkLine!!.data)
-        Util.seriesConfig(buySeries, view)
-        buyingGraph.addSeries(buySeries)
-        buyingGraph.gridLabelRenderer.isVerticalLabelsVisible = false
-        buyingGraph.gridLabelRenderer.isHorizontalLabelsVisible = false
-        buyingGraph.gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.NONE
 
 
-        val sellingGraph = view.findViewById<GraphView>(R.id.selling_graph)
-        var sellSeries = getLineGraphSeries(currencyLine.paySparkLine!!.data)
-        Util.seriesConfig(sellSeries, view)
-        sellingGraph.addSeries(sellSeries)
-        sellingGraph.gridLabelRenderer.isVerticalLabelsVisible = false
-        sellingGraph.gridLabelRenderer.isHorizontalLabelsVisible = false
-        sellingGraph.gridLabelRenderer.gridStyle = GridLabelRenderer.GridStyle.NONE
+        val buyingGraph = view.findViewById<LineChart>(R.id.buying_graph)
+        setupGraph(buyingGraph)
+        var receiveValue =  (currencyLine.receive?.value ?: 1.0)/CurrentValue.line.chaosEquivalent!!
+        buyingGraph.data = LineData(Util.getGraphDataset(currencyLine.receiveSparkLine!!.data,
+            if (receiveValue>=1.0) {
+                receiveValue
+            }
+            else {
+                (1.0/receiveValue)
+            },
+            true, view.context))
 
+
+        val sellingGraph  =view.findViewById<LineChart>(R.id.selling_graph)
+        setupGraph(sellingGraph)
+        var payValue = (currencyLine.pay?.value ?: 1.0)*CurrentValue.line.chaosEquivalent!!
+        sellingGraph.data = LineData(
+            Util.getGraphDataset(currencyLine.paySparkLine!!.data, if (payValue >=1.0) {
+                    payValue
+                }
+                else {
+                    (1.0/payValue)
+                },  false, view.context)
+        )
         view.findViewById<TextView>(R.id.currency_buy_title).text =
             buyFormatValue(
                 currencyLine.receive?.value,

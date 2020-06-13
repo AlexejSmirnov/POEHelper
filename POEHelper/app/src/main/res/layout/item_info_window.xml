@@ -1,144 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00FFFFFF">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_info_background"
-        android:orientation="vertical"
+    <com.github.mikephil.charting.charts.LineChart
+
+        android:id="@+id/buying_item_graph"
+        android:layout_width="305dp"
+        android:layout_height="320dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/graphs_background"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/item_graph_cuurency_image"
+        tools:ignore="MissingConstraints" />
 
+    <ImageView
+        android:id="@+id/item_graph_item_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/buying_item_graph"
+        app:layout_constraintEnd_toStartOf="@+id/item_graph_exchange_rate"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/unique_title_background"
-            android:fontFamily="@font/fontin"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingTop="7dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
-            android:textAlignment="center"
-            android:textColor="#A4591A"
-            android:textSize="24sp" />
+    <ImageView
+        android:id="@+id/item_graph_cuurency_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/item_prefix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/fontin"
-            android:paddingStart="3dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="3dp"
-            android:paddingBottom="3dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/property_color"
-            android:textSize="12sp"
-            android:visibility="gone" />
+    <TextView
+        android:id="@+id/item_graph_exchange_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/item_graph_cuurency_image"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/separate_string_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#00FFFFFF"
-            android:visibility="gone" />
+    <TextView
+        android:id="@+id/item_graph_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/item_suffix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FDFDFD"
-            android:fontFamily="@font/fontin"
-            android:paddingStart="3dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="3dp"
-            android:paddingBottom="3dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/property_color"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/separate_string_2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#00FFFFFF"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/item_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/fontin"
-            android:paddingStart="3dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="3dp"
-            android:paddingBottom="3dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/unique_item"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/separate_string_3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#00FFFFFF"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/item_prophecy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/fontin"
-            android:paddingStart="3dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="3dp"
-            android:paddingBottom="3dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/separate_string_4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#00FFFFFF"
-            android:visibility="gone" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:paddingStart="3dp"
-            android:paddingTop="3dp">
-
-            <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="86dp"
-                android:layout_height="86dp"
-                android:background="#00FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

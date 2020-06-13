@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.Config
 import com.resdev.poehelper.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.Util
@@ -21,6 +22,10 @@ import com.resdev.poehelper.view.pop_up_window.showCurrencyWindow
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_holder.view.currency_name
 import kotlinx.android.synthetic.main.item_view_holder.view.currency_view
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class CurrenciesAdapter :
@@ -64,14 +69,24 @@ class CurrenciesAdapter :
         lateinit var line : CurrencyDetail
         var binding: CurrencyViewHolderBinding = binding
         init {
-
-            itemView.currency_name.text = Util.getFromMap(CurrentValue.currencyDetail.name, CurrentValue.data.language.translations)
-            Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
+            setViewDefaults()
         }
         fun bind(currencyLine: CurrencyLine) {
             line  = currencyLine.model.getDetails(currencyLine.currencyTypeName)!!
             binding.currency = CurrencyLineUiWrapper(currencyLine, binding.root.context)
             binding.executePendingBindings()
+        }
+        fun setViewDefaults(){
+            GlobalScope.launch {
+                while (!CurrentValue.isInitialized()){
+
+                }
+                withContext(Dispatchers.Main){
+
+                    itemView.currency_name.text = Util.getFromMap(CurrentValue.currencyDetail.name, CurrentValue.data.language.translations)
+                    Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
+                }
+            }
         }
 
     }

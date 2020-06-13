@@ -9,12 +9,23 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import com.resdev.poehelper.Config
+import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.R
 import com.resdev.poehelper.Util
+import com.resdev.poehelper.Util.isColorLight
+import com.resdev.poehelper.model.poemarket.RequestBuilder
+import com.resdev.poehelper.model.retrofit.PoeMarket
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 
-class SwipeCurrencyLeftCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -72,32 +83,51 @@ class SwipeCurrencyLeftCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchH
         if (actionState == ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                paint.setColor(Config.color)
+                if (!isColorLight(Integer.toHexString(Config.color))){
+                    paint.color = Config.color
+                }
+                else{
+                    paint.color = Color.BLACK
+                }
+
             }
             else{
                 paint.setColor(Color.GRAY)
             }
 
-            paint.setTextSize(40F)
-            paint.setTextAlign(Paint.Align.CENTER)
-            var text = "Check on\nCheck on"
+            paint.textSize = 40F
+            paint.textAlign = Paint.Align.CENTER
             setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             var height = itemView.getTop() + itemView.getHeight() / 2
-            c.drawText("Check on", (itemView.getRight() - 200).toFloat(), (height-20).toFloat(), paint)
-            c.drawText("poe.trade", (itemView.getRight() - 200).toFloat(), (height+20).toFloat(), paint)
+            c.drawText("Check on", (itemView.getRight() - 150).toFloat(), (height-20).toFloat(), paint)
+            c.drawText("pathofexile", (itemView.getRight() - 150).toFloat(), (height+20).toFloat(), paint)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
     private fun willActionBeTriggered(dX: Float, viewWidth: Int): Boolean {
-        return Math.abs(dX) >= viewWidth / 3.5
+        return abs(dX) >= viewWidth / 3.5
     }
 
     fun makeAction(viewHolder: RecyclerView.ViewHolder){
         val i = Intent(Intent.ACTION_VIEW)
-        var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
-        i.data = Uri.parse(Util.generateCurrencyTradeUrl(holder.line))
-        holder.itemView.context.startActivity(i)
+        GlobalScope.launch {
+            var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
+            var link = PoeMarket.sendCurrencyRequest(
+                Config.league,
+                holder.line.tradeId?:"", CurrentValue.currencyDetail.tradeId?:"")
+            if (link==null){
+                withContext(Dispatchers.Main){
+                    Util.showInternetConnectionError(viewHolder.itemView)
+                }
+                return@launch
+            }
+            i.data = Uri.parse(Util.generatePoeMarketExchangeUrl()+"/${link?.id}")
+            withContext(Dispatchers.Main){
+                holder.itemView.context.startActivity(i)
+            }
+
+        }
     }
 
 

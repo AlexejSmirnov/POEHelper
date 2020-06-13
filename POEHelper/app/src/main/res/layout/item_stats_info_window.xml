@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_info_background"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/unique_title_background"
+            android:fontFamily="@font/fontin"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingTop="7dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="center"
+            android:textColor="#A4591A"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/item_prefix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:fontFamily="@font/fontin"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/property_color"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/separate_string_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#00FFFFFF"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/item_suffix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FDFDFD"
+            android:fontFamily="@font/fontin"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/property_color"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/separate_string_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#00FFFFFF"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:fontFamily="@font/fontin"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/unique_item"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/separate_string_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#00FFFFFF"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/item_prophecy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:fontFamily="@font/fontin"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/separate_string_4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#00FFFFFF"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp">
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>
