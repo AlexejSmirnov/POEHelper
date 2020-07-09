@@ -2,8 +2,8 @@ package com.resdev.poehelper.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.resdev.poehelper.Config
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.Converter
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel

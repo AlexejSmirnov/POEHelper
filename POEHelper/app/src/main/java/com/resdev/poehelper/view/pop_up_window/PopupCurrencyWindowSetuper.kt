@@ -6,11 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
-import com.resdev.poehelper.Util.setupGraph
+import com.resdev.poehelper.utils.ChartsUtil.getGraphDataset
+import com.resdev.poehelper.utils.ChartsUtil.setupGraph
+import com.resdev.poehelper.utils.Util
 import com.squareup.picasso.Picasso
 
 object PopupCurrencyWindowSetuper {
@@ -45,8 +46,9 @@ object PopupCurrencyWindowSetuper {
 
         val buyingGraph = view.findViewById<LineChart>(R.id.buying_graph)
         setupGraph(buyingGraph)
-        var receiveValue =  (currencyLine.receive?.value ?: 1.0)/CurrentValue.line.chaosEquivalent!!
-        buyingGraph.data = LineData(Util.getGraphDataset(currencyLine.receiveSparkLine!!.data,
+        var receiveValue =  (currencyLine.receive?.value ?: 1.0)/ CurrentValue.line.chaosEquivalent!!
+        buyingGraph.data = LineData(
+            getGraphDataset(currencyLine.receiveSparkLine!!.data,
             if (receiveValue>=1.0) {
                 receiveValue
             }
@@ -58,9 +60,9 @@ object PopupCurrencyWindowSetuper {
 
         val sellingGraph  =view.findViewById<LineChart>(R.id.selling_graph)
         setupGraph(sellingGraph)
-        var payValue = (currencyLine.pay?.value ?: 1.0)*CurrentValue.line.chaosEquivalent!!
+        var payValue = (currencyLine.pay?.value ?: 1.0)* CurrentValue.line.chaosEquivalent!!
         sellingGraph.data = LineData(
-            Util.getGraphDataset(currencyLine.paySparkLine!!.data, if (payValue >=1.0) {
+            getGraphDataset(currencyLine.paySparkLine!!.data, if (payValue >=1.0) {
                     payValue
                 }
                 else {
@@ -87,7 +89,7 @@ object PopupCurrencyWindowSetuper {
                 resources.getString(R.string.no_data)
             }
             else -> {
-                val actualValue = value/CurrentValue.line.chaosEquivalent!!
+                val actualValue = value/ CurrentValue.line.chaosEquivalent!!
                 if (actualValue>=1){
                     return "1.0 ${resources.getString(R.string.string_for)} " + "%.1f".format(actualValue)
                 }
@@ -104,7 +106,7 @@ object PopupCurrencyWindowSetuper {
                 resources.getString(R.string.no_data)
             }
             else -> {
-                val actualValue = value*CurrentValue.line.chaosEquivalent!!
+                val actualValue = value* CurrentValue.line.chaosEquivalent!!
                 if (actualValue>=1){
                     return "%.1f".format(actualValue)+" ${resources.getString(R.string.string_for)} 1.0"
                 }

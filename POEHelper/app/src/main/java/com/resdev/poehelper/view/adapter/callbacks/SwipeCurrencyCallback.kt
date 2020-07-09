@@ -1,23 +1,19 @@
 package com.resdev.poehelper.view.adapter.callbacks
 
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.net.Uri
 import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.view.adapter.CurrenciesAdapter
-import com.resdev.poehelper.Config
-import com.resdev.poehelper.CurrentValue
-import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
-import com.resdev.poehelper.Util.isColorLight
-import com.resdev.poehelper.model.poemarket.RequestBuilder
+import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.model.CurrentValue
+import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.model.retrofit.PoeMarket
+import com.resdev.poehelper.utils.ColorsUtil.isColorLight
+import com.resdev.poehelper.utils.URLUtils.generatePoeMarketExchangeUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -110,7 +106,6 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
     }
 
     fun makeAction(viewHolder: RecyclerView.ViewHolder){
-        val i = Intent(Intent.ACTION_VIEW)
         GlobalScope.launch {
             var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
             var link = PoeMarket.sendCurrencyRequest(
@@ -122,9 +117,8 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
                 }
                 return@launch
             }
-            i.data = Uri.parse(Util.generatePoeMarketExchangeUrl()+"/${link?.id}")
             withContext(Dispatchers.Main){
-                holder.itemView.context.startActivity(i)
+                Util.openBrowserWindowByUrl(viewHolder.itemView.context, generatePoeMarketExchangeUrl()+"/${link?.id}")
             }
 
         }

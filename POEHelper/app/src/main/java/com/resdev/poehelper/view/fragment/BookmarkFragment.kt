@@ -9,16 +9,14 @@ import android.widget.EdgeEffect
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.Config
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.R
 import com.resdev.poehelper.view.adapter.BookmarkAdapter
 import com.resdev.poehelper.view.adapter.MyItemDecoration
 import com.resdev.poehelper.view.adapter.callbacks.SwipeBookmarkCallback
-import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.BookmarksViewModel
 import kotlinx.android.synthetic.main.default_fragment.*

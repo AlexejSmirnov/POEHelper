@@ -1,8 +1,5 @@
 package com.resdev.poehelper.view.datawrappers
 
-import com.resdev.poehelper.CurrentValue
-import com.resdev.poehelper.R
-
 interface ItemUiInterface {
 
     fun getName(): String

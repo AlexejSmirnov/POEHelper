@@ -9,9 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
+import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.databinding.ItemViewHolderBinding
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.view.datawrappers.ItemEntityUiWrapper

@@ -1,23 +1,18 @@
 package com.resdev.poehelper.view.pop_up_window
 
-import android.content.res.Resources
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
-import com.resdev.poehelper.CurrentValue
-import com.resdev.poehelper.model.pojo.CurrencyLine
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
-import com.resdev.poehelper.Util.roundPercentages
-import com.resdev.poehelper.Util.setupGraph
-import com.resdev.poehelper.model.pojo.ItemLine
-import com.resdev.poehelper.model.pojo.Sparkline
+import com.resdev.poehelper.utils.Util
+import com.resdev.poehelper.utils.Util.roundPercentages
 import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.utils.ChartsUtil.getGraphDataset
+import com.resdev.poehelper.utils.ChartsUtil.setupGraph
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_info_window.view.*
-import kotlinx.android.synthetic.main.item_view_holder.view.*
 
 object PopupItemWindowSetuper {
 
@@ -39,8 +34,9 @@ object PopupItemWindowSetuper {
         }
         val buyingGraph = view.findViewById<LineChart>(R.id.buying_item_graph)
         setupGraph(buyingGraph)
-        var receiveValue =  (itemEntity.chaosValue?: 1.0)/CurrentValue.line.chaosEquivalent!!
-        buyingGraph.data = LineData(Util.getGraphDataset(itemEntity.sparkline.getData(),
+        var receiveValue =  (itemEntity.chaosValue?: 1.0)/ CurrentValue.line.chaosEquivalent!!
+        buyingGraph.data = LineData(
+            getGraphDataset(itemEntity.sparkline.getData(),
             receiveValue,
             true, view.context))
 

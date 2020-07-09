@@ -3,7 +3,7 @@ package com.resdev.poehelper.view.datawrappers
 import android.content.Context
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.squareup.picasso.Picasso

@@ -18,7 +18,8 @@ class LeaguesModel : ArrayList<LeaguesModel.LeaguesModelItem>(){
 
             }
         }
-        if (newLeague=="") return arrayOf()
+        if(this.isEmpty()){return arrayOf()}
+        if (newLeague=="") return arrayOf("Standard" , "Hardcore")
         return arrayOf(newLeague, "Hardcore $newLeague",  "Standard" , "Hardcore")
 
     }

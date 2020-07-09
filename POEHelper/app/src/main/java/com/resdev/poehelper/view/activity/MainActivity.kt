@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,13 +22,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import com.resdev.poehelper.Config
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util.isColorLight
-import com.resdev.poehelper.Util.showInternetConnectionError
+import com.resdev.poehelper.utils.Util.showInternetConnectionError
 import com.resdev.poehelper.model.retrofit.PoeMarket.rebuildRetrofit
 import com.resdev.poehelper.repository.Repository
+import com.resdev.poehelper.utils.ColorsUtil.getDarkenColor
+import com.resdev.poehelper.utils.ColorsUtil.isColorLight
 import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
@@ -233,20 +233,15 @@ private var leagues = ArrayList<String>()
     fun paintInterface(color : Int){
         toolbar.setBackgroundColor(color)
         setTextColor(color)
-        this.window.statusBarColor = darkenColor(color)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = getDarkenColor(color)
         if ((Build.VERSION.SDK).toInt()>=26){
-            this.window.colorMode = color
+            window.colorMode = color
         }
 
     }
 
-    @ColorInt
-    fun darkenColor(@ColorInt color: Int): Int {
-        return Color.HSVToColor(FloatArray(3).apply {
-            Color.colorToHSV(color, this)
-            this[2] *= 0.9f
-        })
-    }
+
 
     fun setTextColor(color: Int){
         var color = Integer.toHexString(color)
@@ -341,7 +336,6 @@ private var leagues = ArrayList<String>()
         GlobalScope.launch {
             while (!CurrentValue.isInitialized()){ }
             withContext(Dispatchers.Main){
-
                 fragment = ItemFragment()
                 var bundle = Bundle()
                 when (navigationItemId){

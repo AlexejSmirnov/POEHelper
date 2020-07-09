@@ -1,6 +1,6 @@
 package com.resdev.poehelper.model.retrofit
 
-import com.resdev.poehelper.Config
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
 import retrofit2.Retrofit

@@ -9,10 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.Config
-import com.resdev.poehelper.CurrentValue
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
+import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.databinding.CurrencyViewHolderBinding
 import com.resdev.poehelper.model.pojo.CurrencyDetail
 import com.resdev.poehelper.model.pojo.CurrencyLine
@@ -91,7 +90,7 @@ class CurrenciesAdapter :
 
     }
     fun onClickShowPopupWindow(currencyLine: CurrencyLine, view: View?) {
-        if (currencyLine.currencyTypeName==CurrentValue.line.currencyTypeName){
+        if (currencyLine.currencyTypeName== CurrentValue.line.currencyTypeName){
             return
         }
         val popupView: View = LayoutInflater.from(view!!.context).inflate(R.layout.currency_info_window, null)

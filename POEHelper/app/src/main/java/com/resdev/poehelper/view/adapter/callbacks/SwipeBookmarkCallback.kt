@@ -1,23 +1,19 @@
 package com.resdev.poehelper.view.adapter.callbacks
 
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.net.Uri
 import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.resdev.poehelper.Config
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.R
-import com.resdev.poehelper.Util
-import com.resdev.poehelper.Util.isColorLight
-import com.resdev.poehelper.model.poemarket.RequestBuilder
+import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.model.retrofit.PoeMarket
-import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.repository.Repository
-import com.resdev.poehelper.view.MyApplication
+import com.resdev.poehelper.utils.ColorsUtil.isColorLight
+import com.resdev.poehelper.utils.URLUtils.generatePoeMarketTradeUrl
 import com.resdev.poehelper.view.adapter.BookmarkAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -122,7 +118,6 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
     }
 
     private fun makeOpenAction(viewHolder: RecyclerView.ViewHolder){
-        val i = Intent(Intent.ACTION_VIEW)
         GlobalScope.launch {
             var holder= viewHolder as BookmarkAdapter.BookmarkItemViewHolder
             var link = PoeMarket.sendItemRequest(
@@ -134,16 +129,14 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
                 }
                 return@launch
             }
-            i.data = Uri.parse(Util.generatePoeMarketTradeUrl()+"/${link?.id}")
             withContext(Dispatchers.Main){
-                holder.itemView.context.startActivity(i)
+                Util.openBrowserWindowByUrl(viewHolder.itemView.context, generatePoeMarketTradeUrl()+"/${link?.id}")
             }
 
         }
     }
 
     private fun makeRemoveAction(viewHolder: RecyclerView.ViewHolder){
-        var db = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
         var holder= viewHolder as BookmarkAdapter.BookmarkItemViewHolder
         Repository.removeEntity(holder.item)
         var itemName = holder.item.translatedName ?: holder.item.name

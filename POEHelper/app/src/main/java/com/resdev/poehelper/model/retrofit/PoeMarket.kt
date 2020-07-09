@@ -1,6 +1,6 @@
 package com.resdev.poehelper.model.retrofit
 
-import com.resdev.poehelper.Config
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.poemarket.PoeMarketResponse
 import com.resdev.poehelper.model.poemarket.RequestBuilder
 import com.resdev.poehelper.model.room.ItemEntity

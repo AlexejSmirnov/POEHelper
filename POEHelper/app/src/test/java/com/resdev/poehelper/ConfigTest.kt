@@ -1,5 +1,6 @@
 package com.resdev.poehelper
 
+import com.resdev.poehelper.utils.Util
 import org.junit.Test
 
 class ConfigTest{

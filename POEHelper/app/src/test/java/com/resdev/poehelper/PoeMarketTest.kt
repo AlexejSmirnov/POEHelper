@@ -1,10 +1,11 @@
 package com.resdev.poehelper
 
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.Converter
-import com.resdev.poehelper.model.poemarket.RequestBuilder
 import com.resdev.poehelper.model.retrofit.PoeMarket
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
 import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.utils.Util
 import org.junit.Test
 
 class PoeMarketTest{
