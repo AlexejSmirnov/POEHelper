@@ -351,6 +351,7 @@ private var leagues = ArrayList<String>()
                     }
                     R.id.nav_delirium_orb ->bundle.putString("Value","DeliriumOrb")
                     R.id.nav_watchstone ->bundle.putString("Value","Watchstone")
+                    R.id.nav_seed ->bundle.putString("Value","Seed")
                     R.id.nav_oil ->bundle.putString("Value","Oil")
                     R.id.nav_incubator ->bundle.putString("Value","Incubator")
                     R.id.nav_scarab ->bundle.putString("Value","Scarab")

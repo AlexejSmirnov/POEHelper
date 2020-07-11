@@ -16,6 +16,10 @@
 <item android:title="Items">
     <menu>
         <item
+            android:id="@+id/nav_seed"
+            android:icon="@drawable/seed_icon"
+            android:title="@string/menu_seed" />
+        <item
             android:id="@+id/nav_delirium_orb"
             android:icon="@drawable/delirium_orb_icon"
             android:title="@string/menu_delirium_orb" />
@@ -23,6 +27,7 @@
             android:id="@+id/nav_watchstone"
             android:icon="@drawable/watchstone_icon"
             android:title="@string/menu_watchstone" />
+
         <item
             android:id="@+id/nav_oil"
             android:icon="@drawable/oil_icon"

@@ -16,12 +16,11 @@ object RequestBuilder {
                                          mapTier:Int? = null,
                                          levelRequired:Int? = null,
                                          variant:String? = null) : PoeMarketItemRequest{
-
         return PoeMarketItemRequest(query = Query(
             type = name, filters = Filters(
                 mapFilters = MapFilters(FiltersX(MapTier( 0))),
                 socketFilters = SocketFilters(FiltersXXXX(Links(links?:0 ))),
-                reqFilters = ReqFilters(FiltersXXX(Lvl(levelRequired ?: 0))),
+                reqFilters = ReqFilters(FiltersXXX(Lvl( 0))),
                 miscFilters = MiscFilters(
                     FiltersXX(
                     corrupted = Corrupted(corrupted.toString()),

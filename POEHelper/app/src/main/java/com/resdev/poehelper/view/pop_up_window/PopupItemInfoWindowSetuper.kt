@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_stats_info_window.view.*
 object PopupItemInfoWindowSetuper {
     fun chooseWindow(item: ItemEntity, popupView: View):Boolean{
         when(item.itemType){
-            "DeliriumOrb", "Incubator", "Scarab", "Fossil", "Resonator", "Vial" -> {
+            "DeliriumOrb", "Incubator", "Scarab", "Fossil", "Resonator", "Vial", "Seed" -> {
                 setupNormalItem(
                     item,
                     popupView
