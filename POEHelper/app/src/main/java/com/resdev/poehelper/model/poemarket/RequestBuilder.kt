@@ -2,6 +2,7 @@ package com.resdev.poehelper.model.poemarket
 
 import com.resdev.poehelper.model.room.ItemEntity
 
+//This class has methods for generating requests for links to go to the official site
 object RequestBuilder {
     fun generateItemLink(item:ItemEntity):PoeMarketItemRequest{
         return generateItemLinkByParams(

@@ -1,7 +1,7 @@
 package com.resdev.poehelper.model.pojo
 import com.google.gson.annotations.SerializedName
 
-
+//this pojo contains data about all currencies of a certain type
 data class CurrenciesModel(
     @SerializedName("currencyDetails")
     var currencyDetails: List<CurrencyDetail>,

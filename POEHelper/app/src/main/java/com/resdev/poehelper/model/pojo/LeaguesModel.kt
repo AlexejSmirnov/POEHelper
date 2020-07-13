@@ -3,13 +3,14 @@ package com.resdev.poehelper.model.pojo
 
 import com.google.gson.annotations.SerializedName
 
+//this class contains all leagues.
 class LeaguesModel : ArrayList<LeaguesModel.LeaguesModelItem>(){
 
     data class LeaguesModelItem(
         @SerializedName("id")
         val id: String
     )
-
+    //method filter all solo leagues and left only default and last leagues
     fun getEditedLeagues():Array<String>{
         var newLeague = ""
         for (item in this){

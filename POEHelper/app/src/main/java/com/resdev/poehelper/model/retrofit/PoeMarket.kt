@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
+//PoeMarketApi retrofit
 object PoeMarket {
     private lateinit var retrofit : Retrofit
 
@@ -23,9 +24,6 @@ object PoeMarket {
         } catch (e: Exception){
             null
         }
-
-
-
     }
 
     fun sendCurrencyRequest(leagueName: String, want: String, have: String): PoeMarketResponse? {

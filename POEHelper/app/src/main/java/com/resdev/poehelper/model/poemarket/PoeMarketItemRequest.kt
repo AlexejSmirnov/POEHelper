@@ -1,7 +1,7 @@
 package com.resdev.poehelper.model.poemarket
 import com.google.gson.annotations.SerializedName
 
-
+//the class is responsible for generating a item exchange request
 data class PoeMarketItemRequest(
     @SerializedName("query")
     val query: Query,

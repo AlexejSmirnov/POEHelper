@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+//utils that helps to setup charts
 object ChartsUtil {
     fun getDaysSet():ArrayList<String>{
         var cal = Calendar.getInstance()

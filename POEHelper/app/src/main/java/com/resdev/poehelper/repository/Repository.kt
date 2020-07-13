@@ -20,6 +20,7 @@ object Repository {
     private var currenciesModel: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var itemsModel: MutableLiveData<ItemsModel> = MutableLiveData()
     private var bookmarkItems: MutableLiveData<List<ItemEntity>> = MutableLiveData()
+    //CurrentValue object observe this field
     private var currentExchangeRate: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var lastCurrency: String? = null
     private var lastItem:String? = null
@@ -27,6 +28,7 @@ object Repository {
         uninterruptableLoading()
         bookmarksLoader()
     }
+
     fun loadCurrencies() {
         GlobalScope.launch {
             var value = CurrenciesModel.emptyModel
@@ -112,7 +114,8 @@ object Repository {
         }
     }
 
-
+    //this method loads items/currencies every minute
+    //tries to load ExchangeRate (which observed by CurrentValue) before his actual work
     private fun uninterruptableLoading(){
         GlobalScope.launch(newSingleThreadContext("LoadValuesThread")) {
             while(!CurrentValue.isInitialized()){
@@ -163,6 +166,8 @@ object Repository {
         }
 
     }
+    //this method loads itemModel of every all types that are in the database
+    //after it go through each loaded item and find out if its id is in the database
     fun updateBookmarksItems(){
         var itemsTypes = database.entityDao.getTypes()
         while (bookmarkItems.value==null){}
@@ -181,6 +186,7 @@ object Repository {
 
     }
 
+    //method update values in database every minute
     fun bookmarksLoader(){
         GlobalScope.launch {
             bookmarkItems.postValue(database.entityDao.getItems())

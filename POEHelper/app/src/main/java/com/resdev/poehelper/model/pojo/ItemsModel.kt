@@ -1,9 +1,8 @@
 package com.resdev.poehelper.model.pojo
-import android.util.Log
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-
+//this pojo contains data about all items of a certain type
 data class ItemsModel(
     @SerializedName("lines")
     var lines: List<ItemLine>,

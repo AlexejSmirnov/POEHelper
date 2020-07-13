@@ -3,6 +3,7 @@ import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.utils.Util
 
+//this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
     lateinit var currencyDetail: CurrencyDetail
     lateinit var line: CurrencyLine

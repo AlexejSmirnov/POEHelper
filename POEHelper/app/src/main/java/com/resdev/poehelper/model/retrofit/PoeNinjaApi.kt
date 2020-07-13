@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-
+//Interface contains methods to get list of items or currencies
 interface PoeNinjaApi {
 
     @GET("/api/data/itemoverview")

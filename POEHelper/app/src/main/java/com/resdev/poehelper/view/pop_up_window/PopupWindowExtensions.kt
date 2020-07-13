@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 
+//method, that makes dark background in popup windows
 fun PopupWindow.dimBehind() {
     val container = contentView.rootView
     val context = contentView.context

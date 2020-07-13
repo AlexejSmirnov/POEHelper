@@ -1,9 +1,8 @@
 package com.resdev.poehelper.model.room
 
-import android.util.Log
 import androidx.room.*
 import java.lang.NumberFormatException
-
+//Entity which contains all data about stored item
 @Entity
 data class ItemEntity(
     @PrimaryKey var id:Int,
