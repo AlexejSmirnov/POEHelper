@@ -32,17 +32,13 @@ class CurrencyFragment : DefaultFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         itemType = FragmentUtil.fromCodeToType(requireArguments().getInt("Value",-1))
         viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
             itemType)).get(CurrencyViewModel::class.java)
         viewModel.setCurrency()
         viewModel.loadCurrencies()
-
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -55,6 +51,7 @@ class CurrencyFragment : DefaultFragment() {
         })
         CurrentValue
     }
+
     override fun setFilter(filter: String) {
         viewModel.setFiler(filter)
     }
@@ -66,11 +63,8 @@ class CurrencyFragment : DefaultFragment() {
     }
 
     override fun notifyLeagueChanged() {
-
         viewModel.loadCurrencies()
-
     }
-
 
     fun setUpRecyclerView(){
         recyclerView = fragmentRecyclerView

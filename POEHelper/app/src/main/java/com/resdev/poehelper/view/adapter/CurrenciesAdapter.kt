@@ -76,21 +76,14 @@ class CurrenciesAdapter :
             binding.executePendingBindings()
         }
         fun setViewDefaults(){
-            GlobalScope.launch {
-                while (!CurrentValue.isInitialized()){
+                    itemView.currency_name.text = Util.getFromMap(CurrentValue.getDetails().name, CurrentValue.getData().language.translations)
+                    Picasso.get().load(CurrentValue.getDetails().icon).into(itemView.currency_view)
 
-                }
-                withContext(Dispatchers.Main){
-
-                    itemView.currency_name.text = Util.getFromMap(CurrentValue.currencyDetail.name, CurrentValue.data.language.translations)
-                    Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
-                }
-            }
         }
 
     }
     fun onClickShowPopupWindow(currencyLine: CurrencyLine, view: View?) {
-        if (currencyLine.currencyTypeName== CurrentValue.line.currencyTypeName){
+        if (currencyLine.currencyTypeName== CurrentValue.getLine().currencyTypeName){
             return
         }
         val popupView: View = LayoutInflater.from(view!!.context).inflate(R.layout.currency_info_window, null)

@@ -71,20 +71,12 @@ class BookmarkAdapter() :
         }
 
         fun setViewDefaults(){
-            GlobalScope.launch {
-                while (!CurrentValue.isInitialized()){
-                }
-                withContext(Dispatchers.Main){
-                    itemView.currency_name.text = Util.getFromMap(
-                        CurrentValue.currencyDetail.name,
-                        CurrentValue.data.language.translations
-                    )
-                    Picasso.get().load(CurrentValue.currencyDetail.icon).into(itemView.currency_view)
-                }
-            }
+                itemView.currency_name.text = Util.getFromMap(
+                CurrentValue.getDetails().name,
+                CurrentValue.getData().language.translations
+            )
+            Picasso.get().load(CurrentValue.getDetails().icon).into(itemView.currency_view)
         }
-
-
     }
 
     fun onLongClickShowPopupWindow(item: ItemEntity, view: View?): Boolean {

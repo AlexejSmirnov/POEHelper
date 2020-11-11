@@ -110,7 +110,7 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
             var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
             var link = PoeMarket.sendCurrencyRequest(
                 Config.getLeague(),
-                holder.line.tradeId?:"", CurrentValue.currencyDetail.tradeId?:"")
+                holder.line.tradeId?:"", CurrentValue.getDetails().tradeId?:"")
             if (link==null){
                 withContext(Dispatchers.Main){
                     Util.showInternetConnectionError(viewHolder.itemView)

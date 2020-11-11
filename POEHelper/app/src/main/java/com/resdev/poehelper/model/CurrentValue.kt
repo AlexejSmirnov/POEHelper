@@ -2,18 +2,20 @@ package com.resdev.poehelper.model
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.utils.Util
+import kotlinx.coroutines.*
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
-    lateinit var currencyDetail: CurrencyDetail
-    lateinit var line: CurrencyLine
-    lateinit var data: CurrenciesModel
+    private lateinit var currencyDetail: CurrencyDetail
+    private lateinit var line: CurrencyLine
+    private lateinit var data: CurrenciesModel
     private val repository = Repository
     init {
         repository.getExchangeRate().observeForever {
             data = it
             getActualData()
         }
+        repository.updateExchange()
     }
 
     fun getActualData(){
@@ -39,12 +41,11 @@ object CurrentValue {
             }
         }
     }
-    fun isInitialized():Boolean{
-        return this::line.isInitialized
-    }
 
-
-    fun getArray():Array<Array<String>>{
+    fun getArray():Array<Array<String>>?{
+        if (!isCurrentDataIsReady()){
+            return null
+        }
         var array = ArrayList<CharSequence>()
         array.add("Chaos Orb")
         for (i in data.lines){
@@ -56,5 +57,19 @@ object CurrentValue {
         return arrayOf(defaultArr, translated)
     }
 
+    fun getLine(): CurrencyLine{
+        return line
+    }
 
+    fun getDetails():CurrencyDetail {
+        return currencyDetail
+    }
+
+    fun getData():CurrenciesModel{
+        return data
+    }
+
+     fun isCurrentDataIsReady():Boolean{
+       return ::data.isInitialized && ::line.isInitialized && ::currencyDetail.isInitialized
+    }
 }

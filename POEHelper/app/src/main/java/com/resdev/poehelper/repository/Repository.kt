@@ -117,9 +117,7 @@ object Repository {
     //tries to load ExchangeRate (which observed by CurrentValue) before his actual work
     private fun uninterruptableLoading(){
         GlobalScope.launch(newSingleThreadContext("LoadValuesThread")) {
-            while(!CurrentValue.isInitialized()){
-                loadExchange()
-            }
+            loadExchange()
             while (true){
                 if (lastCurrency != null){
                     val myCurrency = PoeNinjaLoading.loadCurrencies(Config.getLeague(), lastCurrency ?: "")

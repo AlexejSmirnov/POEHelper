@@ -11,7 +11,7 @@ class LeaguesModel : ArrayList<LeaguesModel.LeaguesModelItem>(){
         val id: String
     )
     //method filter all solo leagues and left only default and last leagues
-    fun getEditedLeagues():Array<String>{
+    fun getEditedLeagues():Array<String>?{
         var newLeague = ""
         for (item in this){
             if (!item.id.contains("SSF") and !item.id.contains("Hardcore") and !item.id.contains("Standard")){
@@ -19,7 +19,7 @@ class LeaguesModel : ArrayList<LeaguesModel.LeaguesModelItem>(){
 
             }
         }
-        if(this.isEmpty()){return arrayOf()}
+        if(this.isEmpty()){return null}
         if (newLeague=="") return arrayOf("Standard" , "Hardcore")
         return arrayOf(newLeague, "Hardcore $newLeague",  "Standard" , "Hardcore")
 

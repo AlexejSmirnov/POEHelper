@@ -3,8 +3,6 @@ package com.resdev.poehelper.view.activity
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -23,7 +21,6 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.utils.Util.showInternetConnectionError
-import com.resdev.poehelper.model.retrofit.PoeMarket.rebuildRetrofit
 import com.resdev.poehelper.utils.ColorsUtil.getDarkenColor
 import com.resdev.poehelper.utils.ColorsUtil.isColorLight
 import com.resdev.poehelper.view.fragment.BookmarkFragment
@@ -31,12 +28,8 @@ import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
 import com.resdev.poehelper.view.fragment.MainFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.lang.reflect.Field
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,10 +42,10 @@ private lateinit var bookmarkItem: MenuItem
 private lateinit var searchItem: MenuItem
 private var bookmarkIconClosed: Drawable? = null
 private var bookmarkIconOpened : Drawable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         loadData()
-        setLang()
-        setupSettings()
+        ActivityUtil.setLang(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -61,17 +54,18 @@ private var bookmarkIconOpened : Drawable? = null
             this, drawer_layout, toolbar,
             0, 0
         )
+
         bookmarkIconClosed = getDrawable(R.drawable.ic_star_border_white_24dp)
         bookmarkIconOpened = getDrawable(R.drawable.ic_star_white_24dp)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        openFragment(lastFragmentMenuId)
+        openFragmentWithCheck(lastFragmentMenuId)
         navigation_view.itemIconTintList = null
         navigation_view.setNavigationItemSelectedListener {
             toolbar.collapseActionView()
             isBookmarkOpened = false
             bookmarkItem.icon = bookmarkIconClosed
-            openFragment(it.itemId)
+            openFragmentWithCheck(it.itemId)
             return@setNavigationItemSelectedListener true
         }
     }
@@ -143,18 +137,15 @@ private var bookmarkIconOpened : Drawable? = null
                 true
             }
             R.id.switch_fragments->{
-                if (!CurrentValue.isInitialized()){
+                try {
+                    fragment = BookmarkFragment()
+                    isBookmarkOpened = !isBookmarkOpened
+                    switchBookmarkIcons()
+                    openFragmentWithCheck(lastFragmentMenuId)
+                }
+                catch (ex: java.lang.Exception){
                     showInternetConnectionError(frameLayout)
-                    return true
                 }
-                fragment = BookmarkFragment()
-                isBookmarkOpened = !isBookmarkOpened
-                if (isBookmarkOpened)
-                    bookmarkItem.icon = bookmarkIconOpened
-                else{
-                    bookmarkItem.icon = bookmarkIconClosed
-                }
-                openFragment(lastFragmentMenuId)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -166,8 +157,6 @@ private var bookmarkIconOpened : Drawable? = null
         saveData()
     }
 
-
-
     fun paintInterface(color : Int){
         toolbar.setBackgroundColor(color)
         setTextColor(color)
@@ -177,8 +166,6 @@ private var bookmarkIconOpened : Drawable? = null
             window.colorMode = color
         }
     }
-
-
 
     fun setTextColor(color: Int){
         var color = Integer.toHexString(color)
@@ -193,13 +180,8 @@ private var bookmarkIconOpened : Drawable? = null
             toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
             paintElements(resources.getColor(R.color.white))
         }
-        if (isBookmarkOpened)
-            bookmarkItem.icon = bookmarkIconOpened
-        else{
-            bookmarkItem.icon = bookmarkIconClosed
-        }
+        switchBookmarkIcons()
     }
-
 
     private fun paintElements(color: Int){
         var editText = searchItem.actionView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
@@ -228,59 +210,46 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     fun loadData(){
+        CurrentValue
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
         lastFragmentMenuId = mSettings!!.getInt("LastFragment", R.id.nav_currency)
         isBookmarkOpened = mSettings!!.getBoolean("isBookmarkOpened", false)
         Config.loadConfig()
     }
 
+    fun openFragmentWithCheck(navigationItemId: Int){
+        GlobalScope.launch {
+            while (!CurrentValue.isCurrentDataIsReady()){
 
-    fun setupSettings(){
-        CurrentValue
-}
-
-    fun setLang(){
-        val activityRes: Resources = resources
-        val activityConf: Configuration = activityRes.configuration
-        var lang = Config.getLanguage()
-        if (lang == "ge"){
-            lang = "de"
+            }
+            withContext(Dispatchers.Main){
+                openFragment(navigationItemId)
+            }
         }
-        val newLocale = Locale(lang)
-        activityConf.setLocale(newLocale)
-        activityRes.updateConfiguration(activityConf, activityRes.displayMetrics)
-
-        val applicationRes: Resources = applicationContext.resources
-        val applicationConf: Configuration = applicationRes.configuration
-        applicationConf.setLocale(newLocale)
-        applicationRes.updateConfiguration(
-            applicationConf,
-            applicationRes.getDisplayMetrics()
-        )
-        rebuildRetrofit()
-
     }
 
-    fun openFragment(navigationItemId: Int){
-        try{
-            fragment = ItemFragment()
-            var bundle = Bundle()
-            if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
-                fragment = CurrencyFragment()
-            }
-            if (isBookmarkOpened){
-                fragment = BookmarkFragment()
-            }
-            bundle.putInt("Value", navigationItemId)
-            lastFragmentMenuId = navigationItemId
-            (fragment as Fragment).arguments = bundle
-            supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
-            drawer_layout.closeDrawer(GravityCompat.START)
+    private fun openFragment(navigationItemId: Int){
+        fragment = ItemFragment()
+        var bundle = Bundle()
+        if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
+            fragment = CurrencyFragment()
+        }
+        if (isBookmarkOpened){
+            fragment = BookmarkFragment()
+        }
+        bundle.putInt("Value", navigationItemId)
+        lastFragmentMenuId = navigationItemId
+        (fragment as Fragment).arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
+        drawer_layout.closeDrawer(GravityCompat.START)
+    }
 
-        }
-        catch (ex: java.lang.Exception){
-            ex.printStackTrace()
-            showInternetConnectionError(frameLayout)
-        }
+    fun switchBookmarkIcons(){
+            if (isBookmarkOpened)
+                bookmarkItem.icon = bookmarkIconOpened
+            else{
+                bookmarkItem.icon = bookmarkIconClosed
+            }
+
     }
 }

@@ -40,12 +40,14 @@ data class CurrencyDetail(
     val id: Int,
     @SerializedName("name")
     val name: String,
-    @SerializedName("poeTradeId")
-    val poeTradeId: Int,
     @SerializedName("tradeId")
     val tradeId: String
-
-)
+){
+    companion object{
+        fun getDefaultChaos() = CurrencyDetail("https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollRare.png?scale=1&w=1&h=1",
+        1, "Chaos Orb","chaos")
+    }
+}
 
 
 data class CurrencyLine(
@@ -68,6 +70,17 @@ data class CurrencyLine(
 
     fun getTranslatedName():String{
         return model.language.translations[currencyTypeName] ?: currencyTypeName
+    }
+    companion object{
+        fun getDefaultChaos() = CurrencyLine(
+            "Chaos Orb",
+            1.0,
+            Pay(1.0),
+            Receive(1.0),
+            null,
+            null,
+            "chaos"
+        )
     }
 }
 

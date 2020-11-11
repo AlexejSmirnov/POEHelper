@@ -1,16 +1,22 @@
 package com.resdev.poehelper.view.activity
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
+import com.resdev.poehelper.model.retrofit.PoeMarket
 import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.repository.Repository.loadLeagues
+import com.resdev.poehelper.view.MyApplication
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.lang.Exception
+import java.util.*
 
 class ActivityUtil {
 
@@ -18,7 +24,7 @@ class ActivityUtil {
         fun createCurrencyPicker(context: Context, callback: ()->Unit){
             val builder: AlertDialog.Builder = AlertDialog.Builder(context)
             builder.setTitle(context.resources.getString(R.string.choose_currency))
-            var arrays = CurrentValue.getArray()
+            var arrays: Array<Array<String>> = CurrentValue.getArray() ?: throw Exception()
             builder.setItems(arrays[1]
             ) { dialog, which ->
                 val text = arrays[0][which]
@@ -37,7 +43,7 @@ class ActivityUtil {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                     builder.setTitle(context.resources.getString(R.string.choose_league))
                     if (lastLeagues==null){
-                        lastLeagues = loadLeagues().await()
+                        lastLeagues = loadLeagues().await() ?: throw Exception()
                     }
                     builder.setItems(
                         lastLeagues
@@ -88,6 +94,27 @@ class ActivityUtil {
                 callback()
             }
             builder.show()
+        }
+
+        fun setLang(activityContext: Context){
+            val activityRes: Resources = activityContext.resources
+            val activityConf: Configuration = activityRes.configuration
+            var lang = Config.getLanguage()
+            if (lang == "ge"){
+                lang = "de"
+            }
+            val newLocale = Locale(lang)
+            activityConf.setLocale(newLocale)
+            activityRes.updateConfiguration(activityConf, activityRes.displayMetrics)
+
+            val applicationRes: Resources = MyApplication.getApplicationContext().resources
+            val applicationConf: Configuration = applicationRes.configuration
+            applicationConf.setLocale(newLocale)
+            applicationRes.updateConfiguration(
+                applicationConf,
+                applicationRes.getDisplayMetrics()
+            )
+            PoeMarket.rebuildRetrofit()
         }
     }
 }
