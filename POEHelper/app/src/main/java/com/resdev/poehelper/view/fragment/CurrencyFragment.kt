@@ -32,9 +32,10 @@ class CurrencyFragment : Fragment(), MainFragment {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bundle = this.arguments!!
+        bundle = requireArguments()
+        val itemType = Util.fromCodeToType(bundle.getInt("Value",-1))
         viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
-            bundle.getString("Value", bundle.getString("Value", "Currency")))).get(CurrencyViewModel::class.java)
+            bundle.getString("Value", itemType))).get(CurrencyViewModel::class.java)
         viewModel.setCurrency()
         viewModel.loadCurrencies()
 

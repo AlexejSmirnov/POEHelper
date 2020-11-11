@@ -30,8 +30,9 @@ class ItemFragment : Fragment(), MainFragment {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bundle = this.arguments!!
-        viewModel = ViewModelProvider(this, ItemViewModelFactory(Application(),  bundle.getString("Value","Delirium Orb"))).get(ItemViewModel::class.java)
+        bundle = requireArguments()
+        val itemType = Util.fromCodeToType(bundle.getInt("Value",-1))
+        viewModel = ViewModelProvider(this, ItemViewModelFactory(Application(),  itemType)).get(ItemViewModel::class.java)
         viewModel.setLastItem()
         viewModel.loadItems()
         return inflater.inflate(R.layout.default_fragment, container, false)

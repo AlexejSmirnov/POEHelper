@@ -128,8 +128,7 @@ private var leagues = ArrayList<String>()
                 var arrays = CurrentValue.getArray()
                 builder.setItems(arrays[1]
                 ) { dialog, which ->
-                    val lv: ListView =
-                        (dialog as AlertDialog).listView
+
                     val text = arrays[0][which]
                     Config.currency = text
                     CurrentValue.getActualData()
@@ -284,23 +283,17 @@ private var leagues = ArrayList<String>()
 
     fun saveData(){
         val editor: SharedPreferences.Editor = mSettings!!.edit()
-        editor.putString("League", Config.league)
-        editor.putString("Currency", Config.currency)
-        editor.putString("Language", Config.language)
-        editor.putInt("Color", Config.color)
         editor.putInt("LastFragment", lastFragmentMenuId)
         editor.putBoolean("isBookmarkOpened", isBookmarkOpened)
         editor.apply()
+        Config.saveConfigs()
     }
 
     fun loadData(){
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        Config.league = mSettings!!.getString("League", "Standard")!!
-        Config.currency = mSettings!!.getString("Currency", "Chaos Orb")!!
-        Config.language = mSettings!!.getString("Language", "en")!!
-        Config.color = mSettings!!.getInt("Color", -0x000001)
         lastFragmentMenuId = mSettings!!.getInt("LastFragment", R.id.nav_currency)
         isBookmarkOpened = mSettings!!.getBoolean("isBookmarkOpened", false)
+        Config.loadConfig()
     }
 
 
@@ -338,45 +331,13 @@ private var leagues = ArrayList<String>()
             withContext(Dispatchers.Main){
                 fragment = ItemFragment()
                 var bundle = Bundle()
-                when (navigationItemId){
-                    R.id.nav_currency -> {
-                        fragment=CurrencyFragment()
-                        bundle.putString("Value","Currency")
-
-                    }
-                    R.id.nav_fragment ->{
-                        fragment=CurrencyFragment()
-                        bundle.putString("Value","Fragment")
-
-                    }
-                    R.id.nav_delirium_orb ->bundle.putString("Value","DeliriumOrb")
-                    R.id.nav_watchstone ->bundle.putString("Value","Watchstone")
-                    R.id.nav_seed ->bundle.putString("Value","Seed")
-                    R.id.nav_oil ->bundle.putString("Value","Oil")
-                    R.id.nav_incubator ->bundle.putString("Value","Incubator")
-                    R.id.nav_scarab ->bundle.putString("Value","Scarab")
-                    R.id.nav_fossil ->bundle.putString("Value","Fossil")
-                    R.id.nav_essence ->bundle.putString("Value","Essence")
-                    R.id.nav_resonator ->bundle.putString("Value","Resonator")
-                    R.id.nav_divination_card ->bundle.putString("Value","DivinationCard")
-                    R.id.nav_skill_gem ->bundle.putString("Value","SkillGem")
-                    R.id.nav_base_type ->bundle.putString("Value","BaseType")
-                    R.id.nav_helmet_enchant ->bundle.putString("Value","HelmetEnchant")
-                    R.id.nav_map ->bundle.putString("Value","Map")
-                    R.id.nav_unique_armour ->bundle.putString("Value","UniqueArmour")
-                    R.id.nav_unique_flask ->bundle.putString("Value","UniqueFlask")
-                    R.id.nav_unique_weapon ->bundle.putString("Value","UniqueWeapon")
-                    R.id.nav_unique_accessory ->bundle.putString("Value","UniqueAccessory")
-                    R.id.nav_unique_jewel ->bundle.putString("Value","UniqueJewel")
-                    R.id.nav_prophecy ->bundle.putString("Value","Prophecy")
-                    R.id.nav_unique_map ->bundle.putString("Value","UniqueMap")
-                    R.id.nav_beast ->bundle.putString("Value","Beast")
-                    R.id.nav_vial->bundle.putString("Value","Vial")
-
+                if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
+                    fragment = CurrencyFragment()
                 }
                 if (isBookmarkOpened){
                     fragment = BookmarkFragment()
                 }
+                bundle.putInt("Value", navigationItemId)
                 lastFragmentMenuId = navigationItemId
                 (fragment as Fragment).arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
