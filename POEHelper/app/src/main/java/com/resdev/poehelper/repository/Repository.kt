@@ -33,7 +33,7 @@ object Repository {
         GlobalScope.launch {
             var value = CurrenciesModel.emptyModel
             while (value.lines.isEmpty()){
-                value = PoeNinjaLoading.loadCurrencies(Config.league, lastCurrency ?: "")
+                value = PoeNinjaLoading.loadCurrencies(Config.getLeague(), lastCurrency ?: "")
                 if (value.lines.isNotEmpty()){
                     currenciesModel.postValue(value)
                     break
@@ -45,12 +45,11 @@ object Repository {
         }
     }
 
-
     fun loadItems() {
         GlobalScope.launch {
             var value = ItemsModel.emptyModel
             while (value.lines.isEmpty()){
-                value = PoeNinjaLoading.loadItems(Config.league, lastItem ?: "")
+                value = PoeNinjaLoading.loadItems(Config.getLeague(), lastItem ?: "")
                 if (value.lines.isNotEmpty()){
                     itemsModel.postValue(value)
                     break
@@ -64,14 +63,14 @@ object Repository {
     }
 
     private fun loadExchange() {
-            currentExchangeRate.postValue(PoeNinjaLoading.loadCurrencies(Config.league, "Currency"))
+            currentExchangeRate.postValue(PoeNinjaLoading.loadCurrencies(Config.getLeague(), "Currency"))
 
     }
 
     fun updateExchange(){
         GlobalScope.launch {
             while (true){
-                val exchange = PoeNinjaLoading.loadCurrencies(Config.league, "Currency")
+                val exchange = PoeNinjaLoading.loadCurrencies(Config.getLeague(), "Currency")
                 if (exchange.lines.isNotEmpty()){
                     currentExchangeRate.postValue(exchange)
                     return@launch
@@ -123,7 +122,7 @@ object Repository {
             }
             while (true){
                 if (lastCurrency != null){
-                    val myCurrency = PoeNinjaLoading.loadCurrencies(Config.league, lastCurrency ?: "")
+                    val myCurrency = PoeNinjaLoading.loadCurrencies(Config.getLeague(), lastCurrency ?: "")
                     if (myCurrency.lines.isEmpty()){
                         Thread.sleep(1000)
                         continue
@@ -133,7 +132,7 @@ object Repository {
                     }
                 }
                 else{
-                    val myItem = PoeNinjaLoading.loadItems(Config.league, lastItem ?: "")
+                    val myItem = PoeNinjaLoading.loadItems(Config.getLeague(), lastItem ?: "")
                     if (myItem.lines.isEmpty()){
                         Thread.sleep(1000)
                         continue
@@ -148,17 +147,11 @@ object Repository {
         }
     }
 
+    fun loadLeagues() =
+         GlobalScope.async(newSingleThreadContext("LoadLeaguesThread")) {
+            return@async PoeLeagueLoading.loadLeagues().getEditedLeagues()
+         }
 
-    fun loadLeagues(leagues: ArrayList<String>){
-        GlobalScope.launch(newSingleThreadContext("LoadLeaguesThread")) {
-            while (leagues.isEmpty()){
-                var a = PoeLeagueLoading.loadLeagues().getEditedLeagues()
-                leagues.addAll(a)
-                Thread.sleep(1000)
-            }
-
-        }
-    }
 
     fun updateBookmarksAsync(){
         GlobalScope.launch{
@@ -166,6 +159,7 @@ object Repository {
         }
 
     }
+
     //this method loads itemModel of every all types that are in the database
     //after it go through each loaded item and find out if its id is in the database
     fun updateBookmarksItems(){
@@ -173,7 +167,7 @@ object Repository {
         while (bookmarkItems.value==null){}
         var idMap = bookmarkItems.value!!.map { it.id }
         for (i in itemsTypes){
-            val items = PoeNinjaLoading.loadItems(Config.league, i)
+            val items = PoeNinjaLoading.loadItems(Config.getLeague(), i)
             items.bindModel()
             for (j in items.lines){
                 val id = idMap.indexOf(j.id)

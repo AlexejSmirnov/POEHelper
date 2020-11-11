@@ -14,12 +14,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ListView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.resdev.poehelper.model.Config
@@ -27,7 +24,6 @@ import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
 import com.resdev.poehelper.utils.Util.showInternetConnectionError
 import com.resdev.poehelper.model.retrofit.PoeMarket.rebuildRetrofit
-import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.utils.ColorsUtil.getDarkenColor
 import com.resdev.poehelper.utils.ColorsUtil.isColorLight
 import com.resdev.poehelper.view.fragment.BookmarkFragment
@@ -39,10 +35,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import yuku.ambilwarna.AmbilWarnaDialog
 import java.lang.reflect.Field
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +49,6 @@ private lateinit var bookmarkItem: MenuItem
 private lateinit var searchItem: MenuItem
 private var bookmarkIconClosed: Drawable? = null
 private var bookmarkIconOpened : Drawable? = null
-private var leagues = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         loadData()
         setLang()
@@ -63,7 +56,7 @@ private var leagues = ArrayList<String>()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        title = Config.league
+        title = Config.getLeague()
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             0, 0
@@ -81,8 +74,6 @@ private var leagues = ArrayList<String>()
             openFragment(it.itemId)
             return@setNavigationItemSelectedListener true
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -90,7 +81,7 @@ private var leagues = ArrayList<String>()
         inflater.inflate(R.menu.main_menu, menu)
         searchItem = menu?.findItem(R.id.app_bar_search)!!
         bookmarkItem = menu?.findItem(R.id.switch_fragments)!!
-        paintInterface(Config.color)
+        paintInterface(Config.getColor())
         var searchView = searchItem!!.actionView as SearchView
         searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -119,89 +110,36 @@ private var leagues = ArrayList<String>()
 
         return when (item.itemId) {
             R.id.currency_picker -> {
-                if (!CurrentValue.isInitialized()){
+                try{
+                    ActivityUtil.createCurrencyPicker(this){}
+                }
+                catch (ex: java.lang.Exception){
+                    ex.printStackTrace()
                     showInternetConnectionError(frameLayout)
-                    return false
                 }
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-                builder.setTitle(resources.getString(R.string.choose_currency))
-                var arrays = CurrentValue.getArray()
-                builder.setItems(arrays[1]
-                ) { dialog, which ->
-
-                    val text = arrays[0][which]
-                    Config.currency = text
-                    CurrentValue.getActualData()
-                    fragment.notifyCurrencyChanged()
-                }
-                builder.show()
                 true
             }
             R.id.league_picker -> {
-                if (leagues.isEmpty()){
-                    showInternetConnectionError(frameLayout)
-                    return false
-                }
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-
-                builder.setTitle(resources.getString(R.string.choose_league))
-                builder.setItems(leagues.toTypedArray()
-                ) { dialog, which ->
-                    val lv: ListView =
-                        (dialog as AlertDialog).listView
-                    Config.league = lv.getItemAtPosition(which).toString()
-                    Repository.updateExchange()
-                    title = Config.league
-                    if (::fragment.isInitialized){
-                    fragment.notifyLeagueChanged()
+                try {
+                    ActivityUtil.createLeaguePicker(this){
+                        title = Config.getLeague()
                     }
-
                 }
-                builder.show()
-        true
+                catch (ex: java.lang.Exception){
+                    ex.printStackTrace()
+                    showInternetConnectionError(frameLayout)
+                }
+                true
             }
             R.id.color_picker ->{
-                val bar = findViewById<Toolbar>(R.id.toolbar)
-                val dialog = AmbilWarnaDialog(
-                    this,
-                    Config.color,
-                    object : AmbilWarnaDialog.OnAmbilWarnaListener {
-                        override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                            Config.color = color
-                            this@MainActivity.paintInterface(color)
-                            if (::fragment.isInitialized){
-                                fragment.paintRecycler()
-                            }
-
-                        }
-
-                        override fun onCancel(dialog: AmbilWarnaDialog?) {
-                        }
-                    })
-                dialog.show()
+                ActivityUtil.createColorPicker(this){
+                    this@MainActivity.paintInterface(Config.getColor())
+                }
                 return true}
             R.id.language_picker -> {
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-
-                builder.setTitle(resources.getString(R.string.change_language))
-                var languages = arrayOf("en", "pt", "ru", "th", "ge", "fr", "es", "ko")
-                val languagesTitle = arrayOf(
-                    "English",
-                    "Portuguese",
-                    "Russian",
-                    "Thai",
-                    "German",
-                    "French",
-                    "Spanish",
-                    "Korean")
-                builder.setItems(languagesTitle
-                ) { _, which ->
-                    Config.language =languages[which]
-                    Repository.updateExchange()
+                ActivityUtil.createLanguagePicker(this){
                     this@MainActivity.recreate()
                 }
-                builder.show()
-
                 true
             }
             R.id.switch_fragments->{
@@ -229,15 +167,15 @@ private var leagues = ArrayList<String>()
     }
 
 
+
     fun paintInterface(color : Int){
         toolbar.setBackgroundColor(color)
         setTextColor(color)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getDarkenColor(color)
-        if ((Build.VERSION.SDK).toInt()>=26){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             window.colorMode = color
         }
-
     }
 
 
@@ -299,13 +237,12 @@ private var leagues = ArrayList<String>()
 
     fun setupSettings(){
         CurrentValue
-        Repository.loadLeagues(leagues)
-    }
+}
 
     fun setLang(){
         val activityRes: Resources = resources
         val activityConf: Configuration = activityRes.configuration
-        var lang = Config.language
+        var lang = Config.getLanguage()
         if (lang == "ge"){
             lang = "de"
         }
@@ -324,33 +261,26 @@ private var leagues = ArrayList<String>()
 
     }
 
-
     fun openFragment(navigationItemId: Int){
-        GlobalScope.launch {
-            while (!CurrentValue.isInitialized()){ }
-            withContext(Dispatchers.Main){
-                fragment = ItemFragment()
-                var bundle = Bundle()
-                if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
-                    fragment = CurrencyFragment()
-                }
-                if (isBookmarkOpened){
-                    fragment = BookmarkFragment()
-                }
-                bundle.putInt("Value", navigationItemId)
-                lastFragmentMenuId = navigationItemId
-                (fragment as Fragment).arguments = bundle
-                supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
-                drawer_layout.closeDrawer(GravityCompat.START)
+        try{
+            fragment = ItemFragment()
+            var bundle = Bundle()
+            if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
+                fragment = CurrencyFragment()
             }
+            if (isBookmarkOpened){
+                fragment = BookmarkFragment()
+            }
+            bundle.putInt("Value", navigationItemId)
+            lastFragmentMenuId = navigationItemId
+            (fragment as Fragment).arguments = bundle
+            supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
+            drawer_layout.closeDrawer(GravityCompat.START)
+
+        }
+        catch (ex: java.lang.Exception){
+            ex.printStackTrace()
+            showInternetConnectionError(frameLayout)
         }
     }
-
-
-
-
-
-
-
-
 }

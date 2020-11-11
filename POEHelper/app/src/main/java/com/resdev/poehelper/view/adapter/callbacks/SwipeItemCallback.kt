@@ -82,8 +82,8 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.color))){
-                    paint.color = Config.color
+                if (!isColorLight(Integer.toHexString(Config.getColor()))){
+                    paint.color = Config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK
@@ -120,7 +120,7 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
         GlobalScope.launch {
             var holder= viewHolder as ItemsAdapter.ItemViewHolder
             var link = PoeMarket.sendItemRequest(
-                Config.league,
+                Config.getLeague(),
                (Converter.fromRetrofitItemToRoomEntity(holder.item, holder.itemType)))
             if (link==null){
                 withContext(Dispatchers.Main){

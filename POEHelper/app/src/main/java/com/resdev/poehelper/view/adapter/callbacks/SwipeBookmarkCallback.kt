@@ -83,8 +83,8 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.color))){
-                    paint.color = Config.color
+                if (!isColorLight(Integer.toHexString(Config.getColor()))){
+                    paint.color = Config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK
@@ -121,7 +121,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
         GlobalScope.launch {
             var holder= viewHolder as BookmarkAdapter.BookmarkItemViewHolder
             var link = PoeMarket.sendItemRequest(
-                Config.league,
+                Config.getLeague(),
                 (holder.item))
             if (link==null){
                 withContext(Dispatchers.Main){

@@ -22,20 +22,20 @@ import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
 import kotlinx.android.synthetic.main.default_fragment.*
 
-class CurrencyFragment : Fragment(), MainFragment {
-
+class CurrencyFragment : DefaultFragment() {
+    override lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: CurrencyViewModel
-    private lateinit var bundle: Bundle
     private lateinit var currenciesAdapter : CurrenciesAdapter
+    var itemType = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bundle = requireArguments()
-        val itemType = Util.fromCodeToType(bundle.getInt("Value",-1))
+
+        itemType = FragmentUtil.fromCodeToType(requireArguments().getInt("Value",-1))
         viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
-            bundle.getString("Value", itemType))).get(CurrencyViewModel::class.java)
+            itemType)).get(CurrencyViewModel::class.java)
         viewModel.setCurrency()
         viewModel.loadCurrencies()
 
@@ -71,15 +71,9 @@ class CurrencyFragment : Fragment(), MainFragment {
 
     }
 
-    override fun paintRecycler() {
-        recyclerView.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
-            override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-                return EdgeEffect(view.context).apply { color = Config.color }
-            }
-        }
-    }
 
     fun setUpRecyclerView(){
+        recyclerView = fragmentRecyclerView
         recyclerView.addItemDecoration(
             MyItemDecoration(15)
         )

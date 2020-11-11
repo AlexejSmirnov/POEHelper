@@ -79,8 +79,8 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
         if (actionState == ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.color))){
-                    paint.color = Config.color
+                if (!isColorLight(Integer.toHexString(Config.getColor()))){
+                    paint.color = Config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK
@@ -109,7 +109,7 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
         GlobalScope.launch {
             var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
             var link = PoeMarket.sendCurrencyRequest(
-                Config.league,
+                Config.getLeague(),
                 holder.line.tradeId?:"", CurrentValue.currencyDetail.tradeId?:"")
             if (link==null){
                 withContext(Dispatchers.Main){

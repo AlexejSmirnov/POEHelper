@@ -18,12 +18,12 @@ object CurrentValue {
 
     fun getActualData(){
         for (i in data.currencyDetails){
-            if (Config.currency == i.name){
+            if (Config.getCurrency() == i.name){
                 currencyDetail = i
             }
         }
         for (i in data.lines){
-            if (Config.currency == "Chaos Orb"){
+            if (Config.getCurrency() == "Chaos Orb"){
                 line = CurrencyLine(
                     "Chaos Orb",
                     1.0,
@@ -34,7 +34,7 @@ object CurrentValue {
                     "chaos"
                 )
             }
-            if (i.currencyTypeName == Config.currency){
+            if (i.currencyTypeName == Config.getCurrency()){
                 line = i
             }
         }

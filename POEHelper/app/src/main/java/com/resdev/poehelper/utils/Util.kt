@@ -37,7 +37,7 @@ object Util {
         val builder = CustomTabsIntent.Builder()
             .setToolbarColor(
                 getDarkenColor(
-                    Config.color
+                    Config.getColor()
                 )
             )
         val customTabsIntent = builder.build()

@@ -18,7 +18,7 @@ object PoeNinjaLoading {
     fun loadItems(leagueName: String, itemName:String): ItemsModel {
         return try{
             poeNinjaClient
-                .getItem(leagueName, itemName, Config.language)
+                .getItem(leagueName, itemName, Config.getLanguage())
                 ?.execute()
                 ?.body()!!
         } catch (e: Exception){
@@ -32,7 +32,7 @@ object PoeNinjaLoading {
         return try{
             poeNinjaClient
                 .getCurrency(leagueName, itemName,
-                    Config.language
+                    Config.getLanguage()
                 )
                 ?.execute()
                 ?.body()!!

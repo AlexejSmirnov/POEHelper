@@ -21,17 +21,19 @@ import com.resdev.poehelper.viewmodel.ItemViewModel
 import com.resdev.poehelper.viewmodel.ItemViewModelFactory
 import kotlinx.android.synthetic.main.default_fragment.*
 
-class ItemFragment : Fragment(), MainFragment {
+class ItemFragment : DefaultFragment() {
     private lateinit var viewModel: ItemViewModel
-    private lateinit var bundle: Bundle
+    override lateinit var recyclerView: RecyclerView
     private lateinit var itemsAdapter: ItemsAdapter
+    var itemType = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bundle = requireArguments()
-        val itemType = Util.fromCodeToType(bundle.getInt("Value",-1))
+        itemType = FragmentUtil.fromCodeToType(requireArguments().getInt("Value",-1))
+
         viewModel = ViewModelProvider(this, ItemViewModelFactory(Application(),  itemType)).get(ItemViewModel::class.java)
         viewModel.setLastItem()
         viewModel.loadItems()
@@ -41,7 +43,7 @@ class ItemFragment : Fragment(), MainFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpRecyclerView()
-        itemsAdapter =  ItemsAdapter(bundle.getString("Value","Delirium Orb"))
+        itemsAdapter =  ItemsAdapter(itemType)
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
             itemsAdapter.submitList(it.lines)
@@ -53,7 +55,7 @@ class ItemFragment : Fragment(), MainFragment {
     }
 
     override fun notifyCurrencyChanged() {
-        itemsAdapter = ItemsAdapter(bundle.getString("Value","Delirium Orb"))
+        itemsAdapter = ItemsAdapter(itemType)
         recyclerView.adapter = itemsAdapter
         viewModel.loadItems()
     }
@@ -62,16 +64,11 @@ class ItemFragment : Fragment(), MainFragment {
         viewModel.loadItems()
     }
 
-    override fun paintRecycler() {
-        recyclerView.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
-            override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-                return EdgeEffect(view.context).apply { color = Config.color }
-            }
-        }
-    }
+
 
 
     fun setUpRecyclerView(){
+        recyclerView = fragmentRecyclerView
         recyclerView.addItemDecoration(
             MyItemDecoration(15)
         )

@@ -21,7 +21,8 @@ import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.BookmarksViewModel
 import kotlinx.android.synthetic.main.default_fragment.*
 
-class BookmarkFragment : Fragment(), MainFragment {
+class BookmarkFragment : DefaultFragment() {
+    override lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: BookmarksViewModel
     private lateinit var itemsAdapter: BookmarkAdapter
 
@@ -37,6 +38,7 @@ class BookmarkFragment : Fragment(), MainFragment {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         setUpRecyclerView()
         itemsAdapter =  BookmarkAdapter()
         recyclerView.adapter = itemsAdapter
@@ -59,16 +61,10 @@ class BookmarkFragment : Fragment(), MainFragment {
         viewModel.loadItems()
     }
 
-    override fun paintRecycler() {
-        recyclerView.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
-            override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-                return EdgeEffect(view.context).apply { color = Config.color }
-            }
-        }
-    }
 
 
     fun setUpRecyclerView(){
+        recyclerView = fragmentRecyclerView
         recyclerView.addItemDecoration(
             MyItemDecoration(15)
         )

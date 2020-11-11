@@ -18,7 +18,7 @@ object PoeMarket {
     fun sendItemRequest(leagueName: String, itemsEntity: ItemEntity): PoeMarketResponse? {
         val item = RequestBuilder.generateItemLink(itemsEntity)
         return try{
-            poeMarketClient.sendItemRequest(Config.league, item)
+            poeMarketClient.sendItemRequest(Config.getLeague(), item)
                 ?.execute()
                 ?.body()!!
         } catch (e: Exception){
@@ -28,7 +28,7 @@ object PoeMarket {
 
     fun sendCurrencyRequest(leagueName: String, want: String, have: String): PoeMarketResponse? {
         val item = RequestBuilder.generateCurrencyLink(want, have)
-        return try{ poeMarketClient.sendCurrencyRequest(Config.league, item)
+        return try{ poeMarketClient.sendCurrencyRequest(Config.getLeague(), item)
             ?.execute()
             ?.body()!!
         } catch (e: Exception){
@@ -37,11 +37,11 @@ object PoeMarket {
     }
 
     fun rebuildRetrofit(){
-        var url = when(Config.language){
+        var url = when(Config.getLanguage()){
             "en"-> "https://www.pathofexile.com"
             "ko"-> "https://poe.game.daum.net"
             "ge"-> "https://de.pathofexile.com"
-            else-> "https://${Config.language}.pathofexile.com"
+            else-> "https://${Config.getLanguage()}.pathofexile.com"
         }
         retrofit = Retrofit.Builder()
             .baseUrl(url)
