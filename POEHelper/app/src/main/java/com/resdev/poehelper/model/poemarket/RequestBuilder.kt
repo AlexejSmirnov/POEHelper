@@ -19,20 +19,20 @@ object RequestBuilder {
                                          variant:String? = null) : PoeMarketItemRequest{
         return PoeMarketItemRequest(query = Query(
             type = name, filters = Filters(
-                mapFilters = MapFilters(FiltersX(MapTier( 0))),
-                socketFilters = SocketFilters(FiltersXXXX(Links(links?:0 ))),
-                reqFilters = ReqFilters(FiltersXXX(Lvl( 0))),
+                mapFilters = MapFilters(FiltersX(MapTier( zeroToNull(mapTier)))),
+                socketFilters = SocketFilters(FiltersXXXX(Links(zeroToNull(links)))),
+                reqFilters = ReqFilters(FiltersXXX(Lvl( zeroToNull(levelRequired)))),
                 miscFilters = MiscFilters(
                     FiltersXX(
                     corrupted = Corrupted(corrupted.toString()),
-                    gemLevel = GemLevel(gemLevel?:0),
-                    quality = Quality(gemQuality?:0),
-                    elderItem = ElderItem((variant=="Elder").toString()),
-                    shaperItem = ShaperItem((variant=="Shaper").toString()),
-                    crusaderItem = CrusaderItem((variant=="Crusader").toString()),
-                    hunterItem = HunterItem((variant=="Hunter").toString()),
-                    redeemerItem = RedeemerItem((variant=="Redeemer").toString()),
-                    warlordItem = WarlordItem((variant=="Warlord").toString())
+                    gemLevel = GemLevel(zeroToNull(gemLevel)),
+                    quality = Quality(zeroToNull(gemQuality)),
+                    elderItem = ElderItem(itemTypeToBool(variant,"Elder")),
+                    shaperItem = ShaperItem(itemTypeToBool(variant,"Shaper")),
+                    crusaderItem = CrusaderItem(itemTypeToBool(variant,"Crusader")),
+                    hunterItem = HunterItem(itemTypeToBool(variant,"Hunter")),
+                    redeemerItem = RedeemerItem(itemTypeToBool(variant,"Redeemer")),
+                    warlordItem = WarlordItem(itemTypeToBool(variant,"Warlord"))
                 ))
             )
         ))
@@ -43,6 +43,15 @@ object RequestBuilder {
             statusx = Statusx("online"),
             want = listOf(want),
             have = listOf(have)))
+    }
+
+    fun zeroToNull(value: Int?): Int?{
+        if (value == 0){return null}
+        return value
+    }
+    fun itemTypeToBool(variant: String?, title: String) : String?{
+        if (variant==title){return true.toString()}
+        return null
     }
 
 

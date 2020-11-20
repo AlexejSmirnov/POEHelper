@@ -75,7 +75,7 @@ data class FiltersX(
 
 data class MapTier(
     @SerializedName("min")
-    val min: Int
+    val min: Int?
 )
 
 data class FiltersXX(
@@ -101,47 +101,47 @@ data class FiltersXX(
 
 data class Corrupted(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class CrusaderItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class ElderItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class GemLevel(
     @SerializedName("min")
-    val min: Int = 0
+    val min: Int? = 0
 )
 
 data class HunterItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class Quality(
     @SerializedName("min")
-    val min: Int = 0
+    val min: Int? = 0
 )
 
 data class RedeemerItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class ShaperItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class WarlordItem(
     @SerializedName("option")
-    val option: String = "false"
+    val option: String?
 )
 
 data class FiltersXXX(
@@ -151,7 +151,7 @@ data class FiltersXXX(
 
 data class Lvl(
     @SerializedName("min")
-    val min: Int = 0
+    val min: Int? = 0
 )
 
 data class FiltersXXXX(
@@ -161,5 +161,5 @@ data class FiltersXXXX(
 
 data class Links(
     @SerializedName("min")
-    val min: Int = 0
+    val min: Int? = 0
 )
