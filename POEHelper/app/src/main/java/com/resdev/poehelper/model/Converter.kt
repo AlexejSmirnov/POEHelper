@@ -38,4 +38,12 @@ object Converter {
         newItem.explicitModifiers = item.explicitModifiers.map {ExplicitModifier(item.id, it.text, translations[it.text])}
         return newItem
     }
+
+    fun fromRetrofitItemToRoomEntityList(list: List<ItemLine>, type: String):List<ItemEntity>{
+        val itemEntityList = mutableListOf<ItemEntity>()
+        for (i in list){
+            itemEntityList.add(fromRetrofitItemToRoomEntity(i, type))
+        }
+        return itemEntityList
+    }
 }

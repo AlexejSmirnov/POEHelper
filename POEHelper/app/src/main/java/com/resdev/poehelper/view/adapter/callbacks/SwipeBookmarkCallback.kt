@@ -14,7 +14,7 @@ import com.resdev.poehelper.model.retrofit.PoeMarket
 import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.utils.ColorsUtil.isColorLight
 import com.resdev.poehelper.utils.URLUtils.generatePoeMarketTradeUrl
-import com.resdev.poehelper.view.adapter.BookmarkAdapter
+import com.resdev.poehelper.view.adapter.ItemAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -119,7 +119,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeOpenAction(viewHolder: RecyclerView.ViewHolder){
         GlobalScope.launch {
-            var holder= viewHolder as BookmarkAdapter.BookmarkItemViewHolder
+            var holder= viewHolder as ItemAdapter.ItemViewHolder
             var link = PoeMarket.sendItemRequest(
                 Config.getLeague(),
                 (holder.item))
@@ -137,7 +137,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
     }
 
     private fun makeRemoveAction(viewHolder: RecyclerView.ViewHolder){
-        var holder= viewHolder as BookmarkAdapter.BookmarkItemViewHolder
+        var holder= viewHolder as ItemAdapter.ItemViewHolder
         Repository.removeEntity(holder.item)
         var itemName = holder.item.translatedName ?: holder.item.name
         var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is removed", Snackbar.LENGTH_LONG)

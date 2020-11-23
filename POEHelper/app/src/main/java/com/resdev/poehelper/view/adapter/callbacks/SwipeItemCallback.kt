@@ -17,7 +17,7 @@ import com.resdev.poehelper.repository.Repository
 import com.resdev.poehelper.utils.ColorsUtil.isColorLight
 import com.resdev.poehelper.utils.URLUtils.generatePoeMarketTradeUrl
 import com.resdev.poehelper.view.MyApplication
-import com.resdev.poehelper.view.adapter.ItemsAdapter
+import com.resdev.poehelper.view.adapter.ItemAdapter
 import kotlinx.coroutines.*
 import kotlin.math.abs
 
@@ -118,10 +118,10 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeOpenAction(viewHolder: RecyclerView.ViewHolder){
         GlobalScope.launch {
-            var holder= viewHolder as ItemsAdapter.ItemViewHolder
+            var holder= viewHolder as ItemAdapter.ItemViewHolder
             var link = PoeMarket.sendItemRequest(
                 Config.getLeague(),
-               (Converter.fromRetrofitItemToRoomEntity(holder.item, holder.itemType)))
+               (holder.item))
             if (link==null){
                 withContext(Dispatchers.Main){
                     Util.showInternetConnectionError(viewHolder.itemView)
@@ -141,10 +141,9 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeSaveAction(viewHolder: RecyclerView.ViewHolder){
         var db = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
-        var holder= viewHolder as ItemsAdapter.ItemViewHolder
-        var ent = Converter.fromRetrofitItemToRoomEntity(holder.item, holder.itemType)
-        Repository.addItem(ent)
-        var itemName = holder.item.itemsModel.language.translations[holder.item.name] ?: holder.item.name
+        var holder= viewHolder as ItemAdapter.ItemViewHolder
+        Repository.addItem(holder.item)
+        var itemName = holder.item.translatedName ?: holder.item.name
         var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is bookmarked", Snackbar.LENGTH_LONG)
         snackbar.setActionTextColor(Color.BLACK)
         snackbar.view.setBackgroundColor(viewHolder.itemView.context.getColor(R.color.lightGray))

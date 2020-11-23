@@ -9,7 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.R
-import com.resdev.poehelper.view.adapter.ItemsAdapter
+import com.resdev.poehelper.model.Converter.fromRetrofitItemToRoomEntityList
+import com.resdev.poehelper.view.adapter.ItemAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
 import com.resdev.poehelper.view.fragment.util.FragmentUtil
 import com.resdev.poehelper.viewmodel.ItemViewModel
@@ -18,7 +19,7 @@ import com.resdev.poehelper.viewmodel.ItemViewModelFactory
 class ItemFragment : DefaultFragment() {
     private lateinit var viewModel: ItemViewModel
     override lateinit var recyclerView: RecyclerView
-    private lateinit var itemsAdapter: ItemsAdapter
+    private lateinit var itemsAdapter: ItemAdapter
     var itemType = ""
 
 
@@ -37,10 +38,10 @@ class ItemFragment : DefaultFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpRecyclerView(SwipeItemCallback())
-        itemsAdapter =  ItemsAdapter(itemType)
+        itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
-            itemsAdapter.submitList(it.lines)
+            itemsAdapter.submitList(fromRetrofitItemToRoomEntityList(it.lines, itemType))
         })
     }
 
@@ -49,7 +50,7 @@ class ItemFragment : DefaultFragment() {
     }
 
     override fun notifyCurrencyChanged() {
-        itemsAdapter = ItemsAdapter(itemType)
+        itemsAdapter = ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.loadItems()
     }
