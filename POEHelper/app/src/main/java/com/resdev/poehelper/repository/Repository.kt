@@ -3,8 +3,7 @@ package com.resdev.poehelper.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.CurrentValue
-import com.resdev.poehelper.model.Converter
+import com.resdev.poehelper.model.fromRetrofitItemToRoomEntity
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.retrofit.PoeLeagueLoading
@@ -170,7 +169,7 @@ object Repository {
             for (j in items.lines){
                 val id = idMap.indexOf(j.id)
                 if (id!=-1){
-                    database.entityDao.updateItem(Converter.fromRetrofitItemToRoomEntity(j, i))
+                    database.entityDao.updateItem(fromRetrofitItemToRoomEntity(j, i))
                 }
             }
         }

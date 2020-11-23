@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.resdev.poehelper.model.pojo.ItemLine
-import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.repository.Repository
 

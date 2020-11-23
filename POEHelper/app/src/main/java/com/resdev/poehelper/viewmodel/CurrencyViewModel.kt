@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.resdev.poehelper.model.pojo.*
+import com.resdev.poehelper.model.pojo.CurrenciesModel
+import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.repository.Repository
 
 class CurrencyViewModel(val type: String, application: Application) : AndroidViewModel(application) {

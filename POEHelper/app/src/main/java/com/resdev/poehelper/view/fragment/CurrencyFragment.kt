@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyCallback
-import com.resdev.poehelper.view.fragment.util.FragmentUtil
+import com.resdev.poehelper.view.fragment.util.fromCodeToType
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
 
@@ -26,7 +26,7 @@ class CurrencyFragment : DefaultFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        itemType = FragmentUtil.fromCodeToType(requireArguments().getInt("Value",-1))
+        itemType = fromCodeToType(requireArguments().getInt("Value",-1))
         viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
             itemType)).get(CurrencyViewModel::class.java)
         viewModel.setCurrency()

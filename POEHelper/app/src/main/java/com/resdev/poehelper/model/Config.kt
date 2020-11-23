@@ -1,6 +1,5 @@
 package com.resdev.poehelper.model
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +9,6 @@ import com.resdev.poehelper.view.MyApplication
 
 object Config {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MyApplication.getApplicationContext())
-
     private val _league = MutableLiveData("Delirium")
     private val _currency = MutableLiveData("Chaos Orb")
     private val _language = MutableLiveData("en")

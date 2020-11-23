@@ -1,6 +1,5 @@
 package com.resdev.poehelper.model.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao

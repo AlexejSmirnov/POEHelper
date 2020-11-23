@@ -6,7 +6,6 @@ import com.resdev.poehelper.model.poemarket.RequestBuilder
 import com.resdev.poehelper.model.room.ItemEntity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 
 //PoeMarketApi retrofit
 object PoeMarket {

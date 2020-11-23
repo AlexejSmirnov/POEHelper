@@ -9,22 +9,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.databinding.CurrencyViewHolderBinding
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyDetail
 import com.resdev.poehelper.model.pojo.CurrencyLine
+import com.resdev.poehelper.utils.getFromMap
 import com.resdev.poehelper.view.datawrappers.CurrencyLineUiWrapper
-import com.resdev.poehelper.view.pop_up_window.PopupCurrencyWindowSetuper
+import com.resdev.poehelper.view.pop_up_window.setupWindow
 import com.resdev.poehelper.view.pop_up_window.showCurrencyWindow
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_view_holder.view.currency_name
-import kotlinx.android.synthetic.main.item_view_holder.view.currency_view
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.android.synthetic.main.item_view_holder.view.*
 
 
 class CurrenciesAdapter :
@@ -76,7 +71,7 @@ class CurrenciesAdapter :
             binding.executePendingBindings()
         }
         fun setViewDefaults(){
-                    itemView.currency_name.text = Util.getFromMap(CurrentValue.getDetails().name, CurrentValue.getData().language.translations)
+                    itemView.currency_name.text = getFromMap(CurrentValue.getDetails().name, CurrentValue.getData().language.translations)
                     Picasso.get().load(CurrentValue.getDetails().icon).into(itemView.currency_view)
 
         }
@@ -91,7 +86,7 @@ class CurrenciesAdapter :
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
         val focusable = true
         val popupWindow = PopupWindow(popupView, width, height, focusable)
-        PopupCurrencyWindowSetuper.setupWindow(currencyLine, popupView)
+        setupWindow(currencyLine, popupView)
         this.popupWindow = popupWindow
         popupWindow.showCurrencyWindow(view)
 

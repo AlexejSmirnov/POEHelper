@@ -7,18 +7,14 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.R
-import com.resdev.poehelper.utils.Util
-import com.resdev.poehelper.model.Converter
-import com.resdev.poehelper.model.retrofit.PoeMarket
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.repository.Repository
-import com.resdev.poehelper.utils.ColorsUtil.isColorLight
-import com.resdev.poehelper.utils.URLUtils.generatePoeMarketTradeUrl
+import com.resdev.poehelper.utils.isColorLight
+import com.resdev.poehelper.utils.openItemUrl
 import com.resdev.poehelper.view.MyApplication
 import com.resdev.poehelper.view.adapter.ItemAdapter
-import kotlinx.coroutines.*
 import kotlin.math.abs
 
 class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
@@ -117,26 +113,7 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
     }
 
     private fun makeOpenAction(viewHolder: RecyclerView.ViewHolder){
-        GlobalScope.launch {
-            var holder= viewHolder as ItemAdapter.ItemViewHolder
-            var link = PoeMarket.sendItemRequest(
-                Config.getLeague(),
-               (holder.item))
-            if (link==null){
-                withContext(Dispatchers.Main){
-                    Util.showInternetConnectionError(viewHolder.itemView)
-
-                }
-                return@launch
-            }
-            withContext(Dispatchers.Main){
-                Util.openBrowserWindowByUrl(viewHolder.itemView.context, generatePoeMarketTradeUrl()+"/${link?.id}")
-            }
-
-        }
-
-
-
+        openItemUrl((viewHolder as ItemAdapter.ItemViewHolder).item, viewHolder.itemView)
     }
 
     private fun makeSaveAction(viewHolder: RecyclerView.ViewHolder){

@@ -4,7 +4,6 @@ import com.resdev.poehelper.model.pojo.LeaguesModel
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 

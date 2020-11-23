@@ -1,7 +1,9 @@
 package com.resdev.poehelper.model.room
 
-import androidx.room.*
-import java.lang.NumberFormatException
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+
 //Entity which contains all data about stored item
 @Entity
 data class ItemEntity(

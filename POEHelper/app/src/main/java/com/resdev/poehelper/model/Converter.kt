@@ -1,13 +1,12 @@
 package com.resdev.poehelper.model
 
-import android.util.Log
 import com.resdev.poehelper.model.pojo.ItemLine
 import com.resdev.poehelper.model.room.ExplicitModifier
 import com.resdev.poehelper.model.room.ImplicitModifier
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.model.room.Sparkline
 
-object Converter {
+
     fun fromRetrofitItemToRoomEntity(item: ItemLine, type: String): ItemEntity{
         val translations = item.itemsModel.language.translations
         var sparktext = item.sparkline.data.joinToString {"$it "}
@@ -46,4 +45,3 @@ object Converter {
         }
         return itemEntityList
     }
-}

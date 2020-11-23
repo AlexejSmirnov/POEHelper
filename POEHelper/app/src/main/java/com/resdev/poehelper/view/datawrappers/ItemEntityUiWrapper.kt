@@ -3,10 +3,10 @@ package com.resdev.poehelper.view.datawrappers
 import android.content.Context
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.utils.Util.roundPercentages
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.utils.roundPercentages
 import com.squareup.picasso.Picasso
 
 class ItemEntityUiWrapper(val item: ItemEntity, val context: Context) : ItemUiInterface {

@@ -1,8 +1,7 @@
 package com.resdev.poehelper.model
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.Repository
-import com.resdev.poehelper.utils.Util
-import kotlinx.coroutines.*
+import com.resdev.poehelper.utils.getFromMap
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
@@ -53,7 +52,7 @@ object CurrentValue {
         }
         array.sortBy { it.toString() }
         var defaultArr = Array(array.size){i->array[i].toString()}
-        var translated = Array(array.size){i-> Util.getFromMap(array[i].toString(), data.language.translations)}
+        var translated = Array(array.size){i-> getFromMap(array[i].toString(), data.language.translations)}
         return arrayOf(defaultArr, translated)
     }
 

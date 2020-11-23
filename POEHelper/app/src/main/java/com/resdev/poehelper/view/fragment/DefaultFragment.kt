@@ -3,13 +3,11 @@ package com.resdev.poehelper.view.fragment
 import android.os.Bundle
 import android.widget.EdgeEffect
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.view.adapter.MyItemDecoration
-import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyCallback
 import kotlinx.android.synthetic.main.default_fragment.*
 
 abstract class DefaultFragment : Fragment(), MainFragment {

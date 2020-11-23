@@ -17,18 +17,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
-import com.resdev.poehelper.R
-import com.resdev.poehelper.utils.Util.showInternetConnectionError
-import com.resdev.poehelper.utils.ColorsUtil.getDarkenColor
-import com.resdev.poehelper.utils.ColorsUtil.isColorLight
+import com.resdev.poehelper.utils.getDarkenColor
+import com.resdev.poehelper.utils.isColorLight
+import com.resdev.poehelper.utils.showInternetConnectionError
 import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
 import com.resdev.poehelper.view.fragment.MainFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.reflect.Field
 
 
@@ -49,14 +53,11 @@ private var bookmarkIconOpened : Drawable? = null
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        title = Config.getLeague()
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             0, 0
         )
-
-        bookmarkIconClosed = getDrawable(R.drawable.ic_star_border_white_24dp)
-        bookmarkIconOpened = getDrawable(R.drawable.ic_star_white_24dp)
+        initializeActivityComponents()
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         openFragmentWithCheck(lastFragmentMenuId)
@@ -151,9 +152,17 @@ private var bookmarkIconOpened : Drawable? = null
         }
     }
 
+
+
     override fun onStop() {
         super.onStop()
         saveData()
+    }
+
+    fun initializeActivityComponents(){
+        title = Config.getLeague()
+        bookmarkIconClosed = getDrawable(R.drawable.ic_star_border_white_24dp)
+        bookmarkIconOpened = getDrawable(R.drawable.ic_star_white_24dp)
     }
 
     fun saveData(){
@@ -173,10 +182,9 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     fun openFragmentWithCheck(navigationItemId: Int){
-        GlobalScope.launch {
-            while (!CurrentValue.isCurrentDataIsReady()){
-
-            }
+        lifecycleScope.coroutineContext.cancelChildren()
+        lifecycleScope.launch(Dispatchers.Default) {
+            while (!CurrentValue.isCurrentDataIsReady()){ }
             withContext(Dispatchers.Main){
                 openFragment(navigationItemId)
             }

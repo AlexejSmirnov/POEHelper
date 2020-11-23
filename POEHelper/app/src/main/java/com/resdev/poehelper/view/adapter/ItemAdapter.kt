@@ -9,16 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.R
-import com.resdev.poehelper.utils.Util
 import com.resdev.poehelper.databinding.ItemViewHolderBinding
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.utils.getFromMap
 import com.resdev.poehelper.view.datawrappers.ItemEntityUiWrapper
-import com.resdev.poehelper.view.pop_up_window.PopupItemInfoWindowSetuper
-import com.resdev.poehelper.view.pop_up_window.PopupItemWindowSetuper
-import com.resdev.poehelper.view.pop_up_window.showCurrencyWindow
-import com.resdev.poehelper.view.pop_up_window.showItemWindow
+import com.resdev.poehelper.view.pop_up_window.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_holder.view.*
 
@@ -67,7 +64,7 @@ class ItemAdapter() :
         }
 
         fun setViewDefaults(){
-                itemView.currency_name.text = Util.getFromMap(
+                itemView.currency_name.text = getFromMap(
                 CurrentValue.getDetails().name,
                 CurrentValue.getData().language.translations
             )
@@ -82,7 +79,7 @@ class ItemAdapter() :
         val focusable = true
         val popupWindow = PopupWindow(popupView, width, height, focusable)
 
-        if (!PopupItemInfoWindowSetuper.chooseWindow(item, popupView)){
+        if (!chooseWindow(item, popupView)){
             return true
         }
         this.popupWindow = popupWindow
@@ -96,7 +93,7 @@ class ItemAdapter() :
         val focusable = true
         val popupWindow = PopupWindow(popupView, width, height, focusable)
 
-        PopupItemWindowSetuper.setupWindow(item, popupView)
+        setupWindow(item, popupView)
         this.popupWindow = popupWindow
         popupWindow.showCurrencyWindow(view)
         return true

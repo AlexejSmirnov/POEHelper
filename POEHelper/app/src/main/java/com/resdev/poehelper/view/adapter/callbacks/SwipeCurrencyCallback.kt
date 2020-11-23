@@ -7,17 +7,10 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.CurrentValue
-import com.resdev.poehelper.utils.Util
-import com.resdev.poehelper.model.retrofit.PoeMarket
-import com.resdev.poehelper.utils.ColorsUtil.isColorLight
-import com.resdev.poehelper.utils.URLUtils.generatePoeMarketExchangeUrl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.resdev.poehelper.utils.isColorLight
+import com.resdev.poehelper.utils.openCurrencyIrl
+import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import kotlin.math.abs
 
 
@@ -106,22 +99,7 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
     }
 
     fun makeAction(viewHolder: RecyclerView.ViewHolder){
-        GlobalScope.launch {
-            var holder= viewHolder as CurrenciesAdapter.CurrencyViewHolder
-            var link = PoeMarket.sendCurrencyRequest(
-                Config.getLeague(),
-                holder.line.tradeId?:"", CurrentValue.getDetails().tradeId?:"")
-            if (link==null){
-                withContext(Dispatchers.Main){
-                    Util.showInternetConnectionError(viewHolder.itemView)
-                }
-                return@launch
-            }
-            withContext(Dispatchers.Main){
-                Util.openBrowserWindowByUrl(viewHolder.itemView.context, generatePoeMarketExchangeUrl()+"/${link?.id}")
-            }
-
-        }
+       openCurrencyIrl((viewHolder as CurrenciesAdapter.CurrencyViewHolder).line, viewHolder.itemView)
     }
 
 

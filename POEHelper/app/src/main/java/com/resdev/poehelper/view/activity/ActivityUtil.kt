@@ -15,7 +15,6 @@ import com.resdev.poehelper.view.MyApplication
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yuku.ambilwarna.AmbilWarnaDialog
-import java.lang.Exception
 import java.util.*
 
 class ActivityUtil {
