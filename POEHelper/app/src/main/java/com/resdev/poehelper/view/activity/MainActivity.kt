@@ -101,7 +101,6 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId) {
             R.id.currency_picker -> {
                 try{
@@ -157,50 +156,6 @@ private var bookmarkIconOpened : Drawable? = null
         saveData()
     }
 
-    fun paintInterface(color : Int){
-        toolbar.setBackgroundColor(color)
-        setTextColor(color)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = getDarkenColor(color)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            window.colorMode = color
-        }
-    }
-
-    fun setTextColor(color: Int){
-        var color = Integer.toHexString(color)
-        if (isColorLight(color))
-        {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
-            paintElements(resources.getColor(R.color.black))
-        }
-        else{
-            window.decorView.systemUiVisibility = 0
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
-            paintElements(resources.getColor(R.color.white))
-        }
-        switchBookmarkIcons()
-    }
-
-    private fun paintElements(color: Int){
-        var editText = searchItem.actionView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-        val mCollapseIcon: Field = toolbar.javaClass.getDeclaredField("mCollapseIcon")
-        mCollapseIcon.isAccessible = true
-        val drw: Drawable = mCollapseIcon.get(toolbar) as Drawable
-        val searchIcon = getDrawable(R.drawable.ic_search_white_24dp)
-        toolbar.overflowIcon?.setTint(color)
-        (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(color)
-        drw.setTint(color)
-        toolbar.setTitleTextColor(color)
-        editText.setTextColor(color)
-        editText.setHintTextColor(color)
-        searchIcon?.setTint(color)
-        bookmarkIconClosed?.setTint(color)
-        bookmarkIconOpened?.setTint(color)
-        searchItem.icon = searchIcon
-    }
-
     fun saveData(){
         val editor: SharedPreferences.Editor = mSettings!!.edit()
         editor.putInt("LastFragment", lastFragmentMenuId)
@@ -251,5 +206,51 @@ private var bookmarkIconOpened : Drawable? = null
                 bookmarkItem.icon = bookmarkIconClosed
             }
 
+    }
+
+    //interface painting
+
+    fun paintInterface(color : Int){
+        toolbar.setBackgroundColor(color)
+        setTextColor(color)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = getDarkenColor(color)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            window.colorMode = color
+        }
+    }
+
+    fun setTextColor(color: Int){
+        var color = Integer.toHexString(color)
+        if (isColorLight(color))
+        {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
+            paintElements(resources.getColor(R.color.black))
+        }
+        else{
+            window.decorView.systemUiVisibility = 0
+            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
+            paintElements(resources.getColor(R.color.white))
+        }
+        switchBookmarkIcons()
+    }
+
+    private fun paintElements(color: Int){
+        var editText = searchItem.actionView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val mCollapseIcon: Field = toolbar.javaClass.getDeclaredField("mCollapseIcon")
+        mCollapseIcon.isAccessible = true
+        val drw: Drawable = mCollapseIcon.get(toolbar) as Drawable
+        val searchIcon = getDrawable(R.drawable.ic_search_white_24dp)
+        toolbar.overflowIcon?.setTint(color)
+        (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(color)
+        drw.setTint(color)
+        toolbar.setTitleTextColor(color)
+        editText.setTextColor(color)
+        editText.setHintTextColor(color)
+        searchIcon?.setTint(color)
+        bookmarkIconClosed?.setTint(color)
+        bookmarkIconOpened?.setTint(color)
+        searchItem.icon = searchIcon
     }
 }

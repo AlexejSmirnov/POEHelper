@@ -39,7 +39,7 @@ class BookmarkFragment : DefaultFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setUpRecyclerView()
+        setUpRecyclerView(SwipeBookmarkCallback())
         itemsAdapter =  BookmarkAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
@@ -59,18 +59,6 @@ class BookmarkFragment : DefaultFragment() {
 
     override fun notifyLeagueChanged() {
         viewModel.loadItems()
-    }
-
-
-
-    fun setUpRecyclerView(){
-        recyclerView = fragmentRecyclerView
-        recyclerView.addItemDecoration(
-            MyItemDecoration(15)
-        )
-        ItemTouchHelper(SwipeBookmarkCallback()).attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        paintRecycler()
     }
 
     override fun onDestroy() {

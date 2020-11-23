@@ -5,21 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EdgeEffect
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.R
 import com.resdev.poehelper.view.adapter.ItemsAdapter
-import com.resdev.poehelper.view.adapter.MyItemDecoration
 import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
+import com.resdev.poehelper.view.fragment.util.FragmentUtil
 import com.resdev.poehelper.viewmodel.ItemViewModel
 import com.resdev.poehelper.viewmodel.ItemViewModelFactory
-import kotlinx.android.synthetic.main.default_fragment.*
 
 class ItemFragment : DefaultFragment() {
     private lateinit var viewModel: ItemViewModel
@@ -42,7 +36,7 @@ class ItemFragment : DefaultFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpRecyclerView()
+        setUpRecyclerView(SwipeItemCallback())
         itemsAdapter =  ItemsAdapter(itemType)
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
@@ -64,18 +58,6 @@ class ItemFragment : DefaultFragment() {
         viewModel.loadItems()
     }
 
-
-
-
-    fun setUpRecyclerView(){
-        recyclerView = fragmentRecyclerView
-        recyclerView.addItemDecoration(
-            MyItemDecoration(15)
-        )
-        ItemTouchHelper(SwipeItemCallback()).attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        paintRecycler()
-    }
 
     override fun onDestroy() {
         itemsAdapter.closeWindow()

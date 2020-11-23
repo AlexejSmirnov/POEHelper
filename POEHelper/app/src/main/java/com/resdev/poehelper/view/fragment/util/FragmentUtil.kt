@@ -1,4 +1,4 @@
-package com.resdev.poehelper.view.fragment
+package com.resdev.poehelper.view.fragment.util
 
 import com.resdev.poehelper.R
 
