@@ -1,10 +1,12 @@
 package com.resdev.poehelper.model.retrofit
 
+import android.util.Log
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 object PoeNinjaLoading {
     private  var retrofit : Retrofit = Retrofit.Builder()
@@ -14,12 +16,9 @@ object PoeNinjaLoading {
     private val poeNinjaClient = retrofit.create(PoeNinjaApi::class.java)
 
 
-    fun loadItems(leagueName: String, itemName:String): ItemsModel {
+    suspend fun loadItems(leagueName: String, itemName:String): ItemsModel {
         return try{
-            poeNinjaClient
-                .getItem(leagueName, itemName, Config.getLanguage())
-                ?.execute()
-                ?.body()!!
+            poeNinjaClient.getItem(leagueName, itemName, Config.getLanguage()) ?: ItemsModel.emptyModel
         } catch (e: Exception){
             ItemsModel.emptyModel
         }
@@ -27,15 +26,11 @@ object PoeNinjaLoading {
     }
 
 
-    fun loadCurrencies(leagueName: String, itemName:String): CurrenciesModel {
+    suspend fun loadCurrencies(leagueName: String, itemName:String): CurrenciesModel {
         return try{
-            poeNinjaClient
-                .getCurrency(leagueName, itemName,
-                    Config.getLanguage()
-                )
-                ?.execute()
-                ?.body()!!
+            poeNinjaClient.getCurrency(leagueName, itemName, Config.getLanguage()) ?: CurrenciesModel.emptyModel
         } catch (e: Exception){
+            e.printStackTrace()
             CurrenciesModel.emptyModel
         }
 

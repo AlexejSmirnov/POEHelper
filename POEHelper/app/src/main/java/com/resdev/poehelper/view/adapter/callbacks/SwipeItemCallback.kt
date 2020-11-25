@@ -10,11 +10,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.room.ApplicationDatabase
-import com.resdev.poehelper.repository.Repository
+import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
 import com.resdev.poehelper.view.MyApplication
 import com.resdev.poehelper.view.adapter.ItemAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
@@ -117,9 +120,8 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
     }
 
     private fun makeSaveAction(viewHolder: RecyclerView.ViewHolder){
-        var db = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
         var holder= viewHolder as ItemAdapter.ItemViewHolder
-        Repository.addItem(holder.item)
+        CoroutineScope(Dispatchers.IO).launch { ItemRepository.addItem(holder.item)}
         var itemName = holder.item.translatedName ?: holder.item.name
         var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is bookmarked", Snackbar.LENGTH_LONG)
         snackbar.setActionTextColor(Color.BLACK)

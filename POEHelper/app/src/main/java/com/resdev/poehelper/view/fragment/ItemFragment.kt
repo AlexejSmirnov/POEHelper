@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.fromRetrofitItemToRoomEntityList
+import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntityList
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
 import com.resdev.poehelper.view.fragment.util.fromCodeToType
@@ -30,8 +30,6 @@ class ItemFragment : DefaultFragment() {
         itemType = fromCodeToType(requireArguments().getInt("Value",-1))
 
         viewModel = ViewModelProvider(this, ItemViewModelFactory(Application(),  itemType)).get(ItemViewModel::class.java)
-        viewModel.setLastItem()
-        viewModel.loadItems()
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 
@@ -41,7 +39,12 @@ class ItemFragment : DefaultFragment() {
         itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
-            itemsAdapter.submitList(fromRetrofitItemToRoomEntityList(it.lines, itemType))
+            itemsAdapter.submitList(
+                fromRetrofitItemToRoomEntityList(
+                    it.lines,
+                    itemType
+                )
+            )
         })
     }
 
@@ -52,12 +55,8 @@ class ItemFragment : DefaultFragment() {
     override fun notifyCurrencyChanged() {
         itemsAdapter = ItemAdapter()
         recyclerView.adapter = itemsAdapter
-        viewModel.loadItems()
     }
 
-    override fun notifyLeagueChanged() {
-        viewModel.loadItems()
-    }
 
 
     override fun onDestroy() {

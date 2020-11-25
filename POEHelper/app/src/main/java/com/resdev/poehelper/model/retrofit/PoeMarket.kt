@@ -14,7 +14,7 @@ object PoeMarket {
     private lateinit var poeMarketClient : PoeMarketApi
 
 
-    fun sendItemRequest(leagueName: String, itemsEntity: ItemEntity): PoeMarketResponse? {
+    fun sendItemRequest(itemsEntity: ItemEntity): PoeMarketResponse? {
         val item = RequestBuilder.generateItemLink(itemsEntity)
         return try{
             poeMarketClient.sendItemRequest(Config.getLeague(), item)
@@ -25,7 +25,7 @@ object PoeMarket {
         }
     }
 
-    fun sendCurrencyRequest(leagueName: String, want: String, have: String): PoeMarketResponse? {
+    fun sendCurrencyRequest(want: String, have: String): PoeMarketResponse? {
         val item = RequestBuilder.generateCurrencyLink(want, have)
         return try{ poeMarketClient.sendCurrencyRequest(Config.getLeague(), item)
             ?.execute()

@@ -1,4 +1,4 @@
-package com.resdev.poehelper.model
+package com.resdev.poehelper.utils
 
 import com.resdev.poehelper.model.pojo.ItemLine
 import com.resdev.poehelper.model.room.ExplicitModifier
@@ -41,7 +41,12 @@ import com.resdev.poehelper.model.room.Sparkline
     fun fromRetrofitItemToRoomEntityList(list: List<ItemLine>, type: String):List<ItemEntity>{
         val itemEntityList = mutableListOf<ItemEntity>()
         for (i in list){
-            itemEntityList.add(fromRetrofitItemToRoomEntity(i, type))
+            itemEntityList.add(
+                fromRetrofitItemToRoomEntity(
+                    i,
+                    type
+                )
+            )
         }
         return itemEntityList
     }

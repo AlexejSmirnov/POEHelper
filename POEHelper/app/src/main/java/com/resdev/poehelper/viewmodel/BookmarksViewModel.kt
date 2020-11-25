@@ -4,17 +4,32 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
 import com.resdev.poehelper.model.room.ItemEntity
-import com.resdev.poehelper.repository.Repository
+import com.resdev.poehelper.repository.ItemRepository
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class BookmarksViewModel(application: Application) : AndroidViewModel(application){
-    private val repository = Repository
-    private var _itemsData : LiveData<List<ItemEntity>> = repository.getBookmarks()
+    val repository = ItemRepository
+    private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private  var itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var filter = ""
+    private var job: Job? = null
     init {
+        launchUpdating()
         _itemsData.observeForever {
             filterData(it)
+        }
+        Config.getObservableLeague().observeForever{
+            restartLaunchUpdating()
+        }
+        Config.getObservableCurrency().observeForever{
+            restartLaunchUpdating()
         }
 
     }
@@ -31,12 +46,14 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun setFiler(filter: String){
         this.filter = filter
-        filterData(_itemsData.value!!)
+        _itemsData.value?.let {
+            filterData(it)
+        }
+
     }
 
     fun loadItems(){
-        repository.updateBookmarksAsync()
-
+        viewModelScope.launch(IO) { updateBookmarksItems() }
     }
 
     fun getItems(): LiveData<List<ItemEntity>> {
@@ -44,6 +61,41 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 
+    fun launchUpdating(){
+        job = viewModelScope.launch(IO) {
+            while (true){
+                updateBookmarksItems()
+                _itemsData.postValue(repository.getItemsFromDatabase())
+                delay(60000)
+            }
+        }
+    }
 
+    fun restartLaunchUpdating(){
+        job?.cancel()
+        launchUpdating()
+    }
 
+    suspend fun updateBookmarksItems(){
+        var itemsTypes = repository.getTypes()
+        _itemsData.value?.let { value ->
+            val idMap = value.map { it.id }
+            for (i in itemsTypes){
+                val items = ItemRepository.getItem(i)
+                items.bindModel()
+                for (j in items.lines){
+                    val id = idMap.indexOf(j.id)
+                    if (id!=-1){
+                        ItemRepository.updateItem(
+                            fromRetrofitItemToRoomEntity(
+                                j,
+                                i
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+    }
 }

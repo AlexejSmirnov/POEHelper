@@ -9,8 +9,8 @@ import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.retrofit.PoeMarket
-import com.resdev.poehelper.repository.Repository
-import com.resdev.poehelper.repository.Repository.loadLeagues
+import com.resdev.poehelper.repository.CurrencyRepository.loadLeagues
+import com.resdev.poehelper.repository.PreloadingRepository
 import com.resdev.poehelper.view.MyApplication
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -32,25 +32,20 @@ class ActivityUtil {
                 callback()
             }
             builder.show()
-            true
         }
-        private var lastLeagues: Array<String>? = null
+
 
         fun createLeaguePicker(context: Context, callback: () -> Unit){
             runBlocking {
                 launch {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                     builder.setTitle(context.resources.getString(R.string.choose_league))
-                    if (lastLeagues==null){
-                        lastLeagues = loadLeagues().await() ?: throw Exception()
-                    }
                     builder.setItems(
-                        lastLeagues
+                        PreloadingRepository.league.getCompleted()
                     ) { dialog, which ->
                         val lv: ListView =
                             (dialog as AlertDialog).listView
                         Config.setLeague(lv.getItemAtPosition(which).toString())
-                        Repository.updateExchange()
                         callback()
                     }
                     builder.show()
@@ -89,7 +84,6 @@ class ActivityUtil {
             builder.setItems(languagesTitle
             ) { _, which ->
                 Config.setLanguage(languages[which])
-                Repository.updateExchange()
                 callback()
             }
             builder.show()
@@ -111,7 +105,7 @@ class ActivityUtil {
             applicationConf.setLocale(newLocale)
             applicationRes.updateConfiguration(
                 applicationConf,
-                applicationRes.getDisplayMetrics()
+                applicationRes.displayMetrics
             )
             PoeMarket.rebuildRetrofit()
         }

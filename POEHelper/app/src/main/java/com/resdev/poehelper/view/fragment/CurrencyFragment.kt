@@ -29,8 +29,6 @@ class CurrencyFragment : DefaultFragment() {
         itemType = fromCodeToType(requireArguments().getInt("Value",-1))
         viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
             itemType)).get(CurrencyViewModel::class.java)
-        viewModel.setCurrency()
-        viewModel.loadCurrencies()
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 
@@ -53,12 +51,9 @@ class CurrencyFragment : DefaultFragment() {
     override fun notifyCurrencyChanged() {
         currenciesAdapter = CurrenciesAdapter()
         recyclerView.adapter = currenciesAdapter
-        viewModel.loadCurrencies()
     }
 
-    override fun notifyLeagueChanged() {
-        viewModel.loadCurrencies()
-    }
+
 
     override fun onDestroy() {
         currenciesAdapter.closeWindow()

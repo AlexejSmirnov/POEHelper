@@ -4,18 +4,32 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.CurrencyLine
-import com.resdev.poehelper.repository.Repository
+import com.resdev.poehelper.repository.CurrencyRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CurrencyViewModel(val type: String, application: Application) : AndroidViewModel(application) {
-    private val repository = Repository
-    private var _currenciesData : LiveData<CurrenciesModel> = repository.getCurrencies()
+    val repository = CurrencyRepository
+    private var _currenciesData : MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var currenciesData: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var filter = ""
+    private var job: Job? = null
     init {
+        updateListOfValues()
         _currenciesData.observeForever {
             filterData(it)
+        }
+        Config.getObservableLeague().observeForever{
+            restartUpdatingOfListOfValue()
+        }
+        Config.getObservableCurrency().observeForever{
+            restartUpdatingOfListOfValue()
         }
     }
 
@@ -36,14 +50,19 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
         filterData(_currenciesData.value!!)
     }
 
-
-    fun loadCurrencies(){
-        repository.loadCurrencies()
+    fun restartUpdatingOfListOfValue(){
+        job?.cancel()
+        updateListOfValues()
+    }
+    fun updateListOfValues(){
+        job = viewModelScope.launch(Dispatchers.IO) {
+            while (true){
+                _currenciesData.postValue(repository.getCurrency(type))
+                delay(60000)
+            }
+        }
     }
 
-    fun setCurrency(){
-        repository.setLastCurrency(type)
-    }
     fun getItems():LiveData<CurrenciesModel>{
         return currenciesData
     }

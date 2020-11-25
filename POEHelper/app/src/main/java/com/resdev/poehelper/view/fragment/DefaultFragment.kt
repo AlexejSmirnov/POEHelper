@@ -15,9 +15,6 @@ abstract class DefaultFragment : Fragment(), MainFragment {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Config.getObservableLeague().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            notifyLeagueChanged()
-        })
         Config.getObservableColor().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             paintRecycler()
         })

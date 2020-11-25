@@ -50,9 +50,7 @@ class BookmarkFragment : DefaultFragment() {
         viewModel.loadItems()
     }
 
-    override fun notifyLeagueChanged() {
-        viewModel.loadItems()
-    }
+
 
     override fun onDestroy() {
         itemsAdapter.closeWindow()

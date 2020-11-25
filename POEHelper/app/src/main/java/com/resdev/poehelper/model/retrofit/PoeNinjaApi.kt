@@ -10,17 +10,17 @@ import retrofit2.http.Query
 interface PoeNinjaApi {
 
     @GET("/api/data/itemoverview")
-    fun getItem(
+    suspend fun getItem(
         @Query("league") leagueName: String?,
         @Query("type") type: String,
         @Query("language") language: String
-    ): Call<ItemsModel?>?
+    ): ItemsModel?
 
 
     @GET("/api/data/currencyoverview")
-    fun getCurrency(
+    suspend fun getCurrency(
         @Query("league") leagueName: String?,
         @Query("type") type: String,
         @Query("language") language: String
-    ): Call<CurrenciesModel?>?
+    ): CurrenciesModel?
 }

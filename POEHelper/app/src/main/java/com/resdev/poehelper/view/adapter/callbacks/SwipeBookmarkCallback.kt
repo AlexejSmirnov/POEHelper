@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.repository.Repository
+import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
 import com.resdev.poehelper.view.adapter.ItemAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
@@ -117,7 +120,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeRemoveAction(viewHolder: RecyclerView.ViewHolder){
         var holder= viewHolder as ItemAdapter.ItemViewHolder
-        Repository.removeEntity(holder.item)
+        CoroutineScope(IO).launch { ItemRepository.removeEntity(holder.item)}
         var itemName = holder.item.translatedName ?: holder.item.name
         var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is removed", Snackbar.LENGTH_LONG)
         snackbar.setActionTextColor(Color.BLACK)

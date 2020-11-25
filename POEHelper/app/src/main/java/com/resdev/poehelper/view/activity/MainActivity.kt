@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
@@ -58,6 +59,7 @@ private var bookmarkIconOpened : Drawable? = null
             0, 0
         )
         initializeActivityComponents()
+        setListeners()
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         openFragmentWithCheck(lastFragmentMenuId)
@@ -116,7 +118,7 @@ private var bookmarkIconOpened : Drawable? = null
             R.id.league_picker -> {
                 try {
                     ActivityUtil.createLeaguePicker(this){
-                        title = Config.getLeague()
+
                     }
                 }
                 catch (ex: java.lang.Exception){
@@ -189,6 +191,7 @@ private var bookmarkIconOpened : Drawable? = null
                 openFragment(navigationItemId)
             }
         }
+        
     }
 
     private fun openFragment(navigationItemId: Int){
@@ -260,5 +263,12 @@ private var bookmarkIconOpened : Drawable? = null
         bookmarkIconClosed?.setTint(color)
         bookmarkIconOpened?.setTint(color)
         searchItem.icon = searchIcon
+    }
+
+    fun setListeners(){
+        Config.getObservableLeague().observe(this, Observer {
+            title = it
+        })
+
     }
 }

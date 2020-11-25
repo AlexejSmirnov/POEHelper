@@ -5,8 +5,6 @@ interface MainFragment {
     fun setFilter(filter: String)
     //invoke reload of data with recreating of recyclerview
     fun notifyCurrencyChanged()
-    //invoke reload of data
-    fun notifyLeagueChanged()
     //paint recyclers EdgeEffect
     fun paintRecycler()
 }

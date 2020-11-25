@@ -4,8 +4,10 @@ import android.view.View
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyDetail
+import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.model.retrofit.PoeMarket
 import com.resdev.poehelper.model.room.ItemEntity
+import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,7 +16,6 @@ import kotlinx.coroutines.withContext
 fun openItemUrl(itemEntity: ItemEntity, view: View){
     GlobalScope.launch {
         var link = PoeMarket.sendItemRequest(
-            Config.getLeague(),
             itemEntity)
         if (link==null){
             withContext(Dispatchers.Main){
@@ -32,7 +33,6 @@ fun openItemUrl(itemEntity: ItemEntity, view: View){
 fun openCurrencyIrl(currencyDetail: CurrencyDetail, view: View){
     GlobalScope.launch {
         var link = PoeMarket.sendCurrencyRequest(
-            Config.getLeague(),
             currencyDetail.tradeId?:"", CurrentValue.getDetails().tradeId?:"")
         if (link==null){
             withContext(Dispatchers.Main){
