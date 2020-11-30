@@ -3,11 +3,8 @@ import android.util.Log
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.utils.getFromMap
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
@@ -85,14 +82,13 @@ object CurrentValue {
     fun loadCurrencyAsync(){
         job?.cancel()
         job = CoroutineScope(Default).launch {
-            runBlocking {
-                var result = CurrenciesModel.emptyModel
-                while (result == CurrenciesModel.emptyModel){
-                    result = CurrencyRepository.getCurrency("Currency")
-                }
-                data = result
-                getActualData()
+            var result = CurrenciesModel.emptyModel
+            while (result == CurrenciesModel.emptyModel){
+                result = CurrencyRepository.getCurrency("Currency")
+                delay(1000)
             }
+            data = result
+            getActualData()
         }
     }
 

@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
-import com.resdev.poehelper.view.MyApplication
+import com.resdev.poehelper.MyApplication
 
 
 object Config {

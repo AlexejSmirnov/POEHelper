@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [ItemEntity::class, ExplicitModifier::class, ImplicitModifier::class, Sparkline::class], version = 1, exportSchema = false)
+@Database(entities = [ItemEntity::class, ExplicitModifier::class, ImplicitModifier::class], version = 2, exportSchema = false)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract val entityDao: EntityDao
 
@@ -13,7 +13,9 @@ abstract class ApplicationDatabase : RoomDatabase() {
         private lateinit var INSTANCE: ApplicationDatabase
         fun getInstance(context: Context): ApplicationDatabase{
             if (!::INSTANCE.isInitialized){
-                INSTANCE = Room.databaseBuilder(context, ApplicationDatabase::class.java, "database").build()
+                INSTANCE = Room.databaseBuilder(context, ApplicationDatabase::class.java, "database")
+                    .fallbackToDestructiveMigration()
+                    .build()
             }
             return INSTANCE
 

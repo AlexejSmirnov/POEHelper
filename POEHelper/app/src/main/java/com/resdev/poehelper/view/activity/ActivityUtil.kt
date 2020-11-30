@@ -9,9 +9,8 @@ import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.retrofit.PoeMarket
-import com.resdev.poehelper.repository.CurrencyRepository.loadLeagues
 import com.resdev.poehelper.repository.PreloadingRepository
-import com.resdev.poehelper.view.MyApplication
+import com.resdev.poehelper.MyApplication
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -107,7 +106,6 @@ class ActivityUtil {
                 applicationConf,
                 applicationRes.displayMetrics
             )
-            PoeMarket.rebuildRetrofit()
         }
     }
 }

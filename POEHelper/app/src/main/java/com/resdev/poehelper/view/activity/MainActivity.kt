@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -30,10 +31,7 @@ import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
 import com.resdev.poehelper.view.fragment.MainFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.lang.reflect.Field
 
 
@@ -185,8 +183,12 @@ private var bookmarkIconOpened : Drawable? = null
 
     fun openFragmentWithCheck(navigationItemId: Int){
         lifecycleScope.coroutineContext.cancelChildren()
+        drawer_layout.closeDrawer(GravityCompat.START)
         lifecycleScope.launch(Dispatchers.Default) {
-            while (!CurrentValue.isCurrentDataIsReady()){ }
+            while (!CurrentValue.isCurrentDataIsReady()){
+                Log.d("не", "openFragmentWithCheck: $navigationItemId")
+                delay(500)
+            }
             withContext(Dispatchers.Main){
                 openFragment(navigationItemId)
             }
@@ -195,19 +197,28 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     private fun openFragment(navigationItemId: Int){
-        fragment = ItemFragment()
-        var bundle = Bundle()
-        if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
-            fragment = CurrencyFragment()
-        }
         if (isBookmarkOpened){
-            fragment = BookmarkFragment()
+            openBookmarkFragment()
+            return
         }
+        fragment = if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
+            CurrencyFragment()
+        } else{
+            ItemFragment()
+        }
+        openDefaultFragment(navigationItemId)
+    }
+
+    private fun openBookmarkFragment(){
+        fragment = BookmarkFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
+    }
+    private fun openDefaultFragment(navigationItemId: Int){
+        var bundle = Bundle()
         bundle.putInt("Value", navigationItemId)
-        lastFragmentMenuId = navigationItemId
         (fragment as Fragment).arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
-        drawer_layout.closeDrawer(GravityCompat.START)
+
     }
 
     fun switchBookmarkIcons(){

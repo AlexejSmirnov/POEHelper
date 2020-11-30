@@ -8,5 +8,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 
 object CurrencyRepository{
+
     suspend fun getCurrency(currencyName: String) = PoeNinjaLoading.loadCurrencies(Config.getLeague(), currencyName)
 }

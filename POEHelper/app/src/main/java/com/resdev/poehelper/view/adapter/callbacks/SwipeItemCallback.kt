@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
-import com.resdev.poehelper.view.MyApplication
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

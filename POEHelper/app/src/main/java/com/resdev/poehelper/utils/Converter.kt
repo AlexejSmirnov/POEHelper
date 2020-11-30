@@ -30,9 +30,10 @@ import com.resdev.poehelper.model.room.Sparkline
             item.mapTier,
             item.levelRequired,
             item.variant,
-            type
+            type,
+            Sparkline(sparktext.substring(0, sparktext.lastIndex-1), item.sparkline.totalChange)
         )
-        newItem.sparkline = Sparkline(item.id, sparktext.substring(0, sparktext.lastIndex-1), item.sparkline.totalChange)
+
         newItem.implicitModifiers = item.implicitModifiers.map {ImplicitModifier(item.id, it.text, translations [it.text])}
         newItem.explicitModifiers = item.explicitModifiers.map {ExplicitModifier(item.id, it.text, translations[it.text])}
         return newItem

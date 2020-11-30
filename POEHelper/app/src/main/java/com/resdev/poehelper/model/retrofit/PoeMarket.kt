@@ -10,9 +10,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 //PoeMarketApi retrofit
 object PoeMarket {
     private lateinit var retrofit : Retrofit
-
     private lateinit var poeMarketClient : PoeMarketApi
-
+    init {
+        Config.getObservableLanguage().observeForever{
+            rebuildRetrofit(it)
+        }
+    }
 
     fun sendItemRequest(itemsEntity: ItemEntity): PoeMarketResponse? {
         val item = RequestBuilder.generateItemLink(itemsEntity)
@@ -35,12 +38,12 @@ object PoeMarket {
         }
     }
 
-    fun rebuildRetrofit(){
-        var url = when(Config.getLanguage()){
+    fun rebuildRetrofit(language: String){
+        var url = when(language){
             "en"-> "https://www.pathofexile.com"
             "ko"-> "https://poe.game.daum.net"
             "ge"-> "https://de.pathofexile.com"
-            else-> "https://${Config.getLanguage()}.pathofexile.com"
+            else-> "https://${language}.pathofexile.com"
         }
         retrofit = Retrofit.Builder()
             .baseUrl(url)

@@ -12,7 +12,6 @@ abstract class EntityDao{
 
             i.explicitModifiers = getExplicitModifier(i.id)
             i.implicitModifiers = getImplicitModifier(i.id)
-            i.sparkline = getSparkline(i.id)
         }
         return items
     }
@@ -21,19 +20,16 @@ abstract class EntityDao{
         _updateItem(item)
         for (i: ImplicitModifier in item.implicitModifiers){updateImplicitModifier(i)}
         for (i: ExplicitModifier in item.explicitModifiers){updateExplicitModifier(i)}
-        updateSparkline(item.sparkline)
     }
     suspend fun removeItem(item: ItemEntity){
         _removeItem(item)
         for (i: ImplicitModifier in item.implicitModifiers){removeImplicitModifier(i)}
         for (i: ExplicitModifier in item.explicitModifiers){removeExplicitModifier(i)}
-        removeSparkline(item.sparkline)
     }
     suspend fun insertItem(item: ItemEntity){
         _insertItem(item)
         for (i: ImplicitModifier in item.implicitModifiers){insertImplicitModifier(i)}
         for (i: ExplicitModifier in item.explicitModifiers){insertExplicitModifier(i)}
-        insertSparkline(item.sparkline)
     }
 
     //ItemEntity
@@ -79,16 +75,5 @@ abstract class EntityDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertImplicitModifier(item: ImplicitModifier)
 
-    //Sparkline
-    @Query("Select * from Sparkline WHERE itemId = :id")
-    protected abstract suspend fun getSparkline(id: Int): Sparkline
 
-    @Update
-    abstract suspend fun updateSparkline(item: Sparkline)
-
-    @Delete
-    abstract suspend fun removeSparkline(item: Sparkline)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertSparkline(item: Sparkline)
 }

@@ -34,7 +34,6 @@ class PoeMarketTest{
     init {
         val model = PoeNinjaLoading.loadItems("Standard", "Scarab")
         model.bindModel()
-        PoeMarket.rebuildRetrofit()
     }
 
 

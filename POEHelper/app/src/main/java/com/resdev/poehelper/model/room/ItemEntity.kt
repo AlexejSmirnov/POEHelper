@@ -1,5 +1,6 @@
 package com.resdev.poehelper.model.room
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -26,11 +27,11 @@ data class ItemEntity(
     var mapTier:Int,
     var levelRequired:Int,
     var variant:String?,
-    var itemType: String
+    var itemType: String,
+    @Embedded var sparkline: Sparkline
 ){
     @Ignore lateinit var explicitModifiers: List<ExplicitModifier>
     @Ignore lateinit var implicitModifiers: List<ImplicitModifier>
-    @Ignore lateinit var sparkline: Sparkline
 }
 
 @Entity
@@ -47,9 +48,8 @@ data class ImplicitModifier(
     val translated: String?
 )
 
-@Entity
+
 data class Sparkline(
-    @PrimaryKey val itemId:Int,
     val numbers: String,
     val totalChange: Double
 ){

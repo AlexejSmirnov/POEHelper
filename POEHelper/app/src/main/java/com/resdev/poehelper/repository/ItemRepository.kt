@@ -4,7 +4,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
 import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.model.room.ItemEntity
-import com.resdev.poehelper.view.MyApplication
+import com.resdev.poehelper.MyApplication
 
 object ItemRepository{
     private val database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
