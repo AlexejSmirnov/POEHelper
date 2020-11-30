@@ -31,7 +31,7 @@
     <string name="choose_currency"> Выберите валюту</string>
     <string name="change_color"> Выберите цвет</string>
     <string name="change_language"> Change language</string>
-    <string name="no_data">нет данных</string>
+    <string name="no_data"> — </string>
     <string name="buy">купить</string>
     <string name="sell">продать</string>
     <string name="last_7_days">Посление 7 дней:</string>

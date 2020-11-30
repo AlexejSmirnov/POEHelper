@@ -31,7 +31,7 @@
     <string name="choose_currency"> เลือกสกุลเงิน</string>
     <string name="change_color"> เปลี่ยนสี</string>
     <string name="change_language"> Change language</string>
-    <string name="no_data">ไม่มีข้อมูล</string>
+    <string name="no_data"> — </string>
     <string name="buy">ซื้อ</string>
     <string name="sell">ขาย</string>
     <string name="last_7_days">7 วันล่าสุด</string>

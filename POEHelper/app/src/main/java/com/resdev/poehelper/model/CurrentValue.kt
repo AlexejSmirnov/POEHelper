@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers.Default
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
-    val TAG = "CurrentValue"
     private lateinit var currencyDetail: CurrencyDetail
     private lateinit var line: CurrencyLine
     private lateinit var data: CurrenciesModel
@@ -21,12 +20,10 @@ object CurrentValue {
         for (i in data.currencyDetails){
             if (Config.getCurrency() == i.name){
                 currencyDetail = i
-                Log.d(TAG, "getActualData currencyDetail: $currencyDetail")
             }
         }
         for (i in data.lines){
             if (Config.getCurrency() == "Chaos Orb"){
-                Log.d(TAG, "getActualData line: Chaos Orb")
                 line = CurrencyLine(
                     "Chaos Orb",
                     1.0,
@@ -39,7 +36,6 @@ object CurrentValue {
                 return
             }
             if (i.currencyTypeName == Config.getCurrency()){
-                Log.d(TAG, "getActualData line: ${i.currencyTypeName}")
                 line = i
                 return
             }
@@ -74,7 +70,6 @@ object CurrentValue {
     }
 
      fun isCurrentDataIsReady():Boolean{
-         Log.d("init", ::data.isInitialized.toString() + ::line.isInitialized + ::currencyDetail.isInitialized)
        return ::data.isInitialized && ::line.isInitialized && ::currencyDetail.isInitialized
     }
 

@@ -32,7 +32,7 @@
     <string name="choose_currency"> Choisir la devise</string>
     <string name="change_color"> Changer de couleur</string>
     <string name="change_language"> Change language</string>
-    <string name="no_data">pas de données</string>
+    <string name="no_data"> — </string>
     <string name="buy">acheter</string>
     <string name="sell">vendre</string>
     <string name="last_7_days">Les 7 derniers jours:</string>

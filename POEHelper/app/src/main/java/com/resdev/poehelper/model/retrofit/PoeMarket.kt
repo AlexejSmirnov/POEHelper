@@ -1,6 +1,6 @@
 package com.resdev.poehelper.model.retrofit
 
-import com.resdev.poehelper.model.Config
+import androidx.lifecycle.LiveData
 import com.resdev.poehelper.model.poemarket.PoeMarketResponse
 import com.resdev.poehelper.model.poemarket.RequestBuilder
 import com.resdev.poehelper.model.room.ItemEntity
@@ -12,28 +12,34 @@ object PoeMarket {
     private lateinit var retrofit : Retrofit
     private lateinit var poeMarketClient : PoeMarketApi
     init {
-        Config.getObservableLanguage().observeForever{
+        rebuildRetrofit("en")
+    }
+
+    fun setLanguageObservable(data: LiveData<String>){
+        data.observeForever{
             rebuildRetrofit(it)
         }
     }
 
-    fun sendItemRequest(itemsEntity: ItemEntity): PoeMarketResponse? {
+    fun sendItemRequest(itemsEntity: ItemEntity, league: String): PoeMarketResponse? {
         val item = RequestBuilder.generateItemLink(itemsEntity)
         return try{
-            poeMarketClient.sendItemRequest(Config.getLeague(), item)
-                ?.execute()
-                ?.body()!!
+            poeMarketClient.sendItemRequest(league, item)
+                .execute()
+                .body()
         } catch (e: Exception){
+            e.printStackTrace()
             null
         }
     }
 
-    fun sendCurrencyRequest(want: String, have: String): PoeMarketResponse? {
+    fun sendCurrencyRequest(want: String, have: String, league: String): PoeMarketResponse? {
         val item = RequestBuilder.generateCurrencyLink(want, have)
-        return try{ poeMarketClient.sendCurrencyRequest(Config.getLeague(), item)
-            ?.execute()
-            ?.body()!!
+        return try{ poeMarketClient.sendCurrencyRequest(league, item)
+            .execute()
+            .body()
         } catch (e: Exception){
+            e.printStackTrace()
             null
         }
     }

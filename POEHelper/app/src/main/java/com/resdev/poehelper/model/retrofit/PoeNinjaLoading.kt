@@ -1,7 +1,5 @@
 package com.resdev.poehelper.model.retrofit
 
-import android.util.Log
-import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
 import retrofit2.Retrofit
@@ -16,9 +14,9 @@ object PoeNinjaLoading {
     private val poeNinjaClient = retrofit.create(PoeNinjaApi::class.java)
 
 
-    suspend fun loadItems(leagueName: String, itemName:String): ItemsModel {
+    suspend fun loadItems(leagueName: String, itemName:String, language: String): ItemsModel {
         return try{
-            poeNinjaClient.getItem(leagueName, itemName, Config.getLanguage()) ?: ItemsModel.emptyModel
+            poeNinjaClient.getItem(leagueName, itemName, language) ?: ItemsModel.emptyModel
         } catch (e: Exception){
             ItemsModel.emptyModel
         }
@@ -26,9 +24,9 @@ object PoeNinjaLoading {
     }
 
 
-    suspend fun loadCurrencies(leagueName: String, itemName:String): CurrenciesModel {
+    suspend fun loadCurrencies(leagueName: String, itemName:String, language: String): CurrenciesModel {
         return try{
-            poeNinjaClient.getCurrency(leagueName, itemName, Config.getLanguage()) ?: CurrenciesModel.emptyModel
+            poeNinjaClient.getCurrency(leagueName, itemName,language) ?: CurrenciesModel.emptyModel
         } catch (e: Exception){
             e.printStackTrace()
             CurrenciesModel.emptyModel

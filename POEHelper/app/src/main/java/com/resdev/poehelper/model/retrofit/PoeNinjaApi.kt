@@ -2,7 +2,6 @@ package com.resdev.poehelper.model.retrofit
 
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

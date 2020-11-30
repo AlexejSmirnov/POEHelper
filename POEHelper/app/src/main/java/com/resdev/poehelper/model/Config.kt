@@ -8,26 +8,29 @@ import com.resdev.poehelper.MyApplication
 
 
 object Config {
-    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MyApplication.getApplicationContext())
     private val _league = MutableLiveData("Delirium")
     private val _currency = MutableLiveData("Chaos Orb")
     private val _language = MutableLiveData("en")
     private val _color = MutableLiveData(-0x16e19d)
 
-    fun saveConfigs(){
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("League", _league.value)
-        editor.putString("Currency", _currency.value)
-        editor.putString("Language", _language.value)
-        editor.putInt("Color", _color.value ?: 0)
-        editor.apply()
+    fun saveConfigs(sharedPreferences: SharedPreferences?){
+        sharedPreferences?.let {
+            val editor: SharedPreferences.Editor = it.edit()
+            editor.putString("League", _league.value)
+            editor.putString("Currency", _currency.value)
+            editor.putString("Language", _language.value)
+            editor.putInt("Color", _color.value ?: 0)
+            editor.apply()
+        }
     }
 
-    fun loadConfig(){
-        _league.postValue(sharedPreferences.getString("League", "Standard"))
-        _currency.postValue(sharedPreferences.getString("Currency", "Chaos Orb"))
-        _language.postValue(sharedPreferences.getString("Language", "en"))
-        _color.postValue(sharedPreferences.getInt("Color", -0x000001))
+    fun loadConfig(sharedPreferences: SharedPreferences?){
+        sharedPreferences?.let {
+            _league.postValue(it.getString("League", "Standard"))
+            _currency.postValue(it.getString("Currency", "Chaos Orb"))
+            _language.postValue(it.getString("Language", "en"))
+            _color.postValue(it.getInt("Color", -0x000001))
+        }
     }
 
     fun getObservableLeague(): LiveData<String> = _league

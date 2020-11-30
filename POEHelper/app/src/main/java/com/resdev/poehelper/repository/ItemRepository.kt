@@ -9,7 +9,7 @@ import com.resdev.poehelper.MyApplication
 object ItemRepository{
     private val database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
 
-    suspend fun getItem(itemName: String) = PoeNinjaLoading.loadItems(Config.getLeague(), itemName)
+    suspend fun getItem(itemName: String) = PoeNinjaLoading.loadItems(Config.getLeague(), itemName, Config.getLanguage())
 
     suspend fun updateItem(item: ItemEntity) = database.entityDao.updateItem(item)
 

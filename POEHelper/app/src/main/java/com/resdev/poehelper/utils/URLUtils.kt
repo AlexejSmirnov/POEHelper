@@ -4,20 +4,20 @@ import com.resdev.poehelper.model.Config
 
 //utils that helps to generate urls for market for different languages
 
-fun generatePoeMarketTradeUrl(): String{
-    return when(Config.getLanguage()){
-        "en"->"https://www.pathofexile.com/trade/search/"+ Config.getLeague()
-        "ko"->"https://poe.game.daum.net/trade/search/"+ Config.getLeague()
-        "ge"->"https://de.pathofexile.com/trade/search/"+ Config.getLeague()
-        else->"https://${Config.getLanguage()}.pathofexile.com/trade/search/"+ Config.getLeague()
+fun generatePoeMarketTradeUrl(league: String = Config.getLeague(), language: String = Config.getLanguage()): String{
+    return when(language){
+        "en"-> "https://www.pathofexile.com/trade/search/$league"
+        "ko"-> "https://poe.game.daum.net/trade/search/$league"
+        "ge"-> "https://de.pathofexile.com/trade/search/$league"
+        else->"https://${language}.pathofexile.com/trade/search/"+ league
     }
 }
 
-fun generatePoeMarketExchangeUrl(): String{
-    return when(Config.getLanguage()){
-        "en"->"https://www.pathofexile.com/trade/exchange/"+ Config.getLeague()
-        "ko"->"https://poe.game.daum.net/trade/exchange/"+ Config.getLeague()
-        "ge"->"https://de.pathofexile.com/trade/exchange/"+ Config.getLeague()
-        else->"https://${Config.getLanguage()}.pathofexile.com/trade/exchange/"+ Config.getLeague()
+fun generatePoeMarketExchangeUrl(league: String = Config.getLeague(), language: String = Config.getLanguage()): String{
+    return when(language){
+        "en"-> "https://www.pathofexile.com/trade/exchange/$league"
+        "ko"-> "https://poe.game.daum.net/trade/exchange/$league"
+        "ge"-> "https://de.pathofexile.com/trade/exchange/$league"
+        else->"https://${language}.pathofexile.com/trade/exchange/"+ league
     }
 }

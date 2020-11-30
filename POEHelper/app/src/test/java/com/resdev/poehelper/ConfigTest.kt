@@ -1,24 +1,24 @@
 package com.resdev.poehelper
 
-import com.resdev.poehelper.utils.ChartsUtil
-import com.resdev.poehelper.utils.ColorsUtil
-import com.resdev.poehelper.utils.Util
+
+import com.resdev.poehelper.utils.getDaysSet
+import com.resdev.poehelper.utils.isColorLight
 import org.junit.Test
 
 class ConfigTest{
     @Test
     fun isBlackDark(){
-        assert(!ColorsUtil.isColorLight("00000000"))
+        assert(!isColorLight("00000000"))
     }
 
     @Test
     fun isWhiteDark(){
-        assert(ColorsUtil.isColorLight("FFFFFFFF"))
+        assert(isColorLight("FFFFFFFF"))
     }
 
     @Test
     fun getCal(){
-        print(ChartsUtil.getDaysSet())
+        println("Last 7 days: ${getDaysSet()}")
     }
 
 

@@ -31,7 +31,7 @@
     <string name="choose_currency"> Elige moneda</string>
     <string name="change_color"> Cambiar el color</string>
     <string name="change_language"> Change language</string>
-    <string name="no_data">sin datos</string>
+    <string name="no_data"> — </string>
     <string name="buy">comprar</string>
     <string name="sell">vender</string>
     <string name="last_7_days">Los últimos 7 días:</string>

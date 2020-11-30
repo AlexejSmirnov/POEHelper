@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,7 +24,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.utils.getDarkenColor
 import com.resdev.poehelper.utils.isColorLight
-import com.resdev.poehelper.utils.showInternetConnectionError
+import com.resdev.poehelper.utils.showToast
 import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
@@ -109,7 +108,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showInternetConnectionError(frameLayout)
+                    showToast(frameLayout, "Connection error!")
                 }
                 true
             }
@@ -121,7 +120,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showInternetConnectionError(frameLayout)
+                    showToast(frameLayout, "Connection error!")
                 }
                 true
             }
@@ -144,7 +143,7 @@ private var bookmarkIconOpened : Drawable? = null
                     openFragmentWithCheck(lastFragmentMenuId)
                 }
                 catch (ex: java.lang.Exception){
-                    showInternetConnectionError(frameLayout)
+                    showToast(frameLayout, "Connection error!")
                 }
                 return true
             }
@@ -170,7 +169,7 @@ private var bookmarkIconOpened : Drawable? = null
         editor.putInt("LastFragment", lastFragmentMenuId)
         editor.putBoolean("isBookmarkOpened", isBookmarkOpened)
         editor.apply()
-        Config.saveConfigs()
+        Config.saveConfigs(mSettings)
     }
 
     fun loadData(){
@@ -178,7 +177,7 @@ private var bookmarkIconOpened : Drawable? = null
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
         lastFragmentMenuId = mSettings!!.getInt("LastFragment", R.id.nav_currency)
         isBookmarkOpened = mSettings!!.getBoolean("isBookmarkOpened", false)
-        Config.loadConfig()
+        Config.loadConfig(mSettings)
     }
 
     fun openFragmentWithCheck(navigationItemId: Int){
@@ -186,7 +185,6 @@ private var bookmarkIconOpened : Drawable? = null
         drawer_layout.closeDrawer(GravityCompat.START)
         lifecycleScope.launch(Dispatchers.Default) {
             while (!CurrentValue.isCurrentDataIsReady()){
-                Log.d("не", "openFragmentWithCheck: $navigationItemId")
                 delay(500)
             }
             withContext(Dispatchers.Main){
@@ -217,6 +215,7 @@ private var bookmarkIconOpened : Drawable? = null
         var bundle = Bundle()
         bundle.putInt("Value", navigationItemId)
         (fragment as Fragment).arguments = bundle
+        lastFragmentMenuId = navigationItemId
         supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
 
     }

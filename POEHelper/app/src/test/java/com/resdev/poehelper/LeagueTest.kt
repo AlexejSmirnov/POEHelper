@@ -5,11 +5,14 @@ import org.junit.Test
 
 class LeagueTest {
     @Test
-    fun leaguesLoading(){
+     fun leaguesLoading(){
         PoeLeagueLoading
-        var leagues = PoeLeagueLoading.loadLeagues()
-        for (i in leagues.getEditedLeagues()){
-            println(i)
+        var leagues = PoeLeagueLoading.loadLeagues().getEditedLeagues()
+        leagues?.let {
+            for (i in leagues){
+                println(i)
+            }
         }
+
     }
 }

@@ -31,7 +31,7 @@
     <string name="choose_currency"> 통화를 선택하십시오</string>
     <string name="change_color"> 색깔을 바꾸다</string>
     <string name="change_language"> Change language</string>
-    <string name="no_data">데이터가 없습니다</string>
+    <string name="no_data"> — </string>
     <string name="buy">구입</string>
     <string name="sell">팔다</string>
     <string name="last_7_days">지난 7 일:</string>
