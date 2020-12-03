@@ -9,7 +9,7 @@ fun fromCodeToType(code: Int):String {
         R.id.nav_fragment -> "Fragment"
         R.id.nav_delirium_orb -> "DeliriumOrb"
         R.id.nav_watchstone -> "Watchstone"
-        R.id.nav_seed -> "Seed"
+//        R.id.nav_seed -> "Seed"
         R.id.nav_oil -> "Oil"
         R.id.nav_incubator -> "Incubator"
         R.id.nav_scarab -> "Scarab"

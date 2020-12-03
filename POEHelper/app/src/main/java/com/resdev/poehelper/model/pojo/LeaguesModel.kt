@@ -14,7 +14,7 @@ class LeaguesModel : ArrayList<LeaguesModel.LeaguesModelItem>(){
     fun getEditedLeagues():Array<String>?{
         var newLeague = ""
         for (item in this){
-            if (!item.id.contains("SSF") and !item.id.contains("Hardcore") and !item.id.contains("Standard")){
+            if (!item.id.contains("SSF") and !item.id.contains("Hardcore") and !item.id.contains("Standard") and !item.id.contains("(")){
                 newLeague=item.id
 
             }
