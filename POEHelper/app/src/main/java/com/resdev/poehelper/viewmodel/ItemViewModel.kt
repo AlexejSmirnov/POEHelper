@@ -6,12 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.pojo.ItemLine
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.repository.ItemRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -36,12 +34,8 @@ class ItemViewModel(val type: String, application: Application) : AndroidViewMod
     }
 
     private fun filterData(itemsModel: ItemsModel){
-        var data = ArrayList<ItemLine>()
-        for (i in itemsModel.lines){
-            if ((itemsModel.language.translations[i.name]?:i.name).toLowerCase().contains(filter.toLowerCase())){
-                data.add(i)
-            }
-        }
+        var data = itemsModel.lines
+            .filter { (itemsModel.language.translations[it.name]?:it.name).toLowerCase().contains(filter.toLowerCase()) }
         val copy = itemsModel.copy()
         copy.lines = data.toList()
         itemsData.postValue(copy)
@@ -61,7 +55,7 @@ class ItemViewModel(val type: String, application: Application) : AndroidViewMod
         viewModelScope.launch(IO) {
             while (true){
                 _itemsData.postValue(repository.getItem(type))
-                delay(60000)
+                delay(60_000)
             }
         }
     }

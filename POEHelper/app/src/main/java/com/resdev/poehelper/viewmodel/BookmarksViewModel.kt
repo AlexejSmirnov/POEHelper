@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.repository.ItemRepository
+import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -35,13 +35,9 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun filterData(itemsModel: List<ItemEntity>){
-        var data = ArrayList<ItemEntity>()
-        for (i in itemsModel){
-            if ((i.translatedName?:i.name).toLowerCase().contains(filter.toLowerCase())){
-                data.add(i)
-            }
-        }
-        itemsData.postValue(data)
+        itemsData.postValue(itemsModel
+            .filter {(it.translatedName?:it.name).toLowerCase().contains(filter.toLowerCase())})
+
     }
 
     fun setFiler(filter: String){
@@ -66,7 +62,7 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
             while (true){
                 updateBookmarksItems()
                 _itemsData.postValue(repository.getItemsFromDatabase())
-                delay(60000)
+                delay(60_000)
             }
         }
     }

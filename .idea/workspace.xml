@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="754e5053-c7c8-4c01-a2e8-445fb8e40805" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/POEHelper.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/model/CurrentValue.kt" beforeDir="false" afterPath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/model/CurrentValue.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/repository/PreloadingRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/repository/PreloadingRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/view/activity/ActivityUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/view/activity/ActivityUtil.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/view/activity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/POEHelper/app/src/main/java/com/resdev/poehelper/view/activity/MainActivity.kt" afterDir="false" />
-    </list>
+    <list default="true" id="754e5053-c7c8-4c01-a2e8-445fb8e40805" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,9 +34,9 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1060" y="275" key="FileChooserDialogImpl" timestamp="1606489033188">
+    <state x="1060" y="275" key="FileChooserDialogImpl" timestamp="1606994466555">
       <screen x="0" y="0" width="2560" height="1040" />
     </state>
-    <state x="1060" y="275" key="FileChooserDialogImpl/0.0.2560.1040/2560.0.1920.1040@0.0.2560.1040" timestamp="1606489033188" />
+    <state x="1060" y="275" key="FileChooserDialogImpl/0.0.2560.1040/2560.0.1920.1040@0.0.2560.1040" timestamp="1606994466555" />
   </component>
 </project>

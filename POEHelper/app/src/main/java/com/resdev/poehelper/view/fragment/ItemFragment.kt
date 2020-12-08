@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.R
 import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntityList
+import com.resdev.poehelper.view.activity.VALUE_KEY
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeItemCallback
 import com.resdev.poehelper.view.fragment.util.fromCodeToType
@@ -27,7 +28,7 @@ class ItemFragment : DefaultFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        itemType = fromCodeToType(requireArguments().getInt("Value",-1))
+        itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
 
         viewModel = ViewModelProvider(this, ItemViewModelFactory(Application(),  itemType)).get(ItemViewModel::class.java)
         return inflater.inflate(R.layout.default_fragment, container, false)

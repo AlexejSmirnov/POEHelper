@@ -3,8 +3,6 @@ package com.resdev.poehelper.model
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.preference.PreferenceManager
-import com.resdev.poehelper.MyApplication
 
 
 object Config {

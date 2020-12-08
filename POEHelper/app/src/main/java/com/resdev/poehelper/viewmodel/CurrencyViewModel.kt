@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
-import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.repository.CurrencyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,12 +33,8 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
     }
 
     private fun filterData(currenciesModel: CurrenciesModel){
-        var data = ArrayList<CurrencyLine>()
-        for (i in currenciesModel.lines){
-            if ((currenciesModel.language.translations[i.currencyTypeName]?:i.currencyTypeName).toLowerCase().contains(filter.toLowerCase())){
-                data.add(i)
-            }
-        }
+        val data = currenciesModel.lines
+            .filter {(currenciesModel.language.translations[it.currencyTypeName]?:it.currencyTypeName).toLowerCase().contains(filter.toLowerCase())}
         val copy = currenciesModel.copy()
         copy.lines = data.toList()
         currenciesData.postValue(copy)
@@ -58,7 +53,7 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
         job = viewModelScope.launch(Dispatchers.IO) {
             while (true){
                 _currenciesData.postValue(repository.getCurrency(type))
-                delay(60000)
+                delay(60_000)
             }
         }
     }

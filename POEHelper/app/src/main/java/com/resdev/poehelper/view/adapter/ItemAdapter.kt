@@ -15,7 +15,10 @@ import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.utils.getFromMap
 import com.resdev.poehelper.view.datawrappers.ItemEntityUiWrapper
-import com.resdev.poehelper.view.pop_up_window.*
+import com.resdev.poehelper.view.pop_up_window.chooseWindow
+import com.resdev.poehelper.view.pop_up_window.setupWindow
+import com.resdev.poehelper.view.pop_up_window.showCurrencyWindow
+import com.resdev.poehelper.view.pop_up_window.showItemWindow
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_holder.view.*
 

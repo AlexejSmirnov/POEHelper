@@ -37,7 +37,13 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <ProgressBar
+                android:layout_gravity="center"
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:visibility="gone" />
         </FrameLayout>
 
     </LinearLayout>
@@ -48,4 +54,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/side_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

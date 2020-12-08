@@ -3,6 +3,7 @@ package com.resdev.poehelper.view.activity
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -108,7 +109,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showToast(frameLayout, "Connection error!")
+                    showToast(frameLayout, CONNECTION_ERROR)
                 }
                 true
             }
@@ -120,7 +121,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showToast(frameLayout, "Connection error!")
+                    showToast(frameLayout, CONNECTION_ERROR)
                 }
                 true
             }
@@ -143,7 +144,7 @@ private var bookmarkIconOpened : Drawable? = null
                     openFragmentWithCheck(lastFragmentMenuId)
                 }
                 catch (ex: java.lang.Exception){
-                    showToast(frameLayout, "Connection error!")
+                    showToast(frameLayout, CONNECTION_ERROR)
                 }
                 return true
             }
@@ -166,8 +167,8 @@ private var bookmarkIconOpened : Drawable? = null
 
     fun saveData(){
         val editor: SharedPreferences.Editor = mSettings!!.edit()
-        editor.putInt("LastFragment", lastFragmentMenuId)
-        editor.putBoolean("isBookmarkOpened", isBookmarkOpened)
+        editor.putInt(LAST_FRAGMENT, lastFragmentMenuId)
+        editor.putBoolean(IS_BOOKMARK_OPENED, isBookmarkOpened)
         editor.apply()
         Config.saveConfigs(mSettings)
     }
@@ -175,19 +176,21 @@ private var bookmarkIconOpened : Drawable? = null
     fun loadData(){
         CurrentValue
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        lastFragmentMenuId = mSettings!!.getInt("LastFragment", R.id.nav_currency)
-        isBookmarkOpened = mSettings!!.getBoolean("isBookmarkOpened", false)
+        lastFragmentMenuId = mSettings!!.getInt(LAST_FRAGMENT, R.id.nav_currency)
+        isBookmarkOpened = mSettings!!.getBoolean(IS_BOOKMARK_OPENED, false)
         Config.loadConfig(mSettings)
     }
 
     fun openFragmentWithCheck(navigationItemId: Int){
         lifecycleScope.coroutineContext.cancelChildren()
         drawer_layout.closeDrawer(GravityCompat.START)
+        setProgressBar()
         lifecycleScope.launch(Dispatchers.Default) {
             while (!CurrentValue.isCurrentDataIsReady()){
                 delay(500)
             }
             withContext(Dispatchers.Main){
+                hideProgressBar()
                 openFragment(navigationItemId)
             }
         }
@@ -213,7 +216,7 @@ private var bookmarkIconOpened : Drawable? = null
     }
     private fun openDefaultFragment(navigationItemId: Int){
         var bundle = Bundle()
-        bundle.putInt("Value", navigationItemId)
+        bundle.putInt(VALUE_KEY, navigationItemId)
         (fragment as Fragment).arguments = bundle
         lastFragmentMenuId = navigationItemId
         supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
@@ -236,6 +239,7 @@ private var bookmarkIconOpened : Drawable? = null
         setTextColor(color)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getDarkenColor(color)
+        progressBar.indeterminateTintList = ColorStateList.valueOf(color)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             window.colorMode = color
         }
@@ -281,4 +285,17 @@ private var bookmarkIconOpened : Drawable? = null
         })
 
     }
+
+    fun setProgressBar(){
+        progressBar.visibility = View.VISIBLE
+
+    }
+
+    fun hideProgressBar(){
+        progressBar.visibility = View.GONE
+    }
+
+
+
+
 }

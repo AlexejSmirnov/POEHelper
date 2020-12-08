@@ -1,10 +1,12 @@
 package com.resdev.poehelper.model
-import android.util.Log
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.utils.getFromMap
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
 object CurrentValue {
@@ -16,7 +18,6 @@ object CurrentValue {
     }
 
     fun getActualData(){
-        var a = data
         for (i in data.currencyDetails){
             if (Config.getCurrency() == i.name){
                 currencyDetail = i
@@ -46,7 +47,7 @@ object CurrentValue {
         if (!isCurrentDataIsReady()){
             return null
         }
-        var array = ArrayList<CharSequence>()
+        val array = ArrayList<CharSequence>()
         array.add("Chaos Orb")
         for (i in data.lines){
             array.add(i.currencyTypeName)
