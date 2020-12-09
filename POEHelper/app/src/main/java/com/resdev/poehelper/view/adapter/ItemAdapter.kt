@@ -53,9 +53,8 @@ class ItemAdapter() :
         holder.itemView.setOnLongClickListener{onLongClickShowPopupWindow(item, holder.itemView) }
     }
 
-    class ItemViewHolder(binding: ItemViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
+    class ItemViewHolder(private val binding: ItemViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
         lateinit var item : ItemEntity
-        var binding: ItemViewHolderBinding = binding
         init {
             setViewDefaults()
         }

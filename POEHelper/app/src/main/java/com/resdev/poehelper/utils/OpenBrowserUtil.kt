@@ -17,7 +17,7 @@ fun openItemUrl(itemEntity: ItemEntity, view: View){
             itemEntity, Config.getLeague())
         if (link==null){
             withContext(Dispatchers.Main){
-                showToast(view, "Connection error or Rate limit exceeded")
+                showSnackbar(view, "Connection error or Rate limit exceeded")
             }
             return@launch
         }
@@ -34,7 +34,7 @@ fun openCurrencyIrl(currencyDetail: CurrencyDetail, view: View){
             currencyDetail.tradeId?:"", CurrentValue.getDetails().tradeId?:"", Config.getLeague())
         if (link==null){
             withContext(Dispatchers.Main){
-                showToast(view, "Connection error or Rate limit exceeded")
+                showSnackbar(view, "Connection error or Rate limit exceeded")
             }
             return@launch
         }

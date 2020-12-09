@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.resdev.poehelper.view.activity.VALUE_KEY
 import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeCurrencyCallback
 import com.resdev.poehelper.view.fragment.util.fromCodeToType
+import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
 
@@ -28,8 +30,7 @@ class CurrencyFragment : DefaultFragment() {
         savedInstanceState: Bundle?
     ): View? {
         itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
-        viewModel = ViewModelProvider(this, CurrencyViewModelFactory(Application(),
-            itemType)).get(CurrencyViewModel::class.java)
+        viewModel = viewModels<CurrencyViewModel> { CurrencyViewModelFactory(Application(), itemType) }.value
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 

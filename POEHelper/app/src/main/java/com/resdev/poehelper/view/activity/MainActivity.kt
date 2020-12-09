@@ -25,7 +25,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.utils.getDarkenColor
 import com.resdev.poehelper.utils.isColorLight
-import com.resdev.poehelper.utils.showToast
+import com.resdev.poehelper.utils.showSnackbar
 import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
@@ -109,7 +109,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showToast(frameLayout, CONNECTION_ERROR)
+                    showSnackbar(frameLayout, CONNECTION_ERROR)
                 }
                 true
             }
@@ -121,7 +121,7 @@ private var bookmarkIconOpened : Drawable? = null
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
-                    showToast(frameLayout, CONNECTION_ERROR)
+                    showSnackbar(frameLayout, CONNECTION_ERROR)
                 }
                 true
             }
@@ -144,7 +144,7 @@ private var bookmarkIconOpened : Drawable? = null
                     openFragmentWithCheck(lastFragmentMenuId)
                 }
                 catch (ex: java.lang.Exception){
-                    showToast(frameLayout, CONNECTION_ERROR)
+                    showSnackbar(frameLayout, CONNECTION_ERROR)
                 }
                 return true
             }

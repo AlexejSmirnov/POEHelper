@@ -14,15 +14,8 @@ import com.resdev.poehelper.model.Config
         return map[field] ?: field
     }
 
-    fun showToast(view: View, text: String){
+    fun showSnackbar(view: View, text: String){
         var snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
-        snackbar.view.setBackgroundColor(view.context.getColor(R.color.lightGray))
-        snackbar.setActionTextColor(Color.BLACK)
-        snackbar.show()
-    }
-
-    fun showInternetConnectionErrorOrApiRequestLimit(view: View){
-        var snackbar = Snackbar.make(view, "Connection error or Rate limit exceeded", Snackbar.LENGTH_LONG)
         snackbar.view.setBackgroundColor(view.context.getColor(R.color.lightGray))
         snackbar.setActionTextColor(Color.BLACK)
         snackbar.show()

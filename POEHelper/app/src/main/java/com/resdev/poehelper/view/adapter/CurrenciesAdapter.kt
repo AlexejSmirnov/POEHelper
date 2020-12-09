@@ -59,9 +59,8 @@ class CurrenciesAdapter :
 
 
 
-    class CurrencyViewHolder(binding: CurrencyViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
+    class CurrencyViewHolder(private val binding: CurrencyViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
         lateinit var line : CurrencyDetail
-        var binding: CurrencyViewHolderBinding = binding
         init {
             setViewDefaults()
         }

@@ -12,6 +12,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
+import com.resdev.poehelper.utils.showSnackbar
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -118,13 +119,10 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
     }
 
     private fun makeSaveAction(viewHolder: RecyclerView.ViewHolder){
-        var holder= viewHolder as ItemAdapter.ItemViewHolder
+        val holder= viewHolder as ItemAdapter.ItemViewHolder
         CoroutineScope(Dispatchers.IO).launch { ItemRepository.addItem(holder.item)}
-        var itemName = holder.item.translatedName ?: holder.item.name
-        var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is bookmarked", Snackbar.LENGTH_LONG)
-        snackbar.setActionTextColor(Color.BLACK)
-        snackbar.view.setBackgroundColor(viewHolder.itemView.context.getColor(R.color.lightGray))
-        snackbar.show()
+        val itemName = holder.item.translatedName ?: holder.item.name
+        showSnackbar( viewHolder.itemView, "$itemName is bookmarked")
     }
 
 

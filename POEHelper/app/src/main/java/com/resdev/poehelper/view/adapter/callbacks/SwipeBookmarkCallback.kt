@@ -12,6 +12,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
+import com.resdev.poehelper.utils.showSnackbar
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -122,10 +123,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
         var holder= viewHolder as ItemAdapter.ItemViewHolder
         CoroutineScope(IO).launch { ItemRepository.removeEntity(holder.item)}
         var itemName = holder.item.translatedName ?: holder.item.name
-        var snackbar = Snackbar.make(viewHolder.itemView, "$itemName is removed", Snackbar.LENGTH_LONG)
-        snackbar.setActionTextColor(Color.BLACK)
-        snackbar.view.setBackgroundColor(viewHolder.itemView.context.getColor(R.color.lightGray))
-        snackbar.show()
+        showSnackbar( viewHolder.itemView, "$itemName is removed")
     }
 
 

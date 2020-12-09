@@ -103,4 +103,6 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
     }
 
 
+
+
 }

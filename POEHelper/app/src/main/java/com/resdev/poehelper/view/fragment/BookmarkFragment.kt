@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -16,15 +17,13 @@ import com.resdev.poehelper.viewmodel.BookmarksViewModel
 
 class BookmarkFragment : DefaultFragment() {
     override lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: BookmarksViewModel
+    private val viewModel: BookmarksViewModel by viewModels {BookmarkViewModelFactory(Application())}
     private lateinit var itemsAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, BookmarkViewModelFactory(Application())).get(
-            BookmarksViewModel::class.java)
         viewModel.loadItems()
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
