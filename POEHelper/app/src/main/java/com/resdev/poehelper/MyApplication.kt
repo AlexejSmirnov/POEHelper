@@ -1,34 +1,40 @@
 package com.resdev.poehelper
 
-import android.app.Application
-import android.content.Context
+
 import com.resdev.poehelper.di.DaggerApplicationComponent
-import com.resdev.poehelper.model.retrofit.PoeLeagueLoading
-import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
-import com.resdev.poehelper.model.room.ApplicationDatabase
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.repository.PreloadingRepository
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
+import javax.inject.Inject
 
-open class MyApplication : Application(){
+open class MyApplication : DaggerApplication(){
+    @Inject lateinit var preloadingRepository: PreloadingRepository
+    @Inject lateinit var itemRepository: ItemRepository
+    @Inject lateinit var currencyRepository: CurrencyRepository
+    @Inject lateinit var currentValue: CurrentValue
+
     override fun onCreate() {
         super.onCreate()
-        val applicationComponent = DaggerApplicationComponent.builder().application(this).build()
-        CONTEXT = applicationComponent.provideApplicationContext()
-        itemRepository = applicationComponent.provideItemRepository()
-        preloadingRepository = applicationComponent.providePreloadingRepository()
-        currencyRepository = applicationComponent.provideCurrencyRepository()
+
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        val component = DaggerApplicationComponent.builder().application(this).build()
+        component.inject(this)
+        application = this
+        return component
     }
 
     companion object{
-     private lateinit var CONTEXT: Context
-     private lateinit var preloadingRepository: PreloadingRepository
-     private lateinit var itemRepository: ItemRepository
-     private lateinit var currencyRepository: CurrencyRepository
+        private lateinit var application: MyApplication
 
-        fun getApplicationContext() = CONTEXT
-        fun getPreloadingRepository() = preloadingRepository
-        fun getItemRepository() = itemRepository
-        fun getCurrencyRepository() = currencyRepository
+        fun getApplicationContext() = application.applicationContext
+        fun getPreloadingRepository() = application.preloadingRepository
+        fun getItemRepository() = application.itemRepository
+        fun getCurrencyRepository() = application.currencyRepository
+        fun getCurrentValue() = application.currentValue
     }
 }

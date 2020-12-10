@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.databinding.CurrencyViewHolderBinding
 import com.resdev.poehelper.model.CurrentValue
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.item_view_holder.view.*
 class CurrenciesAdapter :
     ListAdapter<CurrencyLine, CurrenciesAdapter.CurrencyViewHolder>(DIFF_CALLBACK) {
     companion object{
+        val currentValue = MyApplication.getCurrentValue()
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<CurrencyLine> =
             object : DiffUtil.ItemCallback<CurrencyLine>() {
                 override fun areItemsTheSame(oldItem: CurrencyLine, newItem: CurrencyLine): Boolean {
@@ -61,6 +63,7 @@ class CurrenciesAdapter :
 
     class CurrencyViewHolder(private val binding: CurrencyViewHolderBinding) : RecyclerView.ViewHolder(binding.root){
         lateinit var line : CurrencyDetail
+
         init {
             setViewDefaults()
         }
@@ -70,14 +73,14 @@ class CurrenciesAdapter :
             binding.executePendingBindings()
         }
         fun setViewDefaults(){
-                    itemView.currency_name.text = getFromMap(CurrentValue.getDetails().name, CurrentValue.getData().language.translations)
-                    Picasso.get().load(CurrentValue.getDetails().icon).into(itemView.currency_view)
+                    itemView.currency_name.text = getFromMap(currentValue.getDetails().name, currentValue.getData().language.translations)
+                    Picasso.get().load(currentValue.getDetails().icon).into(itemView.currency_view)
 
         }
 
     }
     fun onClickShowPopupWindow(currencyLine: CurrencyLine, view: View?) {
-        if (currencyLine.currencyTypeName== CurrentValue.getLine().currencyTypeName){
+        if (currencyLine.currencyTypeName== currentValue.getLine().currencyTypeName){
             return
         }
         val popupView: View = LayoutInflater.from(view!!.context).inflate(R.layout.currency_info_window, null)

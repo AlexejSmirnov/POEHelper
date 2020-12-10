@@ -19,14 +19,15 @@ class ActivityUtil {
 
     companion object{
         fun createCurrencyPicker(context: Context, callback: ()->Unit){
+            val currentValue = MyApplication.getCurrentValue()
             val builder: AlertDialog.Builder = AlertDialog.Builder(context)
             builder.setTitle(context.resources.getString(R.string.choose_currency))
-            var arrays: Array<Array<String>> = CurrentValue.getArray() ?: throw Exception()
+            var arrays: Array<Array<String>> = currentValue.getArray() ?: throw Exception()
             builder.setItems(arrays[1]
             ) { dialog, which ->
                 val text = arrays[0][which]
                 Config.setCurrency(text)
-                CurrentValue.getActualData()
+                currentValue.getActualData()
                 callback()
             }
             builder.show()

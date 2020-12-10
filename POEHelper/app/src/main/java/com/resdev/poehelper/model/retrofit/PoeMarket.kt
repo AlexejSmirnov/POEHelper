@@ -2,7 +2,8 @@ package com.resdev.poehelper.model.retrofit
 
 import androidx.lifecycle.LiveData
 import com.resdev.poehelper.model.poemarket.PoeMarketResponse
-import com.resdev.poehelper.model.poemarket.RequestBuilder
+import com.resdev.poehelper.model.poemarket.generateCurrencyLink
+import com.resdev.poehelper.model.poemarket.generateItemLink
 import com.resdev.poehelper.model.room.ItemEntity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,7 +23,7 @@ object PoeMarket {
     }
 
     fun sendItemRequest(itemsEntity: ItemEntity, league: String): PoeMarketResponse? {
-        val item = RequestBuilder.generateItemLink(itemsEntity)
+        val item = generateItemLink(itemsEntity)
         return try{
             poeMarketClient.sendItemRequest(league, item)
                 .execute()
@@ -34,7 +35,7 @@ object PoeMarket {
     }
 
     fun sendCurrencyRequest(want: String, have: String, league: String): PoeMarketResponse? {
-        val item = RequestBuilder.generateCurrencyLink(want, have)
+        val item = generateCurrencyLink(want, have)
         return try{ poeMarketClient.sendCurrencyRequest(league, item)
             .execute()
             .body()

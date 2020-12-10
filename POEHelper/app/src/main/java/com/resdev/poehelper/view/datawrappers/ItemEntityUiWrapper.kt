@@ -3,6 +3,7 @@ package com.resdev.poehelper.view.datawrappers
 import android.content.Context
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
@@ -20,7 +21,7 @@ class ItemEntityUiWrapper(val item: ItemEntity, val context: Context) : ItemUiIn
             return context.resources.getString(R.string.no_data)
         }
         return "1.0 "+context.resources.getString( R.string.string_for) +
-                " %.2f".format(item.chaosValue!! /(CurrentValue.getLine().chaosEquivalent?:1.0))
+                " %.2f".format(item.chaosValue!! /(currentValue.getLine().chaosEquivalent?:1.0))
     }
 
     override fun getPercentage(): String {
@@ -75,6 +76,7 @@ class ItemEntityUiWrapper(val item: ItemEntity, val context: Context) : ItemUiIn
     }
 
     companion object{
+        val currentValue = MyApplication.getCurrentValue()
         @JvmStatic
         @BindingAdapter("url")
         fun loadImage(imageView: ImageView, url: String){

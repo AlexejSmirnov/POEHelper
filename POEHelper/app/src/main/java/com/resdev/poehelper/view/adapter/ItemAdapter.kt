@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.databinding.ItemViewHolderBinding
 import com.resdev.poehelper.model.CurrentValue
@@ -26,6 +27,7 @@ class ItemAdapter() :
     ListAdapter<ItemEntity, ItemAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object{
+        val currentValue = MyApplication.getCurrentValue()
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<ItemEntity> =
             object : DiffUtil.ItemCallback<ItemEntity>() {
                 override fun areItemsTheSame(oldItem: ItemEntity, newItem: ItemEntity): Boolean {
@@ -67,10 +69,10 @@ class ItemAdapter() :
 
         fun setViewDefaults(){
                 itemView.currency_name.text = getFromMap(
-                CurrentValue.getDetails().name,
-                CurrentValue.getData().language.translations
+                    currentValue.getDetails().name,
+                    currentValue.getData().language.translations
             )
-            Picasso.get().load(CurrentValue.getDetails().icon).into(itemView.currency_view)
+            Picasso.get().load(currentValue.getDetails().icon).into(itemView.currency_view)
         }
     }
 

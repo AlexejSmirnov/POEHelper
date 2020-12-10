@@ -1,6 +1,7 @@
 package com.resdev.poehelper.utils
 
 import android.view.View
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyDetail
@@ -31,7 +32,7 @@ fun openItemUrl(itemEntity: ItemEntity, view: View){
 fun openCurrencyIrl(currencyDetail: CurrencyDetail, view: View){
     GlobalScope.launch {
         var link = PoeMarket.sendCurrencyRequest(
-            currencyDetail.tradeId?:"", CurrentValue.getDetails().tradeId?:"", Config.getLeague())
+            currencyDetail.tradeId?:"", MyApplication.getCurrentValue().getDetails().tradeId?:"", Config.getLeague())
         if (link==null){
             withContext(Dispatchers.Main){
                 showSnackbar(view, "Connection error or Rate limit exceeded")

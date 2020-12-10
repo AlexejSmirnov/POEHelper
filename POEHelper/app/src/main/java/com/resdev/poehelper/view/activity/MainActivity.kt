@@ -20,6 +20,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
@@ -174,7 +175,6 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     fun loadData(){
-        CurrentValue
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
         lastFragmentMenuId = mSettings!!.getInt(LAST_FRAGMENT, R.id.nav_currency)
         isBookmarkOpened = mSettings!!.getBoolean(IS_BOOKMARK_OPENED, false)
@@ -186,7 +186,7 @@ private var bookmarkIconOpened : Drawable? = null
         drawer_layout.closeDrawer(GravityCompat.START)
         setProgressBar()
         lifecycleScope.launch(Dispatchers.Default) {
-            while (!CurrentValue.isCurrentDataIsReady()){
+            while (!MyApplication.getCurrentValue().isCurrentDataIsReady()){
                 delay(500)
             }
             withContext(Dispatchers.Main){

@@ -1,5 +1,4 @@
 package com.resdev.poehelper.model
-import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.utils.getFromMap
@@ -8,13 +7,13 @@ import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
-object CurrentValue {
+class CurrentValue  @Inject constructor(private val currencyRepository: CurrencyRepository) {
     private lateinit var currencyDetail: CurrencyDetail
     private lateinit var line: CurrencyLine
     private lateinit var data: CurrenciesModel
-    private var currencyRepository = MyApplication.getCurrencyRepository()
     init {
         setupObservers()
     }

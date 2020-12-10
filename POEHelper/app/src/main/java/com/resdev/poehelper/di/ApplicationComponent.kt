@@ -3,7 +3,7 @@ package com.resdev.poehelper.di
 import android.app.Application
 import android.content.Context
 import com.resdev.poehelper.MyApplication
-import com.resdev.poehelper.model.room.ApplicationDatabase
+import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.repository.PreloadingRepository
@@ -18,14 +18,15 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     RetrofitApiModule::class,
-    RoomModule::class])
+    RoomModule::class,
+    AppModule::class])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
 
     fun provideItemRepository(): ItemRepository
     fun provideCurrencyRepository(): CurrencyRepository
     fun providePreloadingRepository(): PreloadingRepository
     fun provideApplicationContext(): Context
-
+    fun provideCurrentValue(): CurrentValue
     @Component.Builder
     interface Builder {
         @BindsInstance
