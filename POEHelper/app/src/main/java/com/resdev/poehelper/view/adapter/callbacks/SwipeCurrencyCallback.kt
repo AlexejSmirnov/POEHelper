@@ -14,7 +14,7 @@ import com.resdev.poehelper.view.adapter.CurrenciesAdapter
 import kotlin.math.abs
 
 
-class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class SwipeCurrencyCallback(private val config: Config) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -72,8 +72,8 @@ class SwipeCurrencyCallback() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelpe
         if (actionState == ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.getColor()))){
-                    paint.color = Config.getColor()
+                if (!isColorLight(Integer.toHexString(config.getColor()))){
+                    paint.color = config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK

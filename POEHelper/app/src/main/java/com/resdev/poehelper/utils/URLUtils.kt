@@ -1,10 +1,11 @@
 package com.resdev.poehelper.utils
 
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 
 //utils that helps to generate urls for market for different languages
 
-fun generatePoeMarketTradeUrl(league: String = Config.getLeague(), language: String = Config.getLanguage()): String{
+fun generatePoeMarketTradeUrl(league: String = MyApplication.getConfig().getLeague(), language: String = MyApplication.getConfig().getLanguage()): String{
     return when(language){
         "en"-> "https://www.pathofexile.com/trade/search/$league"
         "ko"-> "https://poe.game.daum.net/trade/search/$league"
@@ -13,7 +14,7 @@ fun generatePoeMarketTradeUrl(league: String = Config.getLeague(), language: Str
     }
 }
 
-fun generatePoeMarketExchangeUrl(league: String = Config.getLeague(), language: String = Config.getLanguage()): String{
+fun generatePoeMarketExchangeUrl(league: String = MyApplication.getConfig().getLeague(), language: String = MyApplication.getConfig().getLanguage()): String{
     return when(language){
         "en"-> "https://www.pathofexile.com/trade/exchange/$league"
         "ko"-> "https://poe.game.daum.net/trade/exchange/$league"

@@ -37,7 +37,7 @@ class CurrencyFragment : DefaultFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpRecyclerView(SwipeCurrencyCallback())
+        setUpRecyclerView(SwipeCurrencyCallback(config))
         currenciesAdapter = CurrenciesAdapter()
         recyclerView.adapter = currenciesAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {

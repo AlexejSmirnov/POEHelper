@@ -10,6 +10,7 @@ import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.repository.PreloadingRepository
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createCurrencyPicker
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -18,15 +19,15 @@ import java.util.*
 class ActivityUtil {
 
     companion object{
-        fun createCurrencyPicker(context: Context, callback: ()->Unit){
+        fun MainActivity.createCurrencyPicker(callback: ()->Unit){
             val currentValue = MyApplication.getCurrentValue()
-            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-            builder.setTitle(context.resources.getString(R.string.choose_currency))
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setTitle(this.resources.getString(R.string.choose_currency))
             var arrays: Array<Array<String>> = currentValue.getArray() ?: throw Exception()
             builder.setItems(arrays[1]
-            ) { dialog, which ->
+            ) { _, which ->
                 val text = arrays[0][which]
-                Config.setCurrency(text)
+                this.Config.setCurrency(text)
                 currentValue.getActualData()
                 callback()
             }
@@ -34,7 +35,9 @@ class ActivityUtil {
         }
 
 
-        fun createLeaguePicker(context: Context, callback: () -> Unit){
+        fun MainActivity.createLeaguePicker(callback: () -> Unit){
+            val context = this
+            val config = Config
             runBlocking {
                 launch {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
@@ -44,7 +47,7 @@ class ActivityUtil {
                     ) { dialog, which ->
                         val lv: ListView =
                             (dialog as AlertDialog).listView
-                        Config.setLeague(lv.getItemAtPosition(which).toString())
+                        config.setLeague(lv.getItemAtPosition(which).toString())
                         callback()
                     }
                     builder.show()
@@ -52,10 +55,10 @@ class ActivityUtil {
             }
         }
 
-        fun createColorPicker(context: Context, callback: () -> Unit){
+        fun MainActivity.createColorPicker(callback: () -> Unit){
             val dialog = AmbilWarnaDialog(
-                context,
-                Config.getColor(),
+                this,
+                MyApplication.getConfig().getColor(),
                 object : AmbilWarnaDialog.OnAmbilWarnaListener {
                     override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                         Config.setColor(color)
@@ -67,9 +70,9 @@ class ActivityUtil {
             dialog.show()
         }
 
-        fun createLanguagePicker(context: Context, callback: () -> Unit){
-            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-            builder.setTitle(context.resources.getString(R.string.change_language))
+        fun MainActivity.createLanguagePicker(callback: () -> Unit){
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setTitle(this.baseContext.resources.getString(R.string.change_language))
             var languages = arrayOf("en", "pt", "ru", "th", "ge", "fr", "es", "ko")
             val languagesTitle = arrayOf(
                 "English",
@@ -88,8 +91,8 @@ class ActivityUtil {
             builder.show()
         }
 
-        fun setLang(activityContext: Context){
-            val activityRes: Resources = activityContext.resources
+        fun MainActivity.setLang(){
+            val activityRes: Resources = this.resources
             val activityConf: Configuration = activityRes.configuration
             var lang = Config.getLanguage()
             if (lang == "ge"){

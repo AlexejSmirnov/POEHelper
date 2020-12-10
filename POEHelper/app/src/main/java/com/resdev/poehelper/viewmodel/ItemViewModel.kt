@@ -18,6 +18,7 @@ class ItemViewModel(val type: String, application: Application) : AndroidViewMod
     private val repository = MyApplication.getItemRepository()
     private var _itemsData : MutableLiveData<ItemsModel> = MutableLiveData()
     private  var itemsData: MutableLiveData<ItemsModel> = MutableLiveData()
+    private val config = MyApplication.getConfig()
     private var filter = ""
     private var job: Job? = null
     init {
@@ -25,10 +26,10 @@ class ItemViewModel(val type: String, application: Application) : AndroidViewMod
         _itemsData.observeForever {
             filterData(it)
         }
-        Config.getObservableLeague().observeForever{
+        config.getObservableLeague().observeForever{
             restartUpdatingOfListOfItems()
         }
-        Config.getObservableCurrency().observeForever{
+        config.getObservableCurrency().observeForever{
             restartUpdatingOfListOfItems()
         }
 

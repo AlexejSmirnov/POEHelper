@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
-class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
+class SwipeItemCallback(private val config: Config) : ItemTouchHelper.SimpleCallback(0,
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     override fun onMove(
@@ -81,8 +81,8 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.getColor()))){
-                    paint.color = Config.getColor()
+                if (!isColorLight(Integer.toHexString(config.getColor()))){
+                    paint.color = config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK

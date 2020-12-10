@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.snackbar.Snackbar
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 
@@ -32,7 +33,7 @@ import com.resdev.poehelper.model.Config
         val builder = CustomTabsIntent.Builder()
             .setToolbarColor(
                 getDarkenColor(
-                    Config.getColor()
+                    MyApplication.getConfig().getColor()
                 )
             )
         val customTabsIntent = builder.build()

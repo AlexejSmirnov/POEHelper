@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 //this class is responsible for storing all currencies exchange rate and for providing the exchange rate for the current currency
-class CurrentValue  @Inject constructor(private val currencyRepository: CurrencyRepository) {
+class CurrentValue  @Inject constructor(private val currencyRepository: CurrencyRepository, private val config: Config) {
     private lateinit var currencyDetail: CurrencyDetail
     private lateinit var line: CurrencyLine
     private lateinit var data: CurrenciesModel
@@ -20,12 +20,12 @@ class CurrentValue  @Inject constructor(private val currencyRepository: Currency
 
     fun getActualData(){
         for (i in data.currencyDetails){
-            if (Config.getCurrency() == i.name){
+            if (config.getCurrency() == i.name){
                 currencyDetail = i
             }
         }
         for (i in data.lines){
-            if (Config.getCurrency() == "Chaos Orb"){
+            if (config.getCurrency() == "Chaos Orb"){
                 line = CurrencyLine(
                     "Chaos Orb",
                     1.0,
@@ -37,7 +37,7 @@ class CurrentValue  @Inject constructor(private val currencyRepository: Currency
                 )
                 return
             }
-            if (i.currencyTypeName == Config.getCurrency()){
+            if (i.currencyTypeName == config.getCurrency()){
                 line = i
                 return
             }
@@ -90,13 +90,13 @@ class CurrentValue  @Inject constructor(private val currencyRepository: Currency
     }
 
     fun setupObservers(){
-        Config.getObservableCurrency().observeForever{
+        config.getObservableCurrency().observeForever{
             loadCurrencyAsync()
          }
-        Config.getObservableLeague().observeForever {
+        config.getObservableLeague().observeForever {
             loadCurrencyAsync()
         }
-        Config.getObservableLanguage().observeForever {
+        config.getObservableLanguage().observeForever {
             loadCurrencyAsync()
         }
     }

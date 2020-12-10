@@ -8,10 +8,10 @@ import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.model.room.ItemEntity
 import javax.inject.Inject
 
-class ItemRepository @Inject constructor(private val poeNinjaLoading: PoeNinjaLoading, private val database: ApplicationDatabase){//
+class ItemRepository @Inject constructor(private val poeNinjaLoading: PoeNinjaLoading, private val database: ApplicationDatabase, private val config: Config){//
     //val database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
 
-    suspend fun getItem(itemName: String, league: String = Config.getLeague(), language: String = Config.getLanguage()): ItemsModel  =poeNinjaLoading.loadItems(league, itemName, language)
+    suspend fun getItem(itemName: String, league: String = config.getLeague(), language: String = config.getLanguage()): ItemsModel = poeNinjaLoading.loadItems(league, itemName, language)
 
     suspend fun updateItem(item: ItemEntity) = database.entityDao.updateItem(item)
 

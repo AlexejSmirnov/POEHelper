@@ -5,7 +5,7 @@ import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
 import javax.inject.Inject
 
-class CurrencyRepository @Inject constructor(private val poeNinjaLoading: PoeNinjaLoading){
+class CurrencyRepository @Inject constructor(private val poeNinjaLoading: PoeNinjaLoading, private val config: Config){
 
-    suspend fun getCurrency(currencyName: String) = poeNinjaLoading.loadCurrencies(Config.getLeague(), currencyName, Config.getLanguage())
+    suspend fun getCurrency(currencyName: String) = poeNinjaLoading.loadCurrencies(config.getLeague(), currencyName, config.getLanguage())
 }

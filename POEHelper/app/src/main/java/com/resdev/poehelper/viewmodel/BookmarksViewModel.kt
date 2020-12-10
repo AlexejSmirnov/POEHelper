@@ -20,16 +20,17 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
     private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private  var itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var filter = ""
+    private val config = MyApplication.getConfig()
     private var job: Job? = null
     init {
         launchUpdating()
         _itemsData.observeForever {
             filterData(it)
         }
-        Config.getObservableLeague().observeForever{
+        config.getObservableLeague().observeForever{
             restartLaunchUpdating()
         }
-        Config.getObservableCurrency().observeForever{
+        config.getObservableCurrency().observeForever{
             restartLaunchUpdating()
         }
 

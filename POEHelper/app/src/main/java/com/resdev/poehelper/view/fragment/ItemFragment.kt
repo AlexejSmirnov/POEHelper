@@ -39,7 +39,7 @@ class ItemFragment : DefaultFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpRecyclerView(SwipeItemCallback())
+        setUpRecyclerView(SwipeItemCallback(config))
         itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {

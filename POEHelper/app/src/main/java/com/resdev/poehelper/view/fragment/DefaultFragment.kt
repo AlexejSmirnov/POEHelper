@@ -6,19 +6,20 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.view.adapter.MyItemDecoration
 import kotlinx.android.synthetic.main.default_fragment.*
 
 abstract class DefaultFragment : Fragment(), MainFragment {
     abstract var recyclerView: RecyclerView
-
+    val config = MyApplication.getConfig()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Config.getObservableColor().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        config.getObservableColor().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             paintRecycler()
         })
-        Config.getObservableCurrency().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        config.getObservableCurrency().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             notifyCurrencyChanged()
         })
     }
@@ -26,7 +27,7 @@ abstract class DefaultFragment : Fragment(), MainFragment {
     override fun paintRecycler() {
         recyclerView.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-                return EdgeEffect(view.context).apply { color = Config.getColor() }
+                return EdgeEffect(view.context).apply { color = config.getColor() }
             }
         }
     }

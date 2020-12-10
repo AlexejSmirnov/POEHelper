@@ -32,7 +32,7 @@ class BookmarkFragment : DefaultFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setUpRecyclerView(SwipeBookmarkCallback())
+        setUpRecyclerView(SwipeBookmarkCallback(config))
         itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {

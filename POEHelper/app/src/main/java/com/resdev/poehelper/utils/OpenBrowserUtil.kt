@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 fun openItemUrl(itemEntity: ItemEntity, view: View){
     GlobalScope.launch {
         var link = PoeMarket.sendItemRequest(
-            itemEntity, Config.getLeague())
+            itemEntity, MyApplication.getConfig().getLeague())
         if (link==null){
             withContext(Dispatchers.Main){
                 showSnackbar(view, "Connection error or Rate limit exceeded")
@@ -32,7 +32,7 @@ fun openItemUrl(itemEntity: ItemEntity, view: View){
 fun openCurrencyIrl(currencyDetail: CurrencyDetail, view: View){
     GlobalScope.launch {
         var link = PoeMarket.sendCurrencyRequest(
-            currencyDetail.tradeId?:"", MyApplication.getCurrentValue().getDetails().tradeId?:"", Config.getLeague())
+            currencyDetail.tradeId?:"", MyApplication.getCurrentValue().getDetails().tradeId?:"", MyApplication.getConfig().getLeague())
         if (link==null){
             withContext(Dispatchers.Main){
                 showSnackbar(view, "Connection error or Rate limit exceeded")

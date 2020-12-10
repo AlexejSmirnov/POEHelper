@@ -18,6 +18,7 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
     val repository = MyApplication.getCurrencyRepository()
     private var _currenciesData : MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var currenciesData: MutableLiveData<CurrenciesModel> = MutableLiveData()
+    private val config = MyApplication.getConfig()
     private var filter = ""
     private var job: Job? = null
     init {
@@ -25,10 +26,10 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
         _currenciesData.observeForever {
             filterData(it)
         }
-        Config.getObservableLeague().observeForever{
+        config.getObservableLeague().observeForever{
             restartUpdatingOfListOfValue()
         }
-        Config.getObservableCurrency().observeForever{
+        config.getObservableCurrency().observeForever{
             restartUpdatingOfListOfValue()
         }
     }

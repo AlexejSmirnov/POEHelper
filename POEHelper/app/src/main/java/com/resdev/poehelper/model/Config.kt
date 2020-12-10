@@ -3,9 +3,11 @@ package com.resdev.poehelper.model
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-object Config {
+@Singleton
+class Config @Inject constructor() {
     private val _league = MutableLiveData("Delirium")
     private val _currency = MutableLiveData("Chaos Orb")
     private val _language = MutableLiveData("en")

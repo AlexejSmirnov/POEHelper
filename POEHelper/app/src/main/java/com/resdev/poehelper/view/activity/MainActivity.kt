@@ -27,6 +27,11 @@ import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.utils.getDarkenColor
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.showSnackbar
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createColorPicker
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createCurrencyPicker
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createLanguagePicker
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createLeaguePicker
+import com.resdev.poehelper.view.activity.ActivityUtil.Companion.setLang
 import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
@@ -38,6 +43,7 @@ import java.lang.reflect.Field
 
 class MainActivity : AppCompatActivity() {
 private lateinit var fragment: MainFragment
+val Config = MyApplication.getConfig()
 private val APP_PREFERENCES = "mysettings"
 private var lastFragmentMenuId: Int = R.id.nav_currency
 private var isBookmarkOpened = false
@@ -49,7 +55,7 @@ private var bookmarkIconOpened : Drawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         loadData()
-        ActivityUtil.setLang(this)
+        setLang()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -106,7 +112,7 @@ private var bookmarkIconOpened : Drawable? = null
         return when (item.itemId) {
             R.id.currency_picker -> {
                 try{
-                    ActivityUtil.createCurrencyPicker(this){}
+                    this.createCurrencyPicker{}
                 }
                 catch (ex: java.lang.Exception){
                     ex.printStackTrace()
@@ -116,7 +122,7 @@ private var bookmarkIconOpened : Drawable? = null
             }
             R.id.league_picker -> {
                 try {
-                    ActivityUtil.createLeaguePicker(this){
+                    this.createLeaguePicker{
 
                     }
                 }
@@ -127,12 +133,12 @@ private var bookmarkIconOpened : Drawable? = null
                 true
             }
             R.id.color_picker ->{
-                ActivityUtil.createColorPicker(this){
+                this.createColorPicker{
                     this@MainActivity.paintInterface(Config.getColor())
                 }
                 return true}
             R.id.language_picker -> {
-                ActivityUtil.createLanguagePicker(this){
+                this.createLanguagePicker{
                     this@MainActivity.recreate()
                 }
                 true

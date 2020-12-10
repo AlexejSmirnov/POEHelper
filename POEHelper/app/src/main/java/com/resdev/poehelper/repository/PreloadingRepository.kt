@@ -13,7 +13,6 @@ class PreloadingRepository @Inject constructor(private val poeLeagueLoading: Poe
     var league = CoroutineScope(Dispatchers.Default).async {
         var value = emptyArray<String>()
         while (value.isEmpty()){
-            val a = poeLeagueLoading
             value = poeLeagueLoading.loadLeagues().getEditedLeagues() ?: emptyArray()
             delay(1000)
         }

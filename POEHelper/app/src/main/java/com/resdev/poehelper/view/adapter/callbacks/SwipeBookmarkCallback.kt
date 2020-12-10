@@ -6,11 +6,8 @@ import android.graphics.Paint
 import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.MyApplication
-import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
 import com.resdev.poehelper.utils.showSnackbar
@@ -20,7 +17,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
-class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
+class SwipeBookmarkCallback(private val config: Config) : ItemTouchHelper.SimpleCallback(0,
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     override fun onMove(
@@ -82,8 +79,8 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             val paint = Paint()
             if (willActionBeTriggered(dX, recyclerView.width)){
-                if (!isColorLight(Integer.toHexString(Config.getColor()))){
-                    paint.color = Config.getColor()
+                if (!isColorLight(Integer.toHexString(config.getColor()))){
+                    paint.color = config.getColor()
                 }
                 else{
                     paint.color = Color.BLACK
