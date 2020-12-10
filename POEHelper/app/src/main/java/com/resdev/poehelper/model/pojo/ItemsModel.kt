@@ -61,7 +61,7 @@ data class ItemLine(
     @SerializedName("lowConfidenceSparkline")
     val sparkline: Sparkline,
     @Expose
-    var itemsModel:ItemsModel = ItemsModel(listOf(), Language("en", HashMap()))
+    var itemsModel:ItemsModel = ItemsModel.emptyModel
 ){
 
     fun getTranslatedName():String{

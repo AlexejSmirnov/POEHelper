@@ -8,9 +8,9 @@ import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.model.room.ItemEntity
 
 object ItemRepository{
-    private val database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
+    private val database by lazy{ ApplicationDatabase.getInstance(MyApplication.getApplicationContext()) }
 
-    suspend fun getItem(itemName: String): ItemsModel  = PoeNinjaLoading.loadItems(Config.getLeague(), itemName, Config.getLanguage())
+    suspend fun getItem(itemName: String, league: String = Config.getLeague(), language: String = Config.getLanguage()): ItemsModel  = PoeNinjaLoading.loadItems(league, itemName, language)
 
     suspend fun updateItem(item: ItemEntity) = database.entityDao.updateItem(item)
 
