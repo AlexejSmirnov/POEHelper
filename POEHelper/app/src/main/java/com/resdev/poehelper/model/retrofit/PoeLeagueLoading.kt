@@ -1,20 +1,16 @@
 package com.resdev.poehelper.model.retrofit
 
 import com.resdev.poehelper.model.pojo.LeaguesModel
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 
-object PoeLeagueLoading {
-    private  var retrofit : Retrofit = Retrofit.Builder()
-        .baseUrl("http://api.pathofexile.com")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val poeNinjaClient = retrofit.create(PoeLeagueApi::class.java)
+class PoeLeagueLoading @Inject constructor(){
+    @Inject
+    lateinit var poeLeagueClient: PoeLeagueApi
 
     fun loadLeagues(): LeaguesModel {
         return try{
-            poeNinjaClient
+            poeLeagueClient
                 .getItem()
                 ?.execute()
                 ?.body()!!

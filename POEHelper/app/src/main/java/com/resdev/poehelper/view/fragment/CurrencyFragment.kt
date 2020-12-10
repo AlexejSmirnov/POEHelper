@@ -18,6 +18,7 @@ import com.resdev.poehelper.view.fragment.util.fromCodeToType
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
+import javax.inject.Named
 
 class CurrencyFragment : DefaultFragment() {
     override lateinit var recyclerView: RecyclerView
@@ -43,7 +44,6 @@ class CurrencyFragment : DefaultFragment() {
             currenciesAdapter.submitList(it.lines)
 
         })
-        CurrentValue
     }
 
     override fun setFilter(filter: String) {

@@ -14,6 +14,7 @@ import com.resdev.poehelper.view.adapter.ItemAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeBookmarkCallback
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.BookmarksViewModel
+import javax.inject.Named
 
 class BookmarkFragment : DefaultFragment() {
     override lateinit var recyclerView: RecyclerView

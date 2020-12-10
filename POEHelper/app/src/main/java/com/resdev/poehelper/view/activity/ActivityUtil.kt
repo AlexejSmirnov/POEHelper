@@ -39,7 +39,7 @@ class ActivityUtil {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                     builder.setTitle(context.resources.getString(R.string.choose_league))
                     builder.setItems(
-                        PreloadingRepository.league.getCompleted()
+                        MyApplication.getPreloadingRepository().league.getCompleted()
                     ) { dialog, which ->
                         val lv: ListView =
                             (dialog as AlertDialog).listView
