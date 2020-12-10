@@ -9,16 +9,18 @@ import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.repository.CurrencyRepository
+import com.resdev.poehelper.repository.ItemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CurrencyViewModel(val type: String, application: Application) : AndroidViewModel(application) {
-    val repository = MyApplication.getCurrencyRepository()
+class CurrencyViewModel @Inject constructor(val type: String, application: Application) : AndroidViewModel(application) {
+    @Inject lateinit var repository: CurrencyRepository
+    @Inject lateinit var config: Config
     private var _currenciesData : MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var currenciesData: MutableLiveData<CurrenciesModel> = MutableLiveData()
-    private val config = MyApplication.getConfig()
     private var filter = ""
     private var job: Job? = null
     init {
@@ -51,6 +53,7 @@ class CurrencyViewModel(val type: String, application: Application) : AndroidVie
         job?.cancel()
         updateListOfValues()
     }
+
     fun updateListOfValues(){
         job = viewModelScope.launch(Dispatchers.IO) {
             while (true){

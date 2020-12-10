@@ -14,13 +14,15 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookmarksViewModel(application: Application) : AndroidViewModel(application){
-    val repository = MyApplication.getItemRepository()
+class BookmarksViewModel @Inject constructor(application: Application) : AndroidViewModel(application){
+    @Inject lateinit var repository: ItemRepository
+    @Inject lateinit var config: Config
     private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private  var itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var filter = ""
-    private val config = MyApplication.getConfig()
+
     private var job: Job? = null
     init {
         launchUpdating()

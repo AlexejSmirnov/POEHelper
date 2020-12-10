@@ -13,8 +13,9 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ItemViewModel(val type: String, application: Application) : AndroidViewModel(application){
+class ItemViewModel @Inject constructor(val type: String, application: Application) : AndroidViewModel(application){
     private val repository = MyApplication.getItemRepository()
     private var _itemsData : MutableLiveData<ItemsModel> = MutableLiveData()
     private  var itemsData: MutableLiveData<ItemsModel> = MutableLiveData()
@@ -65,8 +66,5 @@ class ItemViewModel(val type: String, application: Application) : AndroidViewMod
     fun getItems():LiveData<ItemsModel>{
         return itemsData
     }
-
-
-
 
 }

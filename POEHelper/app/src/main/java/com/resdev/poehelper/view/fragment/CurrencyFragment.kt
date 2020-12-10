@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.view.activity.VALUE_KEY
@@ -18,11 +19,13 @@ import com.resdev.poehelper.view.fragment.util.fromCodeToType
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
+import javax.inject.Inject
 import javax.inject.Named
 
 class CurrencyFragment : DefaultFragment() {
     override lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: CurrencyViewModel
+    @Inject
+    lateinit var viewModel: CurrencyViewModel
     private lateinit var currenciesAdapter : CurrenciesAdapter
     var itemType = ""
 
@@ -31,7 +34,7 @@ class CurrencyFragment : DefaultFragment() {
         savedInstanceState: Bundle?
     ): View? {
         itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
-        viewModel = viewModels<CurrencyViewModel> { CurrencyViewModelFactory(Application(), itemType) }.value
+        MyApplication.getNewCurrencySubComponent(itemType).inject(this)
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 

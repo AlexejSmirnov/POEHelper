@@ -9,29 +9,31 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.view.adapter.ItemAdapter
 import com.resdev.poehelper.view.adapter.callbacks.SwipeBookmarkCallback
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.BookmarksViewModel
+import javax.inject.Inject
 import javax.inject.Named
 
 class BookmarkFragment : DefaultFragment() {
     override lateinit var recyclerView: RecyclerView
-    private val viewModel: BookmarksViewModel by viewModels {BookmarkViewModelFactory(Application())}
+    @Inject
+    lateinit var viewModel: BookmarksViewModel
     private lateinit var itemsAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.loadItems()
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        MyApplication.getBookmarkSubComponent().inject(this)
         setUpRecyclerView(SwipeBookmarkCallback(config))
         itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter

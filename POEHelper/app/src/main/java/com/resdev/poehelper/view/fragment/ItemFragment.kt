@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntityList
 import com.resdev.poehelper.view.activity.VALUE_KEY
@@ -19,9 +20,11 @@ import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
 import com.resdev.poehelper.viewmodel.ItemViewModel
 import com.resdev.poehelper.viewmodel.ItemViewModelFactory
+import javax.inject.Inject
 
 class ItemFragment : DefaultFragment() {
-    private lateinit var viewModel: ItemViewModel
+    @Inject
+    lateinit var viewModel: ItemViewModel
     override lateinit var recyclerView: RecyclerView
     private lateinit var itemsAdapter: ItemAdapter
     var itemType = ""
@@ -32,8 +35,7 @@ class ItemFragment : DefaultFragment() {
         savedInstanceState: Bundle?
     ): View? {
         itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
-
-        viewModel = viewModels<ItemViewModel> { ItemViewModelFactory(Application(), itemType) }.value
+        MyApplication.getNewItemSubComponent(itemType).inject(this)
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 

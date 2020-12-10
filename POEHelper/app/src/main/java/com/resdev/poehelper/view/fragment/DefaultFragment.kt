@@ -10,10 +10,12 @@ import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.view.adapter.MyItemDecoration
 import kotlinx.android.synthetic.main.default_fragment.*
+import javax.inject.Inject
 
 abstract class DefaultFragment : Fragment(), MainFragment {
     abstract var recyclerView: RecyclerView
-    val config = MyApplication.getConfig()
+    @Inject
+    lateinit var config: Config
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         config.getObservableColor().observe(viewLifecycleOwner, androidx.lifecycle.Observer {

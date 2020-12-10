@@ -1,7 +1,11 @@
 package com.resdev.poehelper
 
 
+import com.resdev.poehelper.di.ApplicationComponent
 import com.resdev.poehelper.di.DaggerApplicationComponent
+import com.resdev.poehelper.di.bookmark.BookmarkViewModelModule
+import com.resdev.poehelper.di.currency.CurrencyViewModelModule
+import com.resdev.poehelper.di.item.ItemsViewModelModule
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.repository.CurrencyRepository
@@ -24,13 +28,14 @@ open class MyApplication : DaggerApplication(){
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        val component = DaggerApplicationComponent.builder().application(this).build()
+        component = DaggerApplicationComponent.builder().application(this).build()
         component.inject(this)
         application = this
         return component
     }
 
     companion object{
+        private lateinit var component: ApplicationComponent
         private lateinit var application: MyApplication
 
         fun getApplicationContext() = application.applicationContext
@@ -39,5 +44,13 @@ open class MyApplication : DaggerApplication(){
         fun getCurrencyRepository() = application.currencyRepository
         fun getCurrentValue() = application.currentValue
         fun getConfig() = application.config
+
+        fun getBookmarkSubComponent() = component.bookmarkSubComponent(BookmarkViewModelModule())
+        fun getNewItemSubComponent(type: String) = component.itemsSubComponent(
+            ItemsViewModelModule(type)
+        )
+        fun getNewCurrencySubComponent(type: String) = component.currencySubComponent(
+            CurrencyViewModelModule(type)
+        )
     }
 }
