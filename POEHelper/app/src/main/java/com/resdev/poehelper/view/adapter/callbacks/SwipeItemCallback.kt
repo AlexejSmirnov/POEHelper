@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.repository.ItemRepository
@@ -120,7 +121,7 @@ class SwipeItemCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeSaveAction(viewHolder: RecyclerView.ViewHolder){
         val holder= viewHolder as ItemAdapter.ItemViewHolder
-        CoroutineScope(Dispatchers.IO).launch { ItemRepository.addItem(holder.item)}
+        CoroutineScope(Dispatchers.IO).launch { MyApplication.getItemRepository().addItem(holder.item)}
         val itemName = holder.item.translatedName ?: holder.item.name
         showSnackbar( viewHolder.itemView, "$itemName is bookmarked")
     }

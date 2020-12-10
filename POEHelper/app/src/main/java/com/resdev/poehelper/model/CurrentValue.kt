@@ -1,4 +1,5 @@
 package com.resdev.poehelper.model
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.pojo.*
 import com.resdev.poehelper.repository.CurrencyRepository
 import com.resdev.poehelper.utils.getFromMap
@@ -13,6 +14,7 @@ object CurrentValue {
     private lateinit var currencyDetail: CurrencyDetail
     private lateinit var line: CurrencyLine
     private lateinit var data: CurrenciesModel
+    private var currencyRepository = MyApplication.getCurrencyRepository()
     init {
         setupObservers()
     }
@@ -80,7 +82,7 @@ object CurrentValue {
         job = CoroutineScope(Default).launch {
             var result = CurrenciesModel.emptyModel
             while (result == CurrenciesModel.emptyModel){
-                result = CurrencyRepository.getCurrency("Currency")
+                result = currencyRepository.getCurrency("Currency")
                 delay(1000)
             }
             data = result

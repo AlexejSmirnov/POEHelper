@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.repository.ItemRepository
@@ -121,7 +122,7 @@ class SwipeBookmarkCallback() : ItemTouchHelper.SimpleCallback(0,
 
     private fun makeRemoveAction(viewHolder: RecyclerView.ViewHolder){
         var holder= viewHolder as ItemAdapter.ItemViewHolder
-        CoroutineScope(IO).launch { ItemRepository.removeEntity(holder.item)}
+        CoroutineScope(IO).launch { MyApplication.getItemRepository().removeEntity(holder.item)}
         var itemName = holder.item.translatedName ?: holder.item.name
         showSnackbar( viewHolder.itemView, "$itemName is removed")
     }

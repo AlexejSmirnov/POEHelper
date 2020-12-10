@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.repository.ItemRepository
@@ -14,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ItemViewModel(val type: String, application: Application) : AndroidViewModel(application){
-    private val repository = ItemRepository
+    private val repository = MyApplication.getItemRepository()
     private var _itemsData : MutableLiveData<ItemsModel> = MutableLiveData()
     private  var itemsData: MutableLiveData<ItemsModel> = MutableLiveData()
     private var filter = ""

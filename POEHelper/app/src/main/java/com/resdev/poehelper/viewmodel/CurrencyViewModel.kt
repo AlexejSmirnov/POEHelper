@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.repository.CurrencyRepository
@@ -14,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CurrencyViewModel(val type: String, application: Application) : AndroidViewModel(application) {
-    val repository = CurrencyRepository
+    val repository = MyApplication.getCurrencyRepository()
     private var _currenciesData : MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var currenciesData: MutableLiveData<CurrenciesModel> = MutableLiveData()
     private var filter = ""

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.repository.ItemRepository
@@ -15,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BookmarksViewModel(application: Application) : AndroidViewModel(application){
-    val repository = ItemRepository
+    val repository = MyApplication.getItemRepository()
     private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private  var itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var filter = ""
@@ -77,12 +78,12 @@ class BookmarksViewModel(application: Application) : AndroidViewModel(applicatio
         _itemsData.value?.let { value ->
             val idMap = value.map { it.id }
             for (i in itemsTypes){
-                val items = ItemRepository.getItem(i)
+                val items = repository.getItem(i)
                 items.bindModel()
                 for (j in items.lines){
                     val id = idMap.indexOf(j.id)
                     if (id!=-1){
-                        ItemRepository.updateItem(
+                        repository.updateItem(
                             fromRetrofitItemToRoomEntity(
                                 j,
                                 i
