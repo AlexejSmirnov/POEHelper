@@ -35,7 +35,7 @@ class BookmarkFragment : DefaultFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(BookmarksViewModel::class.java)
         setUpRecyclerView(SwipeBookmarkCallback(config))
-        itemsAdapter =  ItemAdapter()
+        itemsAdapter = ItemAdapter()
         recyclerView.adapter = itemsAdapter
         viewModel.getItems().observe(viewLifecycleOwner, Observer {
             itemsAdapter.submitList(it)

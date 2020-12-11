@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -63,22 +64,10 @@ private lateinit var searchItem: MenuItem
         setLang()
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
-            0, 0
-        )
+        setToggle()
         setListeners()
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-        openFragmentWithCheck(lastFragmentMenuId)
-        navigation_view.itemIconTintList = null
-        navigation_view.setNavigationItemSelectedListener {
-            toolbar.collapseActionView()
-            isBookmarkOpened = false
-            bookmarkItem.icon = bookmarkIconClosed
-            openFragmentWithCheck(it.itemId)
-            return@setNavigationItemSelectedListener true
-        }
+        openFragmentOnStart(savedInstanceState)
+        setNavigationViewListener()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -162,8 +151,6 @@ private lateinit var searchItem: MenuItem
         }
     }
 
-
-
     override fun onStop() {
         super.onStop()
         saveData()
@@ -171,7 +158,6 @@ private lateinit var searchItem: MenuItem
 
     fun initializeActivityComponents(){
         title = config.getLeague()
-
     }
 
     fun saveData(){
@@ -201,45 +187,65 @@ private lateinit var searchItem: MenuItem
                 openFragment(navigationItemId)
             }
         }
-        
     }
 
     private fun openFragment(navigationItemId: Int){
         if (isBookmarkOpened){
             openBookmarkFragment()
-            return
         }
-        fragment = if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){
-            CurrencyFragment()
-        } else{
-            ItemFragment()
+        else{
+            openDefaultFragment(navigationItemId)
         }
-        openDefaultFragment(navigationItemId)
     }
 
     private fun openBookmarkFragment(){
         fragment = BookmarkFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment, FRAGMENT_KEY).commit()
     }
+
     private fun openDefaultFragment(navigationItemId: Int){
-        var bundle = Bundle()
+        fragment = if (navigationItemId==R.id.nav_fragment || navigationItemId==R.id.nav_currency){ CurrencyFragment() } else { ItemFragment() }
+        val bundle = Bundle()
         bundle.putInt(VALUE_KEY, navigationItemId)
         (fragment as Fragment).arguments = bundle
         lastFragmentMenuId = navigationItemId
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment).commit()
-
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment as Fragment, FRAGMENT_KEY).commit()
     }
 
     fun switchBookmarkIcons(){
-            if (isBookmarkOpened)
-                bookmarkItem.icon = bookmarkIconOpened
-            else{
-                bookmarkItem.icon = bookmarkIconClosed
-            }
+        if (isBookmarkOpened)
+            bookmarkItem.icon = bookmarkIconOpened
+        else{
+            bookmarkItem.icon = bookmarkIconClosed
+        }
+    }
 
+    fun openFragmentOnStart(savedInstanceState: Bundle?){
+        savedInstanceState?.let { _ ->
+            fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_KEY) as MainFragment
+        } ?: openFragmentWithCheck(lastFragmentMenuId)
     }
 
     //interface painting
+    fun setNavigationViewListener(){
+        navigation_view.itemIconTintList = null
+        navigation_view.setNavigationItemSelectedListener {
+            toolbar.collapseActionView()
+            isBookmarkOpened = false
+            bookmarkItem.icon = bookmarkIconClosed
+            openFragmentWithCheck(it.itemId)
+            return@setNavigationItemSelectedListener true
+        }
+    }
+
+    private fun setToggle(){
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar,
+            0, 0
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
 
     fun paintInterface(color : Int){
         toolbar.setBackgroundColor(color)
@@ -290,19 +296,13 @@ private lateinit var searchItem: MenuItem
         config.getObservableLeague().observe(this, Observer {
             title = it
         })
-
     }
 
     fun setProgressBar(){
         progressBar.visibility = View.VISIBLE
-
     }
 
     fun hideProgressBar(){
         progressBar.visibility = View.GONE
     }
-
-
-
-
 }
