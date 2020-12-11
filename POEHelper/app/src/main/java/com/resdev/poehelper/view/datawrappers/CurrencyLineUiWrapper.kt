@@ -5,7 +5,6 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.squareup.picasso.Picasso
 

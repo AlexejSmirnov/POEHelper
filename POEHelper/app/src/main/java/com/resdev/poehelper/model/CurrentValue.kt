@@ -54,8 +54,8 @@ class CurrentValue  @Inject constructor(private val currencyRepository: Currency
             array.add(i.currencyTypeName)
         }
         array.sortBy { it.toString() }
-        var defaultArr = Array(array.size){i->array[i].toString()}
-        var translated = Array(array.size){i-> getFromMap(array[i].toString(), data.language.translations)}
+        val defaultArr = Array(array.size){ i->array[i].toString()}
+        val translated = Array(array.size){ i-> getFromMap(array[i].toString(), data.language.translations)}
         return arrayOf(defaultArr, translated)
     }
 

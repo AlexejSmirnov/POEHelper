@@ -1,14 +1,8 @@
 package com.resdev.poehelper.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
-import com.resdev.poehelper.MyApplication
+import androidx.lifecycle.*
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
@@ -16,7 +10,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class BookmarksViewModel (application: Application, val repository: ItemRepository, val config: Config) : AndroidViewModel(application){
     private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()

@@ -1,7 +1,6 @@
 package com.resdev.poehelper.utils
 
 import com.resdev.poehelper.MyApplication
-import com.resdev.poehelper.model.Config
 
 //utils that helps to generate urls for market for different languages
 

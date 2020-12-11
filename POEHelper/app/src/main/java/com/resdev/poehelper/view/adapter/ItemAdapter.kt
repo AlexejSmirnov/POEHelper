@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.databinding.ItemViewHolderBinding
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.utils.getFromMap
 import com.resdev.poehelper.view.datawrappers.ItemEntityUiWrapper

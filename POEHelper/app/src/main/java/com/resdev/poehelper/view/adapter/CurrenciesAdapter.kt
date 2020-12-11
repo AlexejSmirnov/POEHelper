@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.databinding.CurrencyViewHolderBinding
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyDetail
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.utils.getFromMap

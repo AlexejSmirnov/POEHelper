@@ -1,23 +1,22 @@
 package com.resdev.poehelper.model.retrofit
 
-import androidx.lifecycle.LiveData
+import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.poemarket.PoeMarketResponse
 import com.resdev.poehelper.model.poemarket.generateCurrencyLink
 import com.resdev.poehelper.model.poemarket.generateItemLink
 import com.resdev.poehelper.model.room.ItemEntity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
+import javax.inject.Singleton
 
 //PoeMarketApi retrofit
-object PoeMarket {
+@Singleton
+class PoeMarket @Inject constructor(val config: Config) {
     private lateinit var retrofit : Retrofit
     private lateinit var poeMarketClient : PoeMarketApi
     init {
-        rebuildRetrofit("en")
-    }
-
-    fun setLanguageObservable(data: LiveData<String>){
-        data.observeForever{
+        config.getObservableLanguage().observeForever{
             rebuildRetrofit(it)
         }
     }
@@ -46,7 +45,7 @@ object PoeMarket {
     }
 
     fun rebuildRetrofit(language: String){
-        var url = when(language){
+        val url = when(language){
             "en"-> "https://www.pathofexile.com"
             "ko"-> "https://poe.game.daum.net"
             "ge"-> "https://de.pathofexile.com"

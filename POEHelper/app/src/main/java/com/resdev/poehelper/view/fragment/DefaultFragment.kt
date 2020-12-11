@@ -2,14 +2,9 @@ package com.resdev.poehelper.view.fragment
 
 import android.os.Bundle
 import android.widget.EdgeEffect
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.view.adapter.MyItemDecoration
 import dagger.android.support.DaggerFragment

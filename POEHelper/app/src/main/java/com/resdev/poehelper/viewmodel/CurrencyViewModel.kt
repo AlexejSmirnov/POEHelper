@@ -2,16 +2,13 @@ package com.resdev.poehelper.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.repository.CurrencyRepository
-import com.resdev.poehelper.repository.ItemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class CurrencyViewModel (application: Application, val repository: CurrencyRepository, val config: Config) : AndroidViewModel(application) {
     private var _currenciesData : MutableLiveData<CurrenciesModel> = MutableLiveData()
@@ -19,8 +16,7 @@ class CurrencyViewModel (application: Application, val repository: CurrencyRepos
     private var filter = ""
     private var type = ""
     private var job: Job? = null
-    private val filterObserver = Observer<CurrenciesModel> {
-        filterData(it)
+    private val filterObserver = Observer<CurrenciesModel> { filterData(it)
     }
     private val configObserver = Observer<String> { restartUpdatingOfListOfValue() }
 

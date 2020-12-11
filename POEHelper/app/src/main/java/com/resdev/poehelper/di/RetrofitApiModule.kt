@@ -1,7 +1,6 @@
 package com.resdev.poehelper.di
 
 import com.resdev.poehelper.model.retrofit.PoeLeagueApi
-import com.resdev.poehelper.model.retrofit.PoeMarketApi
 import com.resdev.poehelper.model.retrofit.PoeNinjaApi
 import dagger.Module
 import dagger.Provides

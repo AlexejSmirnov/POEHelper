@@ -17,6 +17,5 @@ class PoeLeagueLoading @Inject constructor(){
         } catch (e: Exception){
             LeaguesModel.defaultModel
         }
-
     }
 }

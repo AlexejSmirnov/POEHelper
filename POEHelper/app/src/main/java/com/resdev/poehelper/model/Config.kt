@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class Config @Inject constructor() {
-    private val _league = MutableLiveData("Delirium")
+    private val _league = MutableLiveData("Standard")
     private val _currency = MutableLiveData("Chaos Orb")
     private val _language = MutableLiveData("en")
     private val _color = MutableLiveData(-0x16e19d)

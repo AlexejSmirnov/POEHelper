@@ -1,9 +1,7 @@
 package com.resdev.poehelper
 
-import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
+import com.resdev.poehelper.di.DaggerTestComponent
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
 import com.resdev.poehelper.model.room.ApplicationDatabase
@@ -11,15 +9,17 @@ import com.resdev.poehelper.model.room.EntityDao
 import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.assertEquals
+import javax.inject.Inject
 
 @RunWith(AndroidJUnit4::class)
 class RoomTest {
+    @Inject lateinit var poeNinjaLoading: PoeNinjaLoading
+    @Inject lateinit var db: ApplicationDatabase
     private lateinit var userDao: EntityDao
-    private lateinit var db: ApplicationDatabase
     private lateinit var itemsModel: ItemsModel
     private val type = "Scarab"
     private val league = "Standard"
@@ -27,12 +27,10 @@ class RoomTest {
 
     @Before
     fun createDb() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context, ApplicationDatabase::class.java).build()
+        DaggerTestComponent.create().inject(this)
         userDao = db.entityDao
         runBlocking {
-            itemsModel = PoeNinjaLoading.loadItems(league, type, lang)
+            itemsModel = poeNinjaLoading.loadItems(league, type, lang)
             itemsModel.bindModel()
         }
     }

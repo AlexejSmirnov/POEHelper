@@ -2,11 +2,11 @@ package com.resdev.poehelper.view.pop_up_window
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.utils.getGraphDataset
 import com.resdev.poehelper.utils.roundPercentages
@@ -19,11 +19,11 @@ fun setupWindow(itemEntity: ItemEntity,  view: View){
     Picasso.get().load(currentValue.getDetails().icon).into(view.item_graph_cuurency_image)
     Picasso.get().load(getUrl(itemEntity)).into(view.item_graph_item_image)
     view.findViewById<TextView>(R.id.item_graph_percentage).text = roundPercentages(itemEntity.sparkline.totalChange)
-    if ((itemEntity.sparkline?.totalChange ?: 0.0)>=0.0){
-        view.findViewById<TextView>(R.id.item_graph_percentage).setTextColor(view.resources.getColor(R.color.green))
+    if ((itemEntity.sparkline.totalChange)>=0.0){
+        view.findViewById<TextView>(R.id.item_graph_percentage).setTextColor(ContextCompat.getColor(view.context, R.color.green))
     }
     else{
-        view.findViewById<TextView>(R.id.item_graph_percentage).setTextColor(view.resources.getColor(R.color.red))
+        view.findViewById<TextView>(R.id.item_graph_percentage).setTextColor(ContextCompat.getColor(view.context, R.color.red))
     }
     view.item_graph_exchange_rate.text = if (itemEntity.chaosValue == null){
          view.context.getString(R.string.no_data)

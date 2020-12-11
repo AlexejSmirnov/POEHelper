@@ -19,6 +19,7 @@ There is support for 8 languages: English, German, French, Russian, Spanish, Tha
 * AmbilWarna (color picker) - https://github.com/square/picasso
 * Retrofit2 - https://square.github.io/retrofit/
 * Room - https://developer.android.com/topic/libraries/architecture/room
+* Dagger - https://github.com/google/dagger
 
 ## License
 This software is licensed under the [MIT](https://github.com/AlexejSmirnov/POEHelper/blob/master/LICENSE).

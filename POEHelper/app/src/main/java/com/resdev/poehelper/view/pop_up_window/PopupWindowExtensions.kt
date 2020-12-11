@@ -22,7 +22,6 @@ fun PopupWindow.showCurrencyWindow(view: View) {
     this.dimBehind()
     this.contentView.setOnClickListener{
         this.dismiss()
-        true
     }
 }
 fun PopupWindow.showItemWindow(view: View) {

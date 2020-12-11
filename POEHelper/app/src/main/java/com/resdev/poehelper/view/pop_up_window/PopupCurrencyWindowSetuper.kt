@@ -8,12 +8,10 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.model.pojo.CurrencyLine
 import com.resdev.poehelper.utils.getGraphDataset
 import com.resdev.poehelper.utils.setupGraph
 import com.squareup.picasso.Picasso
-
 
 
 fun setupWindow(currencyLine: CurrencyLine,  view: View){

@@ -8,10 +8,9 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.Config
 
 
-    fun getFromMap(field : String, map : HashMap<String, String>) : String{
+fun getFromMap(field : String, map : HashMap<String, String>) : String{
         return map[field] ?: field
     }
 

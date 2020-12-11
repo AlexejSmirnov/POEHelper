@@ -6,11 +6,8 @@ import android.graphics.Paint
 import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.resdev.poehelper.MyApplication
-import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.openItemUrl
 import com.resdev.poehelper.utils.showSnackbar

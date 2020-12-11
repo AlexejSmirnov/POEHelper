@@ -45,11 +45,9 @@ class SwipeBookmarkCallback(private val config: Config) : ItemTouchHelper.Simple
     }
 
     private fun setTouchListener(
-        c: Canvas,
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        dX: Float
     ) {
         recyclerView.setOnTouchListener { _, event ->
             swipeBack = (event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP)&&dX<0
@@ -72,7 +70,7 @@ class SwipeBookmarkCallback(private val config: Config) : ItemTouchHelper.Simple
         isCurrentlyActive: Boolean
     ) {
         super.onChildDraw(
-            c!!, recyclerView!!, viewHolder, dX,
+            c, recyclerView, viewHolder, dX,
             dY, actionState, isCurrentlyActive
         )
         val itemView = viewHolder.itemView
@@ -93,8 +91,8 @@ class SwipeBookmarkCallback(private val config: Config) : ItemTouchHelper.Simple
 
             paint.textSize = 40F
             paint.textAlign = Paint.Align.CENTER
-            setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            var height = itemView.top + itemView.height / 2
+            setTouchListener(recyclerView, viewHolder, dX)
+            val height = itemView.top + itemView.height / 2
             if (dX>0 && dX<itemView.right){
                 c.drawText("Remove from", 150F, (height-(paint.textSize/2)-1), paint)
                 c.drawText("bookmarks", 150F, (height+(paint.textSize/2)+1), paint)

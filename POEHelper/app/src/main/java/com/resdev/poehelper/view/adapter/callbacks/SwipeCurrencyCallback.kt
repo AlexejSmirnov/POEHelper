@@ -38,13 +38,11 @@ class SwipeCurrencyCallback(private val config: Config) : ItemTouchHelper.Simple
     }
 
     private fun setTouchListener(
-        c: Canvas,
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        dX: Float
     ) {
-        recyclerView.setOnTouchListener { v, event ->
+        recyclerView.setOnTouchListener { _, event ->
             swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
             if (willActionBeTriggered(dX, recyclerView.width) and swipeBack) {//
                 makeAction(viewHolder)
@@ -65,7 +63,7 @@ class SwipeCurrencyCallback(private val config: Config) : ItemTouchHelper.Simple
         isCurrentlyActive: Boolean
     ) {
         super.onChildDraw(
-            c!!, recyclerView!!, viewHolder, dX,
+            c, recyclerView, viewHolder, dX,
             dY, actionState, isCurrentlyActive
         )
         val itemView = viewHolder.itemView
@@ -81,15 +79,15 @@ class SwipeCurrencyCallback(private val config: Config) : ItemTouchHelper.Simple
 
             }
             else{
-                paint.setColor(Color.GRAY)
+                paint.color = Color.GRAY
             }
 
             paint.textSize = 40F
             paint.textAlign = Paint.Align.CENTER
-            setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            var height = itemView.getTop() + itemView.getHeight() / 2
-            c.drawText("Check on", (itemView.getRight() - 150).toFloat(), (height-20).toFloat(), paint)
-            c.drawText("pathofexile", (itemView.getRight() - 150).toFloat(), (height+20).toFloat(), paint)
+            setTouchListener(recyclerView, viewHolder, dX)
+            var height = itemView.top + itemView.height / 2
+            c.drawText("Check on", (itemView.right - 150).toFloat(), (height-20).toFloat(), paint)
+            c.drawText("pathofexile", (itemView.right - 150).toFloat(), (height+20).toFloat(), paint)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
