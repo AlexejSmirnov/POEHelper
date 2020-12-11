@@ -19,13 +19,14 @@ import com.resdev.poehelper.view.fragment.util.fromCodeToType
 import com.resdev.poehelper.viewmodel.BookmarkViewModelFactory
 import com.resdev.poehelper.viewmodel.CurrencyViewModel
 import com.resdev.poehelper.viewmodel.CurrencyViewModelFactory
+import com.resdev.poehelper.viewmodel.ItemViewModel
 import javax.inject.Inject
 import javax.inject.Named
 
 class CurrencyFragment : DefaultFragment() {
-    override lateinit var recyclerView: RecyclerView
     @Inject
-    lateinit var viewModel: CurrencyViewModel
+    lateinit var viewModelFactory: CurrencyViewModelFactory
+    private lateinit var viewModel: CurrencyViewModel
     private lateinit var currenciesAdapter : CurrenciesAdapter
     var itemType = ""
 
@@ -34,7 +35,7 @@ class CurrencyFragment : DefaultFragment() {
         savedInstanceState: Bundle?
     ): View? {
         itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
-        MyApplication.getNewCurrencySubComponent(itemType).inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(CurrencyViewModel::class.java).apply { initializeObserving(itemType) }
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 
@@ -57,8 +58,6 @@ class CurrencyFragment : DefaultFragment() {
         currenciesAdapter = CurrenciesAdapter()
         recyclerView.adapter = currenciesAdapter
     }
-
-
 
     override fun onDestroy() {
         currenciesAdapter.closeWindow()

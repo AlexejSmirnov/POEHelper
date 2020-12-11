@@ -1,16 +1,11 @@
 package com.resdev.poehelper.view.activity
 
-import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
-import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.CurrentValue
-import com.resdev.poehelper.repository.PreloadingRepository
-import com.resdev.poehelper.view.activity.ActivityUtil.Companion.createCurrencyPicker
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -27,7 +22,7 @@ class ActivityUtil {
             builder.setItems(arrays[1]
             ) { _, which ->
                 val text = arrays[0][which]
-                this.Config.setCurrency(text)
+                this.config.setCurrency(text)
                 currentValue.getActualData()
                 callback()
             }
@@ -37,7 +32,7 @@ class ActivityUtil {
 
         fun MainActivity.createLeaguePicker(callback: () -> Unit){
             val context = this
-            val config = Config
+            val config = config
             runBlocking {
                 launch {
                     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
@@ -61,7 +56,7 @@ class ActivityUtil {
                 MyApplication.getConfig().getColor(),
                 object : AmbilWarnaDialog.OnAmbilWarnaListener {
                     override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                        Config.setColor(color)
+                        config.setColor(color)
                         callback()
                     }
                     override fun onCancel(dialog: AmbilWarnaDialog?) {
@@ -85,7 +80,7 @@ class ActivityUtil {
                 "Korean")
             builder.setItems(languagesTitle
             ) { _, which ->
-                Config.setLanguage(languages[which])
+                config.setLanguage(languages[which])
                 callback()
             }
             builder.show()
@@ -94,7 +89,7 @@ class ActivityUtil {
         fun MainActivity.setLang(){
             val activityRes: Resources = this.resources
             val activityConf: Configuration = activityRes.configuration
-            var lang = Config.getLanguage()
+            var lang = config.getLanguage()
             if (lang == "ge"){
                 lang = "de"
             }

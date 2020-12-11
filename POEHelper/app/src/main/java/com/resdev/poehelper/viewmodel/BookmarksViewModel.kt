@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.room.ItemEntity
 import com.resdev.poehelper.repository.ItemRepository
 import com.resdev.poehelper.utils.fromRetrofitItemToRoomEntity
@@ -16,26 +18,29 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BookmarksViewModel @Inject constructor(application: Application) : AndroidViewModel(application){
-    @Inject lateinit var repository: ItemRepository
-    @Inject lateinit var config: Config
+class BookmarksViewModel (application: Application, val repository: ItemRepository, val config: Config) : AndroidViewModel(application){
     private  var _itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private  var itemsData: MutableLiveData<List<ItemEntity>> = MutableLiveData()
     private var filter = ""
+    private val filterObserver = Observer<List<ItemEntity>> { filterData(it) }
+    private val configObserver = Observer<String> { restartLaunchUpdating() }
 
     private var job: Job? = null
     init {
-        launchUpdating()
-        _itemsData.observeForever {
-            filterData(it)
-        }
-        config.getObservableLeague().observeForever{
-            restartLaunchUpdating()
-        }
-        config.getObservableCurrency().observeForever{
-            restartLaunchUpdating()
-        }
+        restartLaunchUpdating()
+        setObservers()
+    }
 
+    private fun setObservers(){
+        _itemsData.observeForever(filterObserver)
+        config.getObservableLeague().observeForever(configObserver)
+        config.getObservableCurrency().observeForever(configObserver)
+    }
+
+    fun removeObservers(){
+        _itemsData.removeObserver(filterObserver)
+        config.getObservableLeague().removeObserver(configObserver)
+        config.getObservableCurrency().removeObserver(configObserver)
     }
 
     private fun filterData(itemsModel: List<ItemEntity>){
@@ -60,7 +65,6 @@ class BookmarksViewModel @Inject constructor(application: Application) : Android
         return itemsData
     }
 
-
     fun launchUpdating(){
         job = viewModelScope.launch(IO) {
             while (true){
@@ -77,7 +81,7 @@ class BookmarksViewModel @Inject constructor(application: Application) : Android
     }
 
     suspend fun updateBookmarksItems(){
-        var itemsTypes = repository.getTypes()
+        val itemsTypes = repository.getTypes()
         _itemsData.value?.let { value ->
             val idMap = value.map { it.id }
             for (i in itemsTypes){
@@ -86,16 +90,16 @@ class BookmarksViewModel @Inject constructor(application: Application) : Android
                 for (j in items.lines){
                     val id = idMap.indexOf(j.id)
                     if (id!=-1){
-                        repository.updateItem(
-                            fromRetrofitItemToRoomEntity(
-                                j,
-                                i
-                            )
+                        repository.updateItem(fromRetrofitItemToRoomEntity(j,i)
                         )
                     }
                 }
             }
         }
+    }
 
+    override fun onCleared() {
+        super.onCleared()
+        removeObservers()
     }
 }

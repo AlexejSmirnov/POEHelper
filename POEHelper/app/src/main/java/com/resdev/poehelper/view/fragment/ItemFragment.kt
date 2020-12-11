@@ -24,18 +24,17 @@ import javax.inject.Inject
 
 class ItemFragment : DefaultFragment() {
     @Inject
-    lateinit var viewModel: ItemViewModel
-    override lateinit var recyclerView: RecyclerView
+    lateinit var factory: ItemViewModelFactory
+    private lateinit var viewModel: ItemViewModel
     private lateinit var itemsAdapter: ItemAdapter
     var itemType = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         itemType = fromCodeToType(requireArguments().getInt(VALUE_KEY,-1))
-        MyApplication.getNewItemSubComponent(itemType).inject(this)
+        viewModel = ViewModelProvider(this, factory).get(ItemViewModel::class.java).apply { initializeObserving(itemType) }
         return inflater.inflate(R.layout.default_fragment, container, false)
     }
 
@@ -62,8 +61,6 @@ class ItemFragment : DefaultFragment() {
         itemsAdapter = ItemAdapter()
         recyclerView.adapter = itemsAdapter
     }
-
-
 
     override fun onDestroy() {
         itemsAdapter.closeWindow()

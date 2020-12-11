@@ -26,7 +26,6 @@ class PoeNinjaLoading @Inject constructor() {
             return try{
                 poeNinjaClient.getCurrency(leagueName, itemName,language) ?: CurrenciesModel.emptyModel
             } catch (e: Exception){
-                e.printStackTrace()
                 CurrenciesModel.emptyModel
             }
         }

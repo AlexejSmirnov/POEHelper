@@ -1,13 +1,14 @@
 package com.resdev.poehelper.repository
 
-import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.model.retrofit.PoeNinjaLoading
 import com.resdev.poehelper.model.room.ApplicationDatabase
 import com.resdev.poehelper.model.room.ItemEntity
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ItemRepository @Inject constructor(private val poeNinjaLoading: PoeNinjaLoading, private val database: ApplicationDatabase, private val config: Config){//
     //val database = ApplicationDatabase.getInstance(MyApplication.getApplicationContext())
 

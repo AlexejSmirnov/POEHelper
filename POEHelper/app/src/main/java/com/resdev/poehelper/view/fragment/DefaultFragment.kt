@@ -3,17 +3,21 @@ package com.resdev.poehelper.view.fragment
 import android.os.Bundle
 import android.widget.EdgeEffect
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
 import com.resdev.poehelper.view.adapter.MyItemDecoration
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.default_fragment.*
 import javax.inject.Inject
 
-abstract class DefaultFragment : Fragment(), MainFragment {
-    abstract var recyclerView: RecyclerView
+abstract class DefaultFragment : DaggerFragment(), MainFragment {
+    lateinit var recyclerView: RecyclerView
     @Inject
     lateinit var config: Config
     override fun onActivityCreated(savedInstanceState: Bundle?) {

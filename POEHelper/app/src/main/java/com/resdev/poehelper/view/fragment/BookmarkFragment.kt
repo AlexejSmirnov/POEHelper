@@ -19,9 +19,9 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class BookmarkFragment : DefaultFragment() {
-    override lateinit var recyclerView: RecyclerView
     @Inject
-    lateinit var viewModel: BookmarksViewModel
+    lateinit var viewModelFactory: BookmarkViewModelFactory
+    private lateinit var viewModel: BookmarksViewModel
     private lateinit var itemsAdapter: ItemAdapter
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class BookmarkFragment : DefaultFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        MyApplication.getBookmarkSubComponent().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BookmarksViewModel::class.java)
         setUpRecyclerView(SwipeBookmarkCallback(config))
         itemsAdapter =  ItemAdapter()
         recyclerView.adapter = itemsAdapter
@@ -51,8 +51,6 @@ class BookmarkFragment : DefaultFragment() {
         recyclerView.adapter = itemsAdapter
         viewModel.loadItems()
     }
-
-
 
     override fun onDestroy() {
         itemsAdapter.closeWindow()

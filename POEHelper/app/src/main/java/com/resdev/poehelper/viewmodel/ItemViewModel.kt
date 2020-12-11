@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.model.Config
+import com.resdev.poehelper.model.pojo.CurrenciesModel
 import com.resdev.poehelper.model.pojo.ItemsModel
 import com.resdev.poehelper.repository.ItemRepository
 import kotlinx.coroutines.Dispatchers.IO
@@ -15,24 +17,35 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ItemViewModel @Inject constructor(val type: String, application: Application) : AndroidViewModel(application){
-    private val repository = MyApplication.getItemRepository()
+class ItemViewModel (application: Application, val repository: ItemRepository, val config: Config) : AndroidViewModel(application){
+
     private var _itemsData : MutableLiveData<ItemsModel> = MutableLiveData()
     private  var itemsData: MutableLiveData<ItemsModel> = MutableLiveData()
-    private val config = MyApplication.getConfig()
     private var filter = ""
+    private var type: String = ""
     private var job: Job? = null
-    init {
-        updateListOfItems()
-        _itemsData.observeForever {
-            filterData(it)
+    private val filterObserver = Observer<ItemsModel> { filterData(it) }
+    private val configObserver = Observer<String> { restartUpdatingOfListOfItems() }
+
+    private fun setObservers(){
+        _itemsData.observeForever(filterObserver)
+        config.getObservableLeague().observeForever(configObserver)
+        config.getObservableCurrency().observeForever(configObserver)
+    }
+
+    fun removeObservers(){
+        _itemsData.removeObserver(filterObserver)
+        config.getObservableLeague().removeObserver(configObserver)
+        config.getObservableCurrency().removeObserver(configObserver)
+    }
+
+    fun initializeObserving(type: String){
+        if(type==this.type){
+            return
         }
-        config.getObservableLeague().observeForever{
-            restartUpdatingOfListOfItems()
-        }
-        config.getObservableCurrency().observeForever{
-            restartUpdatingOfListOfItems()
-        }
+        if(this.type.isEmpty()){setObservers()}
+        this.type = type
+        restartUpdatingOfListOfItems()
 
     }
 
@@ -67,4 +80,8 @@ class ItemViewModel @Inject constructor(val type: String, application: Applicati
         return itemsData
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        removeObservers()
+    }
 }

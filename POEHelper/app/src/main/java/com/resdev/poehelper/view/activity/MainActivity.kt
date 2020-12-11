@@ -1,7 +1,7 @@
 package com.resdev.poehelper.view.activity
 
 
-import android.content.Context
+
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -14,8 +14,8 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -23,7 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import com.resdev.poehelper.MyApplication
 import com.resdev.poehelper.R
 import com.resdev.poehelper.model.Config
-import com.resdev.poehelper.model.CurrentValue
 import com.resdev.poehelper.utils.getDarkenColor
 import com.resdev.poehelper.utils.isColorLight
 import com.resdev.poehelper.utils.showSnackbar
@@ -36,34 +35,38 @@ import com.resdev.poehelper.view.fragment.BookmarkFragment
 import com.resdev.poehelper.view.fragment.CurrencyFragment
 import com.resdev.poehelper.view.fragment.ItemFragment
 import com.resdev.poehelper.view.fragment.MainFragment
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.lang.reflect.Field
+import javax.inject.Inject
+import javax.inject.Named
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
+
+@Inject lateinit var config: Config
+@Named("Closed") @Inject lateinit var bookmarkIconClosed: Drawable
+@Named("Opened") @Inject lateinit var bookmarkIconOpened: Drawable
+@Inject lateinit var mSettings: SharedPreferences
+
 private lateinit var fragment: MainFragment
-val Config = MyApplication.getConfig()
-private val APP_PREFERENCES = "mysettings"
 private var lastFragmentMenuId: Int = R.id.nav_currency
 private var isBookmarkOpened = false
-private var mSettings: SharedPreferences? = null
 private lateinit var bookmarkItem: MenuItem
 private lateinit var searchItem: MenuItem
-private var bookmarkIconClosed: Drawable? = null
-private var bookmarkIconOpened : Drawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initializeActivityComponents()
         loadData()
         setLang()
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             0, 0
         )
-        initializeActivityComponents()
         setListeners()
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -82,9 +85,9 @@ private var bookmarkIconOpened : Drawable? = null
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         searchItem = menu?.findItem(R.id.app_bar_search)!!
-        bookmarkItem = menu?.findItem(R.id.switch_fragments)!!
-        paintInterface(Config.getColor())
-        var searchView = searchItem!!.actionView as SearchView
+        bookmarkItem = menu.findItem(R.id.switch_fragments)!!
+        paintInterface(config.getColor())
+        val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -134,7 +137,7 @@ private var bookmarkIconOpened : Drawable? = null
             }
             R.id.color_picker ->{
                 this.createColorPicker{
-                    this@MainActivity.paintInterface(Config.getColor())
+                    this@MainActivity.paintInterface(config.getColor())
                 }
                 return true}
             R.id.language_picker -> {
@@ -167,24 +170,22 @@ private var bookmarkIconOpened : Drawable? = null
     }
 
     fun initializeActivityComponents(){
-        title = Config.getLeague()
-        bookmarkIconClosed = getDrawable(R.drawable.ic_star_border_white_24dp)
-        bookmarkIconOpened = getDrawable(R.drawable.ic_star_white_24dp)
+        title = config.getLeague()
+
     }
 
     fun saveData(){
-        val editor: SharedPreferences.Editor = mSettings!!.edit()
+        val editor: SharedPreferences.Editor = mSettings.edit()
         editor.putInt(LAST_FRAGMENT, lastFragmentMenuId)
         editor.putBoolean(IS_BOOKMARK_OPENED, isBookmarkOpened)
         editor.apply()
-        Config.saveConfigs(mSettings)
+        config.saveConfigs(mSettings)
     }
 
     fun loadData(){
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        lastFragmentMenuId = mSettings!!.getInt(LAST_FRAGMENT, R.id.nav_currency)
-        isBookmarkOpened = mSettings!!.getBoolean(IS_BOOKMARK_OPENED, false)
-        Config.loadConfig(mSettings)
+        lastFragmentMenuId = mSettings.getInt(LAST_FRAGMENT, R.id.nav_currency)
+        isBookmarkOpened = mSettings.getBoolean(IS_BOOKMARK_OPENED, false)
+        config.loadConfig(mSettings)
     }
 
     fun openFragmentWithCheck(navigationItemId: Int){
@@ -251,18 +252,18 @@ private var bookmarkIconOpened : Drawable? = null
         }
     }
 
-    fun setTextColor(color: Int){
-        var color = Integer.toHexString(color)
+    private fun setTextColor(colorValue: Int){
+        val color = Integer.toHexString(colorValue)
         if (isColorLight(color))
         {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_black_24dp)
-            paintElements(resources.getColor(R.color.black))
+            toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_menu_black_24dp)
+            paintElements(getColor(R.color.black))
         }
         else{
             window.decorView.systemUiVisibility = 0
-            toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_menu_white_24dp)
-            paintElements(resources.getColor(R.color.white))
+            toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_menu_white_24dp)
+            paintElements(getColor(R.color.white))
         }
         switchBookmarkIcons()
     }
@@ -272,7 +273,7 @@ private var bookmarkIconOpened : Drawable? = null
         val mCollapseIcon: Field = toolbar.javaClass.getDeclaredField("mCollapseIcon")
         mCollapseIcon.isAccessible = true
         val drw: Drawable = mCollapseIcon.get(toolbar) as Drawable
-        val searchIcon = getDrawable(R.drawable.ic_search_white_24dp)
+        val searchIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_white_24dp)
         toolbar.overflowIcon?.setTint(color)
         (searchItem.actionView.findViewById(androidx.appcompat.R.id.search_close_btn) as ImageView).drawable.setTint(color)
         drw.setTint(color)
@@ -280,13 +281,13 @@ private var bookmarkIconOpened : Drawable? = null
         editText.setTextColor(color)
         editText.setHintTextColor(color)
         searchIcon?.setTint(color)
-        bookmarkIconClosed?.setTint(color)
-        bookmarkIconOpened?.setTint(color)
+        bookmarkIconClosed.setTint(color)
+        bookmarkIconOpened.setTint(color)
         searchItem.icon = searchIcon
     }
 
     fun setListeners(){
-        Config.getObservableLeague().observe(this, Observer {
+        config.getObservableLeague().observe(this, Observer {
             title = it
         })
 
